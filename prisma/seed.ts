@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { FieldType, Prisma, PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import { hashPassword } from 'next-basics';
 
@@ -83,6 +83,29 @@ const main = async () => {
         },
       },
     },
+  });
+
+  const fields = await prisma.field.createMany({
+    data: [
+      {
+        name: 'Name',
+        type: FieldType.TEXT,
+        formId: form.id,
+        required: true,
+      },
+      {
+        name: 'Email',
+        type: FieldType.EMAIL,
+        formId: form.id,
+        required: true,
+      },
+      {
+        name: 'Message',
+        type: FieldType.TEXTAREA,
+        formId: form.id,
+        required: false,
+      },
+    ],
   });
 
   // remove all existing submissions
