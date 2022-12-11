@@ -1,4 +1,4 @@
-# Basic submission handler and web UI for managing form entries
+# Manage your form submissions like a boss
 
 Because I refuse to pay 20 dollars a month for something so simple my dog could write it.
 
