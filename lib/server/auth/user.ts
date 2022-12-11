@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 import { genSalt, hash, compare } from 'bcrypt';
-import prisma from '../prisma';
+import prisma from '../../prisma';
 
 const SALT_ROUNDS = 10;
 
@@ -16,7 +16,9 @@ export const createUser = async ({
   const nUsers = await prisma.user.count();
 
   if (nUsers > 1) {
-    throw new Error('There is already a registered user. Did you mean to log in?');
+    throw new Error(
+      'There is already a registered user. Did you mean to log in?'
+    );
   }
 
   const salt = await genSalt(SALT_ROUNDS);

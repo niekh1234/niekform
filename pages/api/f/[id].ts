@@ -2,7 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { badRequest, ok, notFound } from 'next-basics';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
-import { cleanSubmission, validateSubmission } from 'lib/form/submission';
+import {
+  cleanSubmission,
+  validateSubmission,
+} from 'lib/server/form/submission';
 
 export default nextConnect().post(
   async (req: NextApiRequest, res: NextApiResponse) => {

@@ -1,5 +1,5 @@
-import { setLoginSession } from 'lib/auth';
-import { localStrategy } from 'lib/auth/passport-local';
+import { setLoginSession } from 'lib/server/auth';
+import { localStrategy } from 'lib/server/auth/passport-local';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { ok, unauthorized } from 'next-basics';
 import nextConnect from 'next-connect';
@@ -8,7 +8,7 @@ import passport, { Strategy } from 'passport';
 const authenticate = (
   method: Strategy,
   req: NextApiRequest,
-  res: NextApiResponse,
+  res: NextApiResponse
 ): Promise<any> => {
   return new Promise((resolve, reject) => {
     passport.authenticate(method, { session: false }, (error, token) => {
@@ -30,7 +30,7 @@ export default nextConnect()
       const user = await authenticate('local' as unknown as Strategy, req, res);
 
       if (!user) {
-        throw new Error('Not found');
+        throw new Error();
       }
 
       const session = { ...user };
@@ -41,6 +41,9 @@ export default nextConnect()
 
       return ok(res, { user: publicUser });
     } catch (err: any) {
-      return unauthorized(res, err.message);
+      return unauthorized(
+        res,
+        JSON.stringify({ message: 'Invalid username or password' })
+      );
     }
   });
