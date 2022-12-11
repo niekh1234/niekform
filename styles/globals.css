@@ -1,3 +1,38 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@tailwind components;
+@tailwind utilities;
+
+.btn-primary {
+  @apply px-4 py-2 text-sm font-medium text-white transition-colors duration-200 border border-transparent rounded-md shadow-sm bg-emerald-500 hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2;
+}
+
+.btn-secondary {
+  @apply px-4 py-2 text-sm font-semibold transition-colors duration-200 bg-white border border-transparent rounded-md shadow-sm border-emerald-500 text-emerald-700 hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2;
+}
+
+.btn-danger {
+  @apply px-4 py-2 text-sm font-medium text-white transition-colors duration-200 bg-red-500 border border-transparent rounded-md shadow-sm hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
+}
+
+.btn-danger-secondary {
+  @apply px-4 py-2 text-sm font-semibold text-red-700 transition-colors duration-200 bg-red-100 border border-transparent rounded-md shadow-sm hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
+}
+
+.btn-text {
+  @apply px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 rounded-md hover:bg-gray-100 hover:text-gray-900 focus:outline-none;
+}
+
+.input-primary {
+  @apply block w-full px-3 py-2 mt-1 text-gray-900 border border-gray-300 rounded-md shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 sm:text-sm;
+}
+
+.container-primary {
+  @apply mt-8 bg-white shadow sm:overflow-hidden sm:rounded-lg;
+}
+
+.checkbox-primary {
+  @apply block border-gray-300 rounded shadow-sm checked:bg-emerald-600 hover:text-emerald-600 focus:border-indigo-300 focus:text-emerald-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
+}
