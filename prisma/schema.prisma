@@ -41,6 +41,27 @@ model Form {
   project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   projectId   String
   submissions Submission[]
+  fields      Field[]
+}
+
+model Field {
+  id       String @id @default(cuid())
+  name     String
+  type     FieldType
+  form     Form   @relation(fields: [formId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  formId   String
+  required Boolean
+}
+
+enum FieldType {
+  TEXT
+  NUMBER
+  EMAIL
+  DATE
+  CHECKBOX
+  RADIO
+  SELECT
+  TEXTAREA
 }
 
 model Submission {
