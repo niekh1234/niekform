@@ -54,17 +54,9 @@ const Login = () => {
           <div>
             <InputLabel forInput="email" value="Email" />
 
-            <input
-              className="input-primary"
-              {...register('email')}
-              id="email"
-              type="email"
-            ></input>
+            <input className="input-primary" {...register('email')} id="email" type="email"></input>
 
-            <InputError
-              message={errors.email?.message as string}
-              className="mt-2"
-            />
+            <InputError message={errors.email?.message as string} className="mt-2" />
           </div>
 
           <div className="mt-4">
@@ -77,10 +69,7 @@ const Login = () => {
               type="password"
             ></input>
 
-            <InputError
-              message={errors.password?.message as string}
-              className="mt-2"
-            />
+            <InputError message={errors.password?.message as string} className="mt-2" />
           </div>
 
           <InputError message={error} className="mt-2" />

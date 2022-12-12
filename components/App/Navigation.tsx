@@ -4,7 +4,6 @@ import {
   ArrowLeftOnRectangleIcon,
   DocumentTextIcon,
   HomeIcon,
-  UsersIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { Fragment } from 'react';
@@ -13,8 +12,7 @@ import Link from 'next/link';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
-  { name: 'Projects', href: '/projects', icon: UsersIcon },
-  { name: 'Invoices', href: '/invoices', icon: DocumentTextIcon },
+  { name: 'Forms', href: '/forms', icon: DocumentTextIcon },
 ];
 
 const isActive = (url: string, currentUrl: string) => {
@@ -32,8 +30,6 @@ type NavigationProps = {
 
 const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
   const { pathname } = useRouter();
-
-  console.log(pathname);
 
   return (
     <>
