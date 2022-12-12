@@ -1,3 +1,5 @@
+export const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 export const doPostRequest = async (url: string, body: any) => {
   try {
     const response = await fetch(url, {
