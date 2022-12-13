@@ -1,6 +1,6 @@
 import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { unauthorized } from 'next-basics';
+import { badRequest, unauthorized } from 'next-basics';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { ok } from 'next-basics';
@@ -20,6 +20,10 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
       type: req.body.type,
     },
   });
+
+  if (!field) {
+    return badRequest(res, 'Field could not be created.');
+  }
 
   return ok(res, field);
 });

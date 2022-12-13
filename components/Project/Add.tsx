@@ -10,7 +10,8 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 const schema = yup.object({
-  title: yup.string().required(),
+  name: yup.string().required('Please enter a name'),
+  description: yup.string().default(''),
 });
 
 const ProjectAdd = () => {
@@ -28,9 +29,9 @@ const ProjectAdd = () => {
   const onSubmit = async (data: any) => {
     setProcessing(() => true);
 
-    const res = await doPostRequest('/api/auth/login', {
-      username: data.email,
-      password: data.password,
+    const res = await doPostRequest('/api/admin/project', {
+      name: data.name,
+      descriptiion: data.description,
     });
 
     setProcessing(() => false);
@@ -58,9 +59,15 @@ const ProjectAdd = () => {
           <h3 className="font-bold">Add new project</h3>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
-            <label className="text-sm text-gray-500">Title</label>
-            <input type="text" {...register('title')} className="input-primary"></input>
-            <InputError message={(errors.title?.message as string) || error || ''}></InputError>
+            <label className="text-sm text-gray-500">Name</label>
+            <input type="text" {...register('name')} className="input-primary"></input>
+            <InputError message={(errors.name?.message as string) || error || ''}></InputError>
+
+            <label className="text-sm text-gray-500 mt-4">Description (optional)</label>
+            <textarea {...register('description')} className="input-primary"></textarea>
+            <InputError
+              message={(errors.description?.message as string) || error || ''}
+            ></InputError>
 
             <Button type="submit" processing={processing} className="mt-4">
               Save

@@ -1,6 +1,6 @@
 import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { notFound, ok, unauthorized } from 'next-basics';
+import { badRequest, notFound, ok, unauthorized } from 'next-basics';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 
@@ -21,7 +21,7 @@ export default nextConnect()
       },
     });
 
-    return ok(res, projects);
+    return ok(res, { projects });
   })
   .post(async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getLoginSession(req);
@@ -34,9 +34,18 @@ export default nextConnect()
       data: {
         name: req.body.name,
         description: req.body?.description,
-        userId: session.userId,
+        user: {
+          connect: {
+            id: session.userId,
+            email: session.email,
+          },
+        },
       },
     });
 
-    return ok(res, project);
+    if (!project) {
+      return badRequest(res, 'Project could not be created.');
+    }
+
+    return ok(res, { project });
   });

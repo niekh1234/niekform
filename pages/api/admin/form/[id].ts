@@ -14,7 +14,7 @@ export default nextConnect()
 
     const id = req.query.id as string;
 
-    const projects = await prisma.form.findMany({
+    const forms = await prisma.form.findMany({
       where: {
         id,
         project: {
@@ -26,7 +26,7 @@ export default nextConnect()
       },
     });
 
-    return ok(res, projects);
+    return ok(res, forms);
   })
   .put(async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getLoginSession(req);
@@ -37,7 +37,7 @@ export default nextConnect()
 
     const id = req.query.id as string;
 
-    const ownsProject = await prisma.form.findFirst({
+    const ownsForm = await prisma.form.findFirst({
       where: {
         id,
         project: {
@@ -46,7 +46,7 @@ export default nextConnect()
       },
     });
 
-    if (!ownsProject) {
+    if (!ownsForm) {
       return notFound(res);
     }
 
@@ -70,7 +70,7 @@ export default nextConnect()
 
     const id = req.query.id as string;
 
-    const ownsProject = await prisma.form.findFirst({
+    const ownsForm = await prisma.form.findFirst({
       where: {
         id,
         project: {
@@ -79,7 +79,7 @@ export default nextConnect()
       },
     });
 
-    if (!ownsProject) {
+    if (!ownsForm) {
       return notFound(res);
     }
 

@@ -12,10 +12,7 @@ const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
   return (
     <>
       <div>
-        <Navigation
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-        ></Navigation>
+        <Navigation sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}></Navigation>
         <div className="flex flex-col flex-1 md:pl-64">
           <div className="sticky top-0 z-10 pt-1 pl-1 bg-white sm:pl-3 sm:pt-3 md:hidden">
             <button
@@ -28,9 +25,7 @@ const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
             </button>
           </div>
 
-          <main className="flex-1 min-h-screen py-6 bg-gray-100">
-            {children}
-          </main>
+          <main className="flex-1 min-h-screen py-6 bg-gray-100 p-4 md:p-6">{children}</main>
         </div>
       </div>
     </>
