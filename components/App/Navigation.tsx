@@ -11,8 +11,8 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
-  { name: 'Forms', href: '/forms', icon: DocumentTextIcon },
+  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, isAlsoActive: '/' },
+  { name: 'Forms', href: '/forms', icon: DocumentTextIcon, isAlsoActive: '/projects' },
 ];
 
 const isActive = (url: string, currentUrl: string) => {
@@ -34,11 +34,7 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
   return (
     <>
       <Transition.Root show={sidebarOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-40 md:hidden"
-          onClose={setSidebarOpen}
-        >
+        <Dialog as="div" className="relative z-40 md:hidden" onClose={setSidebarOpen}>
           <Transition.Child
             as={Fragment}
             enter="transition-opacity ease-linear duration-300"
@@ -78,10 +74,7 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
                       onClick={() => setSidebarOpen(false)}
                     >
                       <span className="sr-only">Close sidebar</span>
-                      <XMarkIcon
-                        className="w-6 h-6 text-white"
-                        aria-hidden="true"
-                      />
+                      <XMarkIcon className="w-6 h-6 text-white" aria-hidden="true" />
                     </button>
                   </div>
                 </Transition.Child>
@@ -97,7 +90,7 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                          isActive(item.href, pathname)
+                          isActive(item.href, pathname) || isActive(item.isAlsoActive, pathname)
                             ? 'bg-gray-100 text-gray-900'
                             : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
                           'group flex items-center rounded-md px-2 py-2 text-base font-medium'
@@ -105,7 +98,7 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
                       >
                         <item.icon
                           className={classNames(
-                            isActive(item.href, pathname)
+                            isActive(item.href, pathname) || isActive(item.isAlsoActive, pathname)
                               ? 'text-gray-500'
                               : 'text-gray-400 group-hover:text-gray-500',
                             'mr-4 h-6 w-6 flex-shrink-0'
@@ -161,7 +154,7 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
                   key={item.name}
                   href={item.href}
                   className={classNames(
-                    isActive(item.href, pathname)
+                    isActive(item.href, pathname) || isActive(item.isAlsoActive, pathname)
                       ? 'bg-emerald-50 text-emerald-700 border-l-emerald-600'
                       : 'text-gray-600 hover:text-gray-900 border-l-white',
                     'group flex items-center px-2 py-3 text-sm font-bold border-l-4'
@@ -169,7 +162,7 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
                 >
                   <item.icon
                     className={classNames(
-                      isActive(item.href, pathname)
+                      isActive(item.href, pathname) || isActive(item.isAlsoActive, pathname)
                         ? 'text-emerald-600'
                         : 'text-gray-400 group-hover:text-gray-500',
                       'mr-3 h-6 w-6 flex-shrink-0'
