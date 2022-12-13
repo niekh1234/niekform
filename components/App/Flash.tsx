@@ -29,13 +29,26 @@ export const spawnFlash = (message: string, type: 'success' | 'warning' | 'error
     return;
   }
 
+  if (containerElement.childElementCount > 0) {
+    return;
+  }
+
+  let isAlive = true;
+
   const root = createRoot(containerElement);
-  const flash = React.createElement(Flash, { message, type, onClose: () => root.unmount() });
+  const flash = React.createElement(Flash, { message, type, onClose: () => unmount() });
   root.render(flash);
 
   setTimeout(() => {
-    root.unmount();
+    unmount();
   }, 5000);
+
+  const unmount = () => {
+    if (isAlive) {
+      root.unmount();
+      isAlive = false;
+    }
+  };
 };
 
 const Flash = ({ message, type, onClose }: FlashProps) => {
