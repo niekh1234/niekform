@@ -1,6 +1,6 @@
 import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { unauthorized, ok, get, notFound, put } from 'next-basics';
+import { unauthorized, ok, get, notFound, put, badRequest } from 'next-basics';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 
@@ -12,9 +12,15 @@ export default nextConnect()
       return unauthorized(res);
     }
 
+    const id = req.query.id as string;
+
+    if (!id) {
+      return badRequest(res);
+    }
+
     const project = await prisma.project.findFirst({
       where: {
-        id: req.body.id,
+        id,
         userId: session.userId,
       },
     });
@@ -23,7 +29,7 @@ export default nextConnect()
       return notFound(res);
     }
 
-    return ok(res, project);
+    return ok(res, { project });
   })
   .put(async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getLoginSession(req);
@@ -55,7 +61,7 @@ export default nextConnect()
       },
     });
 
-    return ok(res, project);
+    return ok(res, { project });
   })
   .delete(async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getLoginSession(req);

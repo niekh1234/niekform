@@ -13,6 +13,10 @@
   @apply px-4 py-2 text-sm font-semibold transition-colors duration-200 bg-white border border-transparent rounded-md shadow-sm border-emerald-500 text-emerald-700 hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2;
 }
 
+.btn-text {
+  @apply px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 rounded-md hover:bg-gray-100 hover:text-gray-900 focus:outline-none;
+}
+
 .btn-danger {
   @apply px-4 py-2 text-sm font-medium text-white transition-colors duration-200 bg-red-500 border border-transparent rounded-md shadow-sm hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
 }
@@ -21,8 +25,8 @@
   @apply px-4 py-2 text-sm font-semibold text-red-700 transition-colors duration-200 bg-red-100 border border-transparent rounded-md shadow-sm hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
 }
 
-.btn-text {
-  @apply px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 rounded-md hover:bg-gray-100 hover:text-gray-900 focus:outline-none;
+.btn-outline {
+  @apply px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 border border-gray-300 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2;
 }
 
 .input-primary {

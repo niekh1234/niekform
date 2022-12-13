@@ -25,7 +25,7 @@ const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
             </button>
           </div>
 
-          <main className="flex-1 min-h-screen py-6 bg-gray-100 p-4 md:p-6">{children}</main>
+          <main className="flex-1 min-h-screen px-4 py-12 bg-gray-100 md:px-6">{children}</main>
         </div>
       </div>
     </>

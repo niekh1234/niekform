@@ -7,26 +7,31 @@ import Link from 'next/link';
 import useSWR from 'swr';
 
 const Forms = () => {
-  const { data, error, isLoading } = useSWR('/api/admin/project', fetcher);
+  const { data, error, isLoading, mutate } = useSWR('/api/admin/project', fetcher);
 
   if (isLoading) return <div>Loading...</div>;
 
   if (error) return <div>Failed to load, please try again later.</div>;
 
-  if (!data)
+  if (!data?.projects || data.projects.length === 0)
     return (
       <section className="max-w-4xl mx-auto">
         <EmptyState type="Project">
-          <ProjectAdd></ProjectAdd>
+          <ProjectAdd onAdd={() => mutate()}></ProjectAdd>
         </EmptyState>
       </section>
     );
 
-  console.log(data);
-
   return (
     <section className="">
-      <div className="flex flex-col py-2 overflow-hidden bg-white rounded-lg shadow">
+      <div className="flex justify-between">
+        <h1 className="text-2xl font-bold">Forms</h1>
+
+        <ProjectAdd onAdd={() => mutate()}></ProjectAdd>
+        {/* <FormAdd></FormAdd> */}
+      </div>
+
+      <div className="flex flex-col py-2 mt-6 overflow-hidden bg-white rounded-lg shadow">
         {data.projects.map((project: Project) => (
           <div key={project.id}>
             <Link href={'/projects/' + project.id} className="flex px-4 pt-4 group">

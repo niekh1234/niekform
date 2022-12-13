@@ -9,12 +9,16 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
+type ProjectAddProps = {
+  onAdd: () => void;
+};
+
 const schema = yup.object({
   name: yup.string().required('Please enter a name'),
   description: yup.string().default(''),
 });
 
-const ProjectAdd = () => {
+const ProjectAdd = ({ onAdd }: ProjectAddProps) => {
   const [showModal, setShowModal] = useState(false);
   const {
     register,
@@ -39,7 +43,8 @@ const ProjectAdd = () => {
     if (res.error) {
       setError(() => res.error);
     } else {
-      Router.push('/dashboard');
+      setShowModal(() => false);
+      onAdd();
     }
   };
 
@@ -63,7 +68,7 @@ const ProjectAdd = () => {
             <input type="text" {...register('name')} className="input-primary"></input>
             <InputError message={(errors.name?.message as string) || error || ''}></InputError>
 
-            <label className="text-sm text-gray-500 mt-4">Description (optional)</label>
+            <label className="mt-4 text-sm text-gray-500">Description (optional)</label>
             <textarea {...register('description')} className="input-primary"></textarea>
             <InputError
               message={(errors.description?.message as string) || error || ''}
