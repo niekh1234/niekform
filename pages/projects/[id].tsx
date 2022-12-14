@@ -84,27 +84,27 @@ const ProjectID = () => {
   const project = data.project as Project;
 
   return (
-    <section>
-      <h3 className="text-2xl font-bold">{project.name}</h3>
-      <div className="p-4 mt-6 bg-white rounded-lg shadow md:p-6">
+    <section className='max-w-4xl mx-auto'>
+      <h3 className='text-2xl font-bold'>{project.name}</h3>
+      <div className='p-4 mt-6 bg-white rounded-lg shadow md:p-6'>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label className="text-sm text-gray-500">Name</label>
-          <input type="text" {...register('name')} className="input-primary"></input>
+          <label className='text-sm text-gray-500'>Name</label>
+          <input type='text' {...register('name')} className='input-primary'></input>
           <InputError message={(errors.name?.message as string) || ''}></InputError>
 
-          <label className="mt-4 text-sm text-gray-500">Description (optional)</label>
-          <textarea {...register('description')} className="input-primary"></textarea>
+          <label className='mt-4 text-sm text-gray-500'>Description (optional)</label>
+          <textarea {...register('description')} className='input-primary'></textarea>
           <InputError message={(errors.description?.message as string) || ''}></InputError>
 
-          <Button type="submit" processing={processing} className="mt-4">
+          <Button type='submit' processing={processing} className='mt-4'>
             Save
           </Button>
         </form>
       </div>
 
-      <div className="mt-12">
+      <div className='mt-12'>
         <ConfirmButton onClick={() => deleteProject()}>
-          <span className="btn-outline">Delete project</span>
+          <span className='btn-outline'>Delete project</span>
         </ConfirmButton>
       </div>
     </section>

@@ -1,8 +1,11 @@
-import { Portal } from '@headlessui/react';
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  ExclamationTriangleIcon,
+} from '@heroicons/react/24/outline';
 import { classNames } from 'lib/client/utils';
 import React from 'react';
-import { useEffect, useState } from 'react';
-import { createRoot, Root } from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 
 type FlashProps = {
   message: string;
@@ -55,13 +58,22 @@ const Flash = ({ message, type, onClose }: FlashProps) => {
   return (
     <div
       className={classNames(
-        'fixed top-4 right-4 z-50 rounded-xl p-4 max-w-xl shadow',
-        backgroundClasses[type]
+        'fixed top-4 right-4 z-50 rounded-xl px-4 py-2 max-w-xl shadow-lg',
+        backgroundClasses[type],
       )}
     >
-      <div className="flex items-center justify-between">
-        <div className={classNames('pr-2 text-sm', textClasses[type])}>{message}</div>
-        <button className="text-lg font-bold" onClick={onClose}>
+      <div className={classNames('flex items-center justify-between', textClasses[type])}>
+        <div className='pr-2'>
+          {type === 'success' && <CheckCircleIcon className='w-5 h-5'></CheckCircleIcon>}
+          {type === 'warning' && (
+            <ExclamationCircleIcon className='w-5 h-5'></ExclamationCircleIcon>
+          )}
+          {type === 'error' && (
+            <ExclamationTriangleIcon className='w-5 h-5'></ExclamationTriangleIcon>
+          )}
+        </div>
+        <div className='pr-4 text-sm'>{message}</div>
+        <button className='text-lg font-bold' onClick={onClose}>
           &times;
         </button>
       </div>
