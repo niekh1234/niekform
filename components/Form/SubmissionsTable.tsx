@@ -22,18 +22,18 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
   if (fetchError || !submissions) return <p>Failed to load</p>;
 
   return (
-    <table className='w-full mt-8 table-fixed'>
+    <table className='w-full table-fixed'>
       <thead className='font-medium text-gray-500 border-b'>
-        <tr className='text-sm'>
-          <th className='pb-4 w-[20%]'>Added</th>
+        <tr className='text-sm bg-gray-50'>
+          <th className='py-4 w-[20%]'>Added</th>
 
           {form.fields.map((field) => (
-            <th key={field.id} className='pb-4'>
+            <th key={field.id} className='py-4'>
               {field.name}
             </th>
           ))}
 
-          <th className='w-[10%] pb-4'>Options</th>
+          <th className='w-[10%] py-4'>Options</th>
         </tr>
       </thead>
       <tbody>

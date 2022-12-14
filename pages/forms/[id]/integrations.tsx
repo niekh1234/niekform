@@ -16,7 +16,7 @@ const FormIntegrations = () => {
   if (fetchError || !form) return <p>Failed to load</p>;
 
   return (
-    <section className='max-w-4xl mx-auto'>
+    <section className='max-w-5xl mx-auto'>
       <h1 className='text-2xl font-bold'>{form.name}</h1>
 
       <FormTabs id={id as string}></FormTabs>
