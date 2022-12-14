@@ -14,11 +14,11 @@ export default nextConnect()
 
     const id = req.query.id as string;
 
-    const forms = await prisma.form.findMany({
+    const form = await prisma.form.findFirst({
       where: {
         id,
         project: {
-          userId: session.userId,
+          userId: session.id,
         },
       },
       include: {
@@ -26,7 +26,7 @@ export default nextConnect()
       },
     });
 
-    return ok(res, forms);
+    return ok(res, { form });
   })
   .put(async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getLoginSession(req);
@@ -41,7 +41,7 @@ export default nextConnect()
       where: {
         id,
         project: {
-          userId: session.userId,
+          userId: session.id,
         },
       },
     });
@@ -74,7 +74,7 @@ export default nextConnect()
       where: {
         id,
         project: {
-          userId: session.userId,
+          userId: session.id,
         },
       },
     });

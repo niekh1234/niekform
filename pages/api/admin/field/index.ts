@@ -12,6 +12,19 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
     return unauthorized(res);
   }
 
+  const form = await prisma.form.findFirst({
+    where: {
+      id: req.body.formId,
+      project: {
+        userId: session.id,
+      },
+    },
+  });
+
+  if (!form) {
+    return badRequest(res, 'Form not found.');
+  }
+
   const field = await prisma.field.create({
     data: {
       name: req.body.name,

@@ -28,11 +28,41 @@ const main = async () => {
     },
   });
 
+  const secondUser = await prisma.user.upsert({
+    where: { email: 'other@niekform.io' },
+    update: {},
+    create: {
+      email: 'other@niekform.io',
+      name: faker.name.fullName(),
+      password: hashPassword('other'),
+      role: {
+        connect: {
+          id: role.id,
+        },
+      },
+    },
+  });
+
+  await seedForUser(user.id);
+  await seedForUser(secondUser.id);
+};
+
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });
+
+const seedForUser = async (userId: string) => {
   const existingProject = await prisma.project.findFirst({
     where: {
       name: 'My Project',
       user: {
-        id: user.id,
+        id: userId,
       },
     },
   });
@@ -51,7 +81,7 @@ const main = async () => {
       description: faker.lorem.paragraph(),
       user: {
         connect: {
-          id: user.id,
+          id: userId,
         },
       },
     },
@@ -129,13 +159,3 @@ const main = async () => {
     })),
   });
 };
-
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });

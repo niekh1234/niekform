@@ -1,21 +1,38 @@
 export type Project = {
   id: string;
+  createdAt: Date;
   name: string;
   description: string;
-  createdAt: Date;
   forms: Form[];
 };
 
 export type Form = {
   id: string;
-  name: string;
   createdAt: Date;
+  name: string;
   fields: Field[];
+  submissionCount: number;
 };
 
 export type Field = {
   id: string;
+  createdAt: Date;
   name: string;
   type: string;
   required: boolean;
+};
+
+export type Submission = {
+  id: string;
+  createdAt: Date;
+  data: any;
+};
+
+export type Session = {
+  id: string;
+  email: string;
+  name: string;
+  roleId: string;
+  createdAt: number;
+  maxAge: number;
 };

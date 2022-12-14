@@ -14,7 +14,7 @@ export default nextConnect()
 
     const projects = await prisma.project.findMany({
       where: {
-        userId: session.userId,
+        userId: session.id,
       },
       include: {
         forms: true,
@@ -36,7 +36,7 @@ export default nextConnect()
         description: req.body?.description,
         user: {
           connect: {
-            id: session.userId,
+            id: session.id,
             email: session.email,
           },
         },

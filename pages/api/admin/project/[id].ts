@@ -21,7 +21,7 @@ export default nextConnect()
     const project = await prisma.project.findFirst({
       where: {
         id,
-        userId: session.userId,
+        userId: session.id,
       },
     });
 
@@ -43,7 +43,7 @@ export default nextConnect()
     const ownsProject = await prisma.project.findFirst({
       where: {
         id,
-        userId: session.userId,
+        userId: session.id,
       },
     });
 
@@ -75,7 +75,7 @@ export default nextConnect()
     const ownsProject = await prisma.project.findFirst({
       where: {
         id,
-        userId: session.userId,
+        userId: session.id,
       },
     });
 

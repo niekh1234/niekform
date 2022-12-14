@@ -5,11 +5,12 @@ import { doDeleteRequest, doPutRequest, fetcher } from 'lib/client/api';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 import { useRouter } from 'next/router';
 import { Project } from 'lib/types';
 import ConfirmButton from 'components/App/ConfirmButton';
 import { spawnFlash } from 'components/App/Flash';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 
 const schema = yup.object({
   name: yup.string().required('Please enter a name'),
@@ -85,14 +86,14 @@ const ProjectID = () => {
 
   return (
     <section className='max-w-4xl mx-auto'>
-      <h3 className='text-2xl font-bold'>{project.name}</h3>
+      <h1 className='text-2xl font-bold'>{project.name}</h1>
       <div className='p-4 mt-6 bg-white rounded-lg shadow md:p-6'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label className='text-sm text-gray-500'>Name</label>
           <input type='text' {...register('name')} className='input-primary'></input>
           <InputError message={(errors.name?.message as string) || ''}></InputError>
 
-          <label className='mt-4 text-sm text-gray-500'>Description (optional)</label>
+          <label className='block mt-4 text-sm text-gray-500'>Description (optional)</label>
           <textarea {...register('description')} className='input-primary'></textarea>
           <InputError message={(errors.description?.message as string) || ''}></InputError>
 
@@ -104,7 +105,10 @@ const ProjectID = () => {
 
       <div className='mt-12'>
         <ConfirmButton onClick={() => deleteProject()}>
-          <span className='btn-outline'>Delete project</span>
+          <div className='flex items-center space-x-2 btn-outline'>
+            <ExclamationCircleIcon className='w-4 h-4'></ExclamationCircleIcon>
+            <span>Delete project</span>
+          </div>
         </ConfirmButton>
       </div>
     </section>

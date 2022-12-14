@@ -1,14 +1,10 @@
 import Iron from '@hapi/iron';
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-  getTokenCookie,
-  MAX_AGE,
-  setTokenCookie,
-} from 'lib/server/auth/cookies';
+import { getTokenCookie, MAX_AGE, setTokenCookie } from 'lib/server/auth/cookies';
+import { Session } from 'lib/types';
 
 const TOKEN_SECRET =
-  process.env.TOKEN_SECRET ||
-  'set_an_env_variable_and_this_has_to_be_minimum_32_characters';
+  process.env.TOKEN_SECRET || 'set_an_env_variable_and_this_has_to_be_minimum_32_characters';
 
 export const setLoginSession = async (res: NextApiResponse, session: any) => {
   const createdAt = Date.now();
@@ -19,7 +15,7 @@ export const setLoginSession = async (res: NextApiResponse, session: any) => {
   setTokenCookie(res, token);
 };
 
-export const getLoginSession = async (req: NextApiRequest) => {
+export const getLoginSession = async (req: NextApiRequest): Promise<Session | undefined> => {
   const token = getTokenCookie(req);
 
   if (!token) {

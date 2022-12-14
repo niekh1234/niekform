@@ -54,9 +54,14 @@ const Forms = () => {
 
             <div className='flex flex-col mt-3'>
               {project.forms.map((form: Form) => (
-                <button className='p-4 text-left border-l-4 border-gray-200 divide-y hover:border-emerald-600 bg-gray-50'>
+                <Link
+                  href={'/forms/' + form.id + '/submissions'}
+                  key={form.id}
+                  className='flex justify-between p-4 text-left border-l-4 border-gray-200 divide-y hover:border-emerald-600 bg-gray-50'
+                >
                   <div className='font-bold'>{form.name}</div>
-                </button>
+                  <div className='pr-2'>{form.submissionCount}</div>
+                </Link>
               ))}
             </div>
           </div>
