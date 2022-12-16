@@ -175,8 +175,8 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
             </nav>
           </div>
           <div className="flex flex-shrink-0 p-4 border-t border-gray-200">
-            <button
-              onClick={() => alert('please implement logout')}
+            <a
+              href="/api/auth/logout"
               className="flex items-center w-full px-2 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group"
             >
               <ArrowLeftOnRectangleIcon
@@ -184,7 +184,7 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
                 aria-hidden="true"
               ></ArrowLeftOnRectangleIcon>
               Logout
-            </button>
+            </a>
           </div>
         </div>
       </div>
