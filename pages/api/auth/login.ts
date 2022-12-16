@@ -27,23 +27,18 @@ export default nextConnect()
   .use(passport.initialize())
   .post(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
-      const user = await authenticate('local' as unknown as Strategy, req, res);
+      const user: any = await authenticate('local' as unknown as Strategy, req, res);
 
       if (!user) {
         throw new Error();
       }
 
-      const session = { ...user };
+      const { password, ...session } = user;
 
       await setLoginSession(res, session);
 
-      const { password, ...publicUser } = user;
-
-      return ok(res, { user: publicUser });
+      return ok(res, { user: session });
     } catch (err: any) {
-      return unauthorized(
-        res,
-        JSON.stringify({ message: 'Invalid username or password' })
-      );
+      return unauthorized(res, JSON.stringify({ message: 'Invalid username or password' }));
     }
   });
