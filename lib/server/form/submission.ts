@@ -4,7 +4,7 @@ export const validateSubmission = (formFields: Field[], submission: any) => {
   const errors: any = {};
 
   formFields.forEach((field) => {
-    const fieldName = field.name.toLowerCase();
+    const fieldName = field.key;
 
     if (field.required && !submission[fieldName]) {
       errors[fieldName] = 'Required';
@@ -39,7 +39,7 @@ export const cleanSubmission = (formFields: Field[], submission: any) => {
   const clean: any = {};
 
   formFields.forEach((field) => {
-    const fieldName = field.name.toLowerCase();
+    const fieldName = field.key;
 
     clean[fieldName] = null;
 

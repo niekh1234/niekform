@@ -27,10 +27,11 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
 
   const field = await prisma.field.create({
     data: {
-      name: req.body.name,
+      key: req.body.key,
+      label: req.body.label,
       formId: req.body.formId,
       required: req.body.required,
-      type: req.body.type,
+      type: req.body.type.toUpperCase(),
     },
   });
 

@@ -1,5 +1,5 @@
 import { fetcher } from 'lib/client/api';
-import { formatDate } from 'lib/client/utils';
+import { formatDate, truncate } from 'lib/client/utils';
 import { Form, Submission } from 'lib/types';
 import useSWR from 'swr';
 
@@ -29,7 +29,7 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
 
           {form.fields.map((field) => (
             <th key={field.id} className="py-4">
-              {field.name}
+              {field.label}
             </th>
           ))}
 
@@ -37,27 +37,29 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
         </tr>
       </thead>
       <tbody>
-        {submissions.map((submission, index) => (
+        {submissions.map((submission) => (
           <tr
             key={submission.id}
-            className="text-sm text-gray-700 border-b hover:bg-gray-50 hover:cursor-pointer"
+            className="text-sm text-gray-600 border-b hover:bg-gray-50 hover:cursor-pointer"
           >
-            <td className="px-4 py-2">
-              <div className="h-10 overflow-auto">{formatDate(submission.createdAt)}</div>
+            <td className="p-4">
+              <div className="overflow-auto">{formatDate(submission.createdAt)}</div>
             </td>
 
             {form.fields.map((field) => {
-              const key = field.name.toLowerCase().replace(/ /g, '_');
+              const key = field.key.toLowerCase().replace(/ /g, '_');
 
               return (
-                <td key={field.id} className="py-2 pr-2">
-                  <div className="flex h-10 overflow-hidden ">{submission.data[key]}</div>
+                <td key={field.id} className="p-4">
+                  <div className="flex overflow-hidden whitespace-nowrap">
+                    {truncate(submission.data[key], 25)}
+                  </div>
                 </td>
               );
             })}
 
-            <td className="py-2">
-              <div className="flex items-center justify-center h-10">
+            <td className="p-4">
+              <div className="flex items-center justify-center">
                 <button className="text-emerald-600">Edit</button>
               </div>
             </td>

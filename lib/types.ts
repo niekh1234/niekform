@@ -17,7 +17,8 @@ export type Form = {
 export type Field = {
   id: string;
   createdAt: Date;
-  name: string;
+  key: string;
+  label: string;
   type: string;
   required: boolean;
 };

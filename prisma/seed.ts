@@ -118,19 +118,22 @@ const seedForUser = async (userId: string) => {
   const fields = await prisma.field.createMany({
     data: [
       {
-        name: 'Name',
+        label: 'Name',
+        key: 'name',
         type: FieldType.TEXT,
         formId: form.id,
         required: true,
       },
       {
-        name: 'Email',
+        label: 'Email',
+        key: 'email',
         type: FieldType.EMAIL,
         formId: form.id,
         required: true,
       },
       {
-        name: 'Message',
+        label: 'Message',
+        key: 'message',
         type: FieldType.TEXTAREA,
         formId: form.id,
         required: false,

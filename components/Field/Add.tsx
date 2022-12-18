@@ -4,8 +4,8 @@ import Button from 'components/App/Button';
 import InputError from 'components/App/InputError';
 import Modal from 'components/App/Modal';
 import { doPostRequest } from 'lib/client/api';
-import { capitalizeFirst } from 'lib/client/utils';
-import { ReactNode, useState } from 'react';
+import { capitalizeFirst, slugify } from 'lib/client/utils';
+import { ReactNode, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
@@ -16,7 +16,7 @@ type FieldAddProps = {
 };
 
 const schema = yup.object({
-  name: yup.string().required('Please enter a name'),
+  label: yup.string().required('Please enter a name'),
   type: yup.string().default(''),
   required: yup.bool().default(true),
 });
@@ -30,17 +30,36 @@ const FieldAdd = ({ children, formId, onAdd }: FieldAddProps) => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      type: 'text',
+      required: true,
+      label: '',
+    },
   });
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState('');
+  const [key, setKey] = useState('');
+
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      if (value?.label !== undefined && name === 'label') {
+        const keyValue = slugify(value.label);
+
+        setKey(() => keyValue);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   const onSubmit = async (data: any) => {
     setProcessing(() => true);
 
     const res = await doPostRequest('/api/admin/field', {
       ...data,
+      key: slugify(data.label),
       formId,
     });
 
@@ -75,10 +94,25 @@ const FieldAdd = ({ children, formId, onAdd }: FieldAddProps) => {
           <h3 className="font-bold">Add new field</h3>
 
           <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
-            <label htmlFor="type" className="text-sm text-gray-500">
+            <label className="text-sm text-gray-500">Name</label>
+            <input type="text" {...register('label')} className="input-primary"></input>
+            <InputError message={(errors.label?.message as string) || error}></InputError>
+
+            <label className="block text-sm text-gray-500" htmlFor="keyField">
+              Key
+            </label>
+            <input
+              value={key}
+              id="keyField"
+              type="text"
+              disabled
+              className="text-gray-900 bg-gray-200 input-primary"
+            />
+
+            <label htmlFor="type" className="block mt-4 text-sm text-gray-500">
               Type
             </label>
-            <select id="type" className="input-primary bg-white">
+            <select id="type" className="bg-white input-primary">
               {FIELD_TYPES.map((field) => (
                 <option key={field} value={field}>
                   {capitalizeFirst(field)}
@@ -87,13 +121,17 @@ const FieldAdd = ({ children, formId, onAdd }: FieldAddProps) => {
             </select>
             <InputError message={(errors.type?.type as string) || error}></InputError>
 
-            <label className="text-sm text-gray-500">Name</label>
-            <input type="text" {...register('name')} className="input-primary"></input>
-            <InputError message={(errors.name?.message as string) || error}></InputError>
-
-            <label className="mt-4 text-sm text-gray-500">Description (optional)</label>
-            <textarea {...register('description')} className="input-primary"></textarea>
-            <InputError message={(errors.description?.message as string) || error}></InputError>
+            <label className="block mt-2 text-sm text-gray-500" htmlFor="required">
+              Required
+            </label>
+            <div className="w-6">
+              <input
+                id="required"
+                type="checkbox"
+                {...register('required')}
+                className="input-primary"
+              />
+            </div>
 
             <Button type="submit" processing={processing} className="mt-4">
               Save
