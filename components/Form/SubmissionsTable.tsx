@@ -2,6 +2,7 @@ import { fetcher } from 'lib/client/api';
 import { formatDate, truncate } from 'lib/client/utils';
 import { Form, Submission } from 'lib/types';
 import useSWR from 'swr';
+import SubmissionsTableRow from './SubmissionsTableRow';
 
 type FormSubmissionsTableProps = {
   form: Form;
@@ -13,7 +14,7 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
     error: fetchError,
     isLoading,
     mutate,
-  } = useSWR('/api/admin/submission/' + form.id, fetcher);
+  } = useSWR('/api/admin/form/' + form.id + '/submissions', fetcher);
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -38,32 +39,11 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
       </thead>
       <tbody>
         {submissions.map((submission) => (
-          <tr
-            key={submission.id}
-            className="text-sm text-gray-600 border-b hover:bg-gray-50 hover:cursor-pointer"
-          >
-            <td className="p-4">
-              <div className="overflow-auto">{formatDate(submission.createdAt)}</div>
-            </td>
-
-            {form.fields.map((field) => {
-              const key = field.key.toLowerCase().replace(/ /g, '_');
-
-              return (
-                <td key={field.id} className="p-4">
-                  <div className="flex overflow-hidden whitespace-nowrap">
-                    {truncate(submission.data[key], 25)}
-                  </div>
-                </td>
-              );
-            })}
-
-            <td className="p-4">
-              <div className="flex items-center justify-center">
-                <button className="text-emerald-600">Edit</button>
-              </div>
-            </td>
-          </tr>
+          <SubmissionsTableRow
+            submission={submission}
+            form={form}
+            onSubmissionDelete={() => mutate()}
+          ></SubmissionsTableRow>
         ))}
       </tbody>
     </table>

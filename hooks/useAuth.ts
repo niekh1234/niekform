@@ -1,5 +1,5 @@
-import Router from 'next/router';
-import { useEffect } from 'react';
+import Router, { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
 type useUserProps = {
@@ -18,7 +18,7 @@ const fetcher = (url: string) =>
     });
 
 export const useAuth = ({ redirectTo, redirectIfFound }: useUserProps = {}) => {
-  const { data, error, isLoading } = useSWR('/api/auth/me', fetcher);
+  const { data, error, isLoading, mutate } = useSWR('/api/auth/me', fetcher);
   const user = data?.user;
   const finished = Boolean(data);
   const hasUser = Boolean(user);
@@ -35,5 +35,5 @@ export const useAuth = ({ redirectTo, redirectIfFound }: useUserProps = {}) => {
     }
   }, [redirectTo, redirectIfFound, finished, hasUser]);
 
-  return { user, error, isLoading };
+  return { user, error, isLoading, mutate };
 };

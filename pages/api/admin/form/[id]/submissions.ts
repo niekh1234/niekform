@@ -12,7 +12,7 @@ export default nextConnect().get(async (req: NextApiRequest, res: NextApiRespons
     return unauthorized(res);
   }
 
-  const formId = req.query.formId as string;
+  const formId = req.query.id as string;
 
   const submissions = await prisma.submission.findMany({
     where: {
