@@ -1,8 +1,8 @@
 import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { unauthorized, ok, get, notFound, put, badRequest } from 'next-basics';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
+import { badRequest, notFound, ok, unauthorized } from 'lib/server/api';
 
 export default nextConnect()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {

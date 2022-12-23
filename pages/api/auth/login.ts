@@ -1,7 +1,7 @@
+import { ok, unauthorized } from 'lib/server/api';
 import { setLoginSession } from 'lib/server/auth';
 import { localStrategy } from 'lib/server/auth/passport-local';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ok, unauthorized } from 'next-basics';
 import nextConnect from 'next-connect';
 import passport, { Strategy } from 'passport';
 

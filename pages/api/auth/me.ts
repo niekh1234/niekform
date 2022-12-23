@@ -1,7 +1,7 @@
+import { ok, serverError } from 'lib/server/api';
 import { getLoginSession } from 'lib/server/auth';
 import { findUser } from 'lib/server/auth/user';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { ok, serverError } from 'next-basics';
 import nextConnect from 'next-connect';
 
 export default nextConnect().get(async (req: NextApiRequest, res: NextApiResponse) => {

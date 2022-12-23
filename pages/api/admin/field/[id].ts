@@ -1,8 +1,8 @@
 import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { notFound, ok, unauthorized } from 'next-basics';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
+import { notFound, ok, unauthorized } from 'lib/server/api';
 
 export default nextConnect().delete(async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getLoginSession(req);

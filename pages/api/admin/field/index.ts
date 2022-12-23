@@ -1,9 +1,9 @@
 import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { badRequest, unauthorized } from 'next-basics';
+import { unauthorized } from 'next-basics';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
-import { ok } from 'next-basics';
+import { badRequest, ok } from 'lib/server/api';
 
 export default nextConnect().post(async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getLoginSession(req);
@@ -19,10 +19,17 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
         userId: session.id,
       },
     },
+    include: {
+      fields: true,
+    },
   });
 
   if (!form) {
     return badRequest(res, 'Form not found.');
+  }
+
+  if (form.fields.some((field) => field.key === req.body.key)) {
+    return badRequest(res, 'Field with this key already exists');
   }
 
   const field = await prisma.field.create({

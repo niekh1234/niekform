@@ -1,6 +1,6 @@
 import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { unauthorized, notFound, ok } from 'next-basics';
+import { notFound, ok, unauthorized } from 'next-basics';
 import nextConnect from 'next-connect';
 
 export default nextConnect().delete(async (req: NextApiRequest, res: NextApiResponse) => {

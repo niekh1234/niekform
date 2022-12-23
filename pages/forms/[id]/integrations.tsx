@@ -38,8 +38,8 @@ const generateHTMLForm = (form: Form) => {
   return `<form action="${process.env.NEXT_PUBLIC_SITE_URL}/f/${form.id}" method="POST">
 ${form.fields
   .map(
-    (field) => `  <label>${field.label}</label>
-  <input type="text"></input>`
+    (field) => `  <label for="${field.key}">${field.label}</label>
+  <input id="${field.key}" type="text"></input>`
   )
   .join('\n')} 
 </form>`;
