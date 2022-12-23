@@ -2,7 +2,7 @@ import Modal from 'components/App/Modal';
 import { formatDate, truncate } from 'lib/client/utils';
 import { Submission, Form } from 'lib/types';
 import { useState } from 'react';
-import SubmissionView from './SubmissionView';
+import SubmissionView from './View';
 
 type SubmissionsTableRowProps = {
   submission: Submission;

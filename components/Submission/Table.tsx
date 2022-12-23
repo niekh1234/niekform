@@ -2,7 +2,7 @@ import { fetcher } from 'lib/client/api';
 import { formatDate, truncate } from 'lib/client/utils';
 import { Form, Submission } from 'lib/types';
 import useSWR from 'swr';
-import SubmissionsTableRow from './SubmissionsTableRow';
+import SubmissionsTableRow from './TableRow';
 
 type FormSubmissionsTableProps = {
   form: Form;
