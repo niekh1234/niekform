@@ -23,7 +23,7 @@ const FormIntegrations = () => {
 
       <div className="mt-6 overflow-hidden bg-white rounded-lg">
         <div className="p-6">
-          <h3 className="text-lg font-bold">Add to your website</h3>
+          <h3 className="font-bold">Add to your website</h3>
 
           <pre className="bg-gray-900 text-gray-300 rounded-lg mt-8 p-6">
             {generateHTMLForm(form)}

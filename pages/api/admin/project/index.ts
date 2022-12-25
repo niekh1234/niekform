@@ -37,7 +37,6 @@ export default nextConnect()
         user: {
           connect: {
             id: session.id,
-            email: session.email,
           },
         },
       },

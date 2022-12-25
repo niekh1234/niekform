@@ -43,6 +43,7 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
             submission={submission}
             form={form}
             onSubmissionDelete={() => mutate()}
+            key={submission.id}
           ></SubmissionsTableRow>
         ))}
       </tbody>

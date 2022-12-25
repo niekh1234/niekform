@@ -1,5 +1,6 @@
 import { PencilIcon } from '@heroicons/react/24/solid';
 import EmptyState from 'components/App/EmptyState';
+import FormAdd from 'components/Form/Add';
 import ProjectAdd from 'components/Project/Add';
 import { fetcher } from 'lib/client/api';
 import { Form, Project } from 'lib/types';
@@ -49,6 +50,7 @@ const Forms = () => {
                 <button className='px-2 py-1 text-xs font-bold text-emerald-600'>
                   Create a form
                 </button>
+                <FormAdd onAdd={() => null} forProject={project.id}></FormAdd>
               </div>
             )}
 

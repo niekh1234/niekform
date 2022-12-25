@@ -22,7 +22,11 @@ const FormSettings = () => {
       <FormTabs id={id as string}></FormTabs>
 
       <div className='mt-6 overflow-hidden bg-white rounded-lg'>
-        <div className='p-6'></div>
+        <div className='p-6'>
+          <h3 className='font-bold text-lg'>Settings</h3>
+
+          <form></form>
+        </div>
       </div>
     </section>
   );
