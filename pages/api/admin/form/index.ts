@@ -1,9 +1,8 @@
 import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { unauthorized } from 'next-basics';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
-import { ok } from 'lib/server/api';
+import { badRequest, ok, unauthorized } from 'lib/server/api';
 
 export default nextConnect().post(async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getLoginSession(req);
@@ -19,5 +18,9 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
     },
   });
 
-  return ok(res, form);
+  if (!form) {
+    return badRequest(res, 'Form could not be created.');
+  }
+
+  return ok(res, { form });
 });

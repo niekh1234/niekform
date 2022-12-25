@@ -1,10 +1,12 @@
 import { TrashIcon } from '@heroicons/react/20/solid';
 import ConfirmButton from 'components/App/ConfirmButton';
+import EmptyState from 'components/App/EmptyState';
 import { spawnFlash } from 'components/App/Flash';
 import FieldAdd from 'components/Field/Add';
 import FormTabs from 'components/Form/Tabs';
 import { doDeleteRequest, fetcher } from 'lib/client/api';
 import { Form } from 'lib/types';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 
@@ -36,35 +38,37 @@ const FormFields = () => {
   if (fetchError || !form) return <p>Failed to load</p>;
 
   return (
-    <section className="max-w-5xl mx-auto">
-      <h1 className="text-2xl font-bold">{form.name}</h1>
+    <section className='max-w-5xl mx-auto'>
+      <h1 className='text-2xl font-bold'>{form.name}</h1>
 
       <FormTabs id={id as string}></FormTabs>
 
-      <div className="mt-6 overflow-hidden bg-white rounded-lg">
-        <div className="p-6">
-          <div className="flex justify-between">
-            <h3 className="font-bold">Fields</h3>
+      <div className='mt-6 overflow-hidden bg-white rounded-lg'>
+        <div className='p-6'>
+          <div className='flex justify-between'>
+            <h3 className='font-bold'>Fields</h3>
             <FieldAdd formId={form.id} onAdd={() => onAddField()}></FieldAdd>
           </div>
 
           {form.fields.length === 0 ? (
-            <div className="p-12 border-2 border-gray-300 rounded-xl">
-              There don't seem to be any fields yet.
-            </div>
+            <EmptyState type='field' className='!shadow-none'>
+              <Link href='https://github.com/niekh1234/niekform' className='btn-outline'>
+                Need help?
+              </Link>
+            </EmptyState>
           ) : (
-            <div className="mt-12 space-y-2">
+            <div className='mt-12 space-y-2'>
               {form.fields.map((field) => (
                 <div
                   key={field.id}
-                  className="flex justify-between p-4 text-gray-800 border rounded-xl group"
+                  className='flex justify-between p-4 text-gray-800 border rounded-xl group'
                 >
-                  <div className="w-1/3 font-bold">{field.label}</div>
-                  <div className="w-1/3 text-gray-500">{field.type}</div>
-                  <div className="w-1/3 text-sm">{field.required ? 'Required' : ''}</div>
-                  <div className="opacity-0 group-hover:opacity-100">
+                  <div className='w-1/3 font-bold'>{field.label}</div>
+                  <div className='w-1/3 text-gray-500'>{field.type}</div>
+                  <div className='w-1/3 text-sm'>{field.required ? 'Required' : ''}</div>
+                  <div className='opacity-0 group-hover:opacity-100'>
                     <ConfirmButton onClick={() => deleteField(field.id)}>
-                      <TrashIcon className="w-4 h-4 text-gray-500"></TrashIcon>
+                      <TrashIcon className='w-4 h-4 text-gray-500'></TrashIcon>
                     </ConfirmButton>
                   </div>
                 </div>
