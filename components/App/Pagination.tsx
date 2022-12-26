@@ -1,6 +1,13 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 
-const Pagination = () => {
+type PaginationProps = {
+  total: number;
+  page: number;
+  perPage: number;
+  onSetPage: (page: number) => void;
+};
+
+const Pagination = ({ total, page, perPage, onSetPage }: PaginationProps) => {
   return (
     <div className='flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6'>
       <div className='flex justify-between flex-1 sm:hidden'>
