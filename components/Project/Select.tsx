@@ -22,8 +22,12 @@ const ProjectSelect = forwardRef<HTMLSelectElement, ProjectSelectProps>(
 
     if (!data) return <div>loading...</div>;
 
+    if (projects.length > 0 && !value) {
+      onChange({ target: { value: projects[0].id } } as ChangeEvent<HTMLSelectElement>);
+    }
+
     return (
-      <select ref={ref} value={value} onChange={onChange} className='input-primary'>
+      <select ref={ref} value={value} onChange={onChange} className="input-primary">
         {projects.map((project) => (
           <option key={project.id} value={project.id}>
             {project.name}
@@ -31,7 +35,7 @@ const ProjectSelect = forwardRef<HTMLSelectElement, ProjectSelectProps>(
         ))}
       </select>
     );
-  },
+  }
 );
 
 export default ProjectSelect;
