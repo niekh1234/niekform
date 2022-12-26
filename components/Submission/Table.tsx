@@ -1,9 +1,7 @@
 import Pagination from 'components/App/Pagination';
 import { fetcher } from 'lib/client/api';
-import { formatDate, truncate } from 'lib/client/utils';
 import { Form, Submission } from 'lib/types';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import useSWR from 'swr';
 import SubmissionsTableRow from './TableRow';
 
@@ -36,6 +34,14 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
   const pagination = data?.pagination;
 
   if (fetchError || !submissions) return <p>Failed to load</p>;
+
+  if (submissions.length === 0)
+    return (
+      <div className="p-6">
+        <h3 className="font-bold">No submissions yet</h3>
+        <p>Check the integration tap above to get started collection submissions</p>
+      </div>
+    );
 
   return (
     <>
