@@ -61,36 +61,36 @@ const FormAdd = ({ children, className, onAdd, forProject }: FormAddProps) => {
     <>
       <button
         onClick={() => setShowModal(() => true)}
-        type='button'
+        type="button"
         className={classNames('inline-flex items-center', className)}
       >
         {children || (
           <>
-            <PlusIcon className='w-5 h-5 mr-2 -ml-1' aria-hidden='true' />
+            <PlusIcon className="w-5 h-5 mr-2 -ml-1" aria-hidden="true" />
             New form
           </>
         )}
       </button>
 
       <Modal open={showModal} setOpen={setShowModal}>
-        <div className='p-6'>
-          <h3 className='font-bold'>Add new form</h3>
+        <div className="p-6">
+          <h3 className="font-bold">Add new form</h3>
 
-          <form onSubmit={handleSubmit(onSubmit)} className='mt-4'>
-            <label className='text-sm text-gray-500'>Name</label>
-            <input type='text' {...register('name')} className='input-primary'></input>
+          <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
+            <label className="text-sm text-gray-500">Name</label>
+            <input type="text" {...register('name')} className="input-primary"></input>
             <InputError message={errors.name?.message || error || ''}></InputError>
 
-            <label className='block mt-4 text-sm text-gray-500'>Project</label>
+            <label className="block mt-4 text-sm text-gray-500">Project</label>
             <Controller
-              name='projectId'
+              name="projectId"
               control={control}
               rules={{ required: true }}
               render={({ field }) => <ProjectSelect {...field}></ProjectSelect>}
             ></Controller>
             <InputError message={errors.projectId?.message || error || ''}></InputError>
 
-            <Button type='submit' processing={processing} className='mt-4'>
+            <Button type="submit" processing={processing} className="mt-4">
               Save
             </Button>
           </form>
