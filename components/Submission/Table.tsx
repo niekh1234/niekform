@@ -45,31 +45,33 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
 
   return (
     <>
-      <table className="w-full table-fixed">
-        <thead className="font-medium text-gray-500 border-b">
-          <tr className="text-sm bg-gray-50">
-            <th className="py-4 w-[20%]">Added</th>
+      <div className="overflow-x-auto">
+        <table className="w-full table-auto">
+          <thead className="font-medium text-gray-500 border-b">
+            <tr className="text-sm bg-gray-50">
+              <th className="py-4 w-[20%]">Added</th>
 
-            {form.fields.map((field) => (
-              <th key={field.id} className="py-4">
-                {field.label}
-              </th>
+              {form.fields.map((field) => (
+                <th key={field.id} className="py-4">
+                  {field.label}
+                </th>
+              ))}
+
+              <th className="w-[10%] py-4">Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            {submissions.map((submission) => (
+              <SubmissionsTableRow
+                submission={submission}
+                form={form}
+                onSubmissionDelete={() => mutate()}
+                key={submission.id}
+              ></SubmissionsTableRow>
             ))}
-
-            <th className="w-[10%] py-4">Options</th>
-          </tr>
-        </thead>
-        <tbody>
-          {submissions.map((submission) => (
-            <SubmissionsTableRow
-              submission={submission}
-              form={form}
-              onSubmissionDelete={() => mutate()}
-              key={submission.id}
-            ></SubmissionsTableRow>
-          ))}
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
 
       <Pagination
         total={pagination.total}
