@@ -20,8 +20,7 @@ export const createUser = async ({
     throw new Error('There is already a registered user. Did you mean to log in?');
   }
 
-  const salt = await genSalt(SALT_ROUNDS);
-  const hashedPassword = await hash(password, salt);
+  const hashedPassword = await hashPassword(password);
 
   const newUser = {
     email,
@@ -41,6 +40,15 @@ export const findUser = async ({ id }: Session) => {
   return await prisma.user.findFirst({ where: { id } });
 };
 
+export const findUserByEmail = (email: string) => {
+  return prisma.user.findFirst({ where: { email } });
+};
+
 export const validatePassword = async (user: User, inputPassword: string) => {
   return await compare(inputPassword, user.password);
+};
+
+export const hashPassword = async (password: string, saltRounds = SALT_ROUNDS) => {
+  const salt = await genSalt(saltRounds);
+  return await hash(password, salt);
 };

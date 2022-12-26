@@ -1,6 +1,6 @@
 import { FieldType, Prisma, PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
-import { hashPassword } from 'next-basics';
+import { genSalt, hash } from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -19,7 +19,7 @@ const main = async () => {
     create: {
       email: 'admin@niekform.io',
       name: faker.name.fullName(),
-      password: hashPassword('admin'),
+      password: await hashPassword('admin'),
       role: {
         connect: {
           id: role.id,
@@ -34,7 +34,7 @@ const main = async () => {
     create: {
       email: 'other@niekform.io',
       name: faker.name.fullName(),
-      password: hashPassword('other'),
+      password: await hashPassword('other'),
       role: {
         connect: {
           id: role.id,
@@ -107,6 +107,7 @@ const seedForUser = async (userId: string) => {
   const form = await prisma.form.create({
     data: {
       name: 'First form',
+      submissionCount: 10,
       project: {
         connect: {
           id: project.id,
@@ -152,7 +153,7 @@ const seedForUser = async (userId: string) => {
 
   // create new submissions
   await prisma.submission.createMany({
-    data: new Array(10).fill(0).map(() => ({
+    data: new Array(100).fill(0).map(() => ({
       formId: form.id,
       data: {
         name: faker.name.fullName(),
@@ -161,4 +162,9 @@ const seedForUser = async (userId: string) => {
       },
     })),
   });
+};
+
+const hashPassword = async (password: string, saltRounds = 10) => {
+  const salt = await genSalt(saltRounds);
+  return await hash(password, salt);
 };

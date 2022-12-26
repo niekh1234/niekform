@@ -35,5 +35,14 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
     },
   });
 
+  await prisma.form.update({
+    where: { id: form.id },
+    data: {
+      submissionCount: {
+        increment: 1,
+      },
+    },
+  });
+
   return ok(res, submission || {});
 });

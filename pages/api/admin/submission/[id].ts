@@ -1,6 +1,6 @@
+import { notFound, ok, unauthorized } from 'lib/server/api';
 import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { notFound, ok, unauthorized } from 'next-basics';
 import nextConnect from 'next-connect';
 
 export default nextConnect().delete(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -30,6 +30,17 @@ export default nextConnect().delete(async (req: NextApiRequest, res: NextApiResp
   await prisma.submission.delete({
     where: {
       id,
+    },
+  });
+
+  await prisma.form.update({
+    where: {
+      id: submission.formId,
+    },
+    data: {
+      submissionCount: {
+        decrement: 1,
+      },
     },
   });
 
