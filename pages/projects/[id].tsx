@@ -85,28 +85,28 @@ const ProjectID = () => {
   const project = data.project as Project;
 
   return (
-    <section className='max-w-4xl mx-auto'>
-      <h1 className='text-2xl font-bold'>{project.name}</h1>
-      <div className='p-4 mt-6 bg-white rounded-lg shadow md:p-6'>
+    <section className="max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold">{project.name}</h1>
+      <div className="p-4 mt-6 bg-white rounded-lg shadow md:p-6">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label className='text-sm text-gray-500'>Name</label>
-          <input type='text' {...register('name')} className='input-primary'></input>
+          <label className="text-sm text-gray-500">Name</label>
+          <input type="text" {...register('name')} className="input-primary"></input>
           <InputError message={(errors.name?.message as string) || ''}></InputError>
 
-          <label className='block mt-4 text-sm text-gray-500'>Description (optional)</label>
-          <textarea {...register('description')} className='input-primary'></textarea>
+          <label className="block mt-4 text-sm text-gray-500">Description (optional)</label>
+          <textarea {...register('description')} className="input-primary"></textarea>
           <InputError message={(errors.description?.message as string) || ''}></InputError>
 
-          <Button type='submit' processing={processing} className='mt-4'>
+          <Button type="submit" processing={processing} className="mt-8">
             Save
           </Button>
         </form>
       </div>
 
-      <div className='mt-12'>
+      <div className="mt-12">
         <ConfirmButton onClick={() => deleteProject()}>
-          <div className='flex items-center space-x-2 btn-outline'>
-            <ExclamationCircleIcon className='w-4 h-4'></ExclamationCircleIcon>
+          <div className="flex items-center space-x-2 btn-outline">
+            <ExclamationCircleIcon className="w-4 h-4"></ExclamationCircleIcon>
             <span>Delete project</span>
           </div>
         </ConfirmButton>
