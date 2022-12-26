@@ -16,18 +16,21 @@ const formatLink = (linkBlueprint: string, page: number) => {
 
 const Pagination = ({ total, page, perPage, linkBlueprint }: PaginationProps) => {
   const pages = useMemo(() => createPagination(page, total, perPage), [total, page, perPage]);
+  const pageAsNumber = page !== undefined ? Number(page) : 1;
+  const hasPreviousPage = pageAsNumber > 1;
+  const hasNextPage = pageAsNumber < pages[pages.length - 1]?.page;
 
   return (
     <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
       <div className="flex justify-between flex-1 sm:hidden">
         <Link
-          href={formatLink(linkBlueprint, Number(page) - 1)}
+          href={hasPreviousPage ? formatLink(linkBlueprint, pageAsNumber - 1) : '#'}
           className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
         >
           Previous
         </Link>
         <Link
-          href={formatLink(linkBlueprint, Number(page) + 1)}
+          href={hasNextPage ? formatLink(linkBlueprint, pageAsNumber + 1) : '#'}
           className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
         >
           Next
@@ -47,7 +50,7 @@ const Pagination = ({ total, page, perPage, linkBlueprint }: PaginationProps) =>
             aria-label="Pagination"
           >
             <Link
-              href={formatLink(linkBlueprint, Number(page) - 1)}
+              href={hasPreviousPage ? formatLink(linkBlueprint, pageAsNumber - 1) : '#'}
               className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50 focus:z-20"
             >
               <span className="sr-only">Previous</span>
@@ -83,7 +86,7 @@ const Pagination = ({ total, page, perPage, linkBlueprint }: PaginationProps) =>
             })}
 
             <Link
-              href={formatLink(linkBlueprint, Number(page) + 1)}
+              href={hasNextPage ? formatLink(linkBlueprint, pageAsNumber + 1) : '#'}
               className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50 focus:z-20"
             >
               <span className="sr-only">Next</span>
