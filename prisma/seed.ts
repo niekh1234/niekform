@@ -107,7 +107,7 @@ const seedForUser = async (userId: string) => {
   const form = await prisma.form.create({
     data: {
       name: 'First form',
-      submissionCount: 10,
+      submissionCount: 100,
       project: {
         connect: {
           id: project.id,
