@@ -27,6 +27,7 @@ export type Submission = {
   id: string;
   createdAt: Date;
   data: any;
+  formId: string;
 };
 
 export type Session = {
