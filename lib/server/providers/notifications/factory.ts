@@ -3,11 +3,11 @@ import { NotificationProvider } from './interface';
 import { SendgridNotificationProvider } from './sendgrid';
 
 export class NotificationFactory {
-  public sendNotifications(submission: Submission) {
+  public async sendNotifications(submission: Submission): Promise<void> {
     const providers = this.getNotificationProviders(submission);
 
     for (const notificationProvider of providers) {
-      notificationProvider.sendNotification();
+      await notificationProvider.sendNotification();
     }
   }
 

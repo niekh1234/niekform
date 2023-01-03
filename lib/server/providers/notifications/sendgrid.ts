@@ -1,5 +1,6 @@
-import { Submission } from 'lib/types';
+import { Form, Submission } from 'lib/types';
 import { NotificationProvider } from './interface';
+import sgMail from '@sendgrid/mail';
 
 export class SendgridNotificationProvider implements NotificationProvider {
   private submission: Submission;
@@ -9,51 +10,62 @@ export class SendgridNotificationProvider implements NotificationProvider {
   }
 
   public async sendNotification() {
-    // Send notification via Sendgrid
-    const emailSettings = await this.getMailSettings();
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
+    const form = await this.getTheForm();
+    const { notificationSettings } = form;
 
-    if (!emailSettings?.sendTo) {
+    if (!notificationSettings?.sendTo) {
       return false;
     }
 
-    this.sendEmailTo(emailSettings.sendTo);
+    await this.sendEmailTo(notificationSettings.sendTo, form);
 
     return true;
   }
 
-  private sendEmailTo(email: string): boolean {
-    const message = this.formatMessage();
+  private async sendEmailTo(email: string, form: Form): Promise<boolean> {
+    const message = this.formatMessage(email, form);
+
+    try {
+      await sgMail.send(message);
+    } catch (error: any) {
+      if (error?.response) {
+        console.error(error.response.body);
+      }
+
+      return false;
+    }
 
     return true;
   }
 
-  private formatMessageArguments(message: string) {
+  private formatMessage(email: string, form: Form) {
     return {
-      to: '',
+      to: email,
+      from: email,
+      subject: `New submission from ${form.name}`,
+      text: `You have just received a new submission for your form ${
+        form.name
+      }. Data: ${Object.values(this.submission.data).join(' ')}`,
+      html: this.createHTML(),
     };
   }
 
-  private async getMailSettings() {
-    const form = await prisma.form.findUnique({
+  private async getTheForm() {
+    return await prisma.form.findUnique({
       where: {
         id: this.submission.formId,
       },
     });
-
-    if (!form) {
-      return null;
-    }
-
-    return form.notifcationSettings;
   }
 
-  private async formNotificationSettings(formId: string) {
-    const form = await prisma.form.findUnique({
-      where: {
-        id: formId,
-      },
-    });
-
-    return form;
+  private createHTML() {
+    return `<table>
+     <tbody>
+        ${Object.entries(this.submission.data).map(
+          (key, value) => `<tr><td>${key}</td>${value}</tr>`
+        )} 
+     </tbody> 
+    </table>`;
   }
 }

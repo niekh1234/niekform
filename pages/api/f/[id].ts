@@ -3,6 +3,8 @@ import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { cleanSubmission, validateSubmission } from 'lib/server/form/submission';
 import { badRequest, notFound, ok } from 'lib/server/api';
+import { NotificationFactory } from 'lib/server/providers/notifications/factory';
+import { Submission } from 'lib/types';
 
 export default nextConnect().post(async (req: NextApiRequest, res: NextApiResponse) => {
   if (!req.query.id) {
@@ -44,5 +46,12 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
     },
   });
 
+  sendNotification(submission);
+
   return ok(res, submission || {});
 });
+
+const sendNotification = async (submission: Submission) => {
+  const notificationFactory = new NotificationFactory();
+  await notificationFactory.sendNotifications(submission);
+};

@@ -15,11 +15,12 @@ test('email notification message', async () => {
     formId: firstForm.id,
     data: {
       name: faker.name.firstName(),
+      email: faker.internet.email(),
     },
     createdAt: new Date(),
   } as Submission;
 
   const notificationFactory = new NotificationFactory();
 
-  notificationFactory.sendNotifications(submission);
+  await notificationFactory.sendNotifications(submission);
 });
