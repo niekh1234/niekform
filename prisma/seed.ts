@@ -113,6 +113,9 @@ const seedForUser = async (userId: string) => {
           id: project.id,
         },
       },
+      notificationSettings: {
+        sendTo: 'test@example.com',
+      },
     },
   });
 

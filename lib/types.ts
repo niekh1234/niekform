@@ -12,6 +12,7 @@ export type Form = {
   name: string;
   fields: Field[];
   submissionCount: number;
+  notificationSettings: any;
 };
 
 export type Field = {

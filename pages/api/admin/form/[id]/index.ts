@@ -37,7 +37,7 @@ export default nextConnect()
 
     const id = req.query.id as string;
 
-    const ownsForm = await prisma.form.findFirst({
+    const ownedForm = await prisma.form.findFirst({
       where: {
         id,
         project: {
@@ -46,16 +46,19 @@ export default nextConnect()
       },
     });
 
-    if (!ownsForm) {
+    if (!ownedForm) {
       return notFound(res);
     }
+
+    console.log(req.body.notificationSettings);
 
     const form = await prisma.form.update({
       where: {
         id,
       },
       data: {
-        name: req.body.name,
+        name: req.body.name || ownedForm.name,
+        notificationSettings: req.body.notificationSettings || ownedForm.notificationSettings,
       },
     });
 

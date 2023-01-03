@@ -8,15 +8,21 @@ export class SendgridNotificationProvider implements NotificationProvider {
     this.submission = submission;
   }
 
-  public static make(submission: Submission) {
-    return new this(submission);
-  }
-
-  public async sendNotification(submission: Submission) {
+  public async sendNotification() {
     // Send notification via Sendgrid
     const emailSettings = await this.getMailSettings();
 
-    console.log(emailSettings);
+    if (!emailSettings?.sendTo) {
+      return false;
+    }
+
+    this.sendEmailTo(emailSettings.sendTo);
+
+    return true;
+  }
+
+  private sendEmailTo(email: string): boolean {
+    const message = this.formatMessage();
 
     return true;
   }
@@ -34,7 +40,11 @@ export class SendgridNotificationProvider implements NotificationProvider {
       },
     });
 
-    return form;
+    if (!form) {
+      return null;
+    }
+
+    return form.notifcationSettings;
   }
 
   private async formNotificationSettings(formId: string) {

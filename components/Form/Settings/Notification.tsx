@@ -14,8 +14,7 @@ type NotificationSettingsProps = {
 };
 
 const schema = yup.object({
-  name: yup.string().required('Please enter a name'),
-  enabled: yup.bool(),
+  sendTo: yup.string().email('Please enter a valid email address.'),
 });
 
 const NotificationSettings = ({ form, mutate }: NotificationSettingsProps) => {
@@ -31,9 +30,10 @@ const NotificationSettings = ({ form, mutate }: NotificationSettingsProps) => {
 
   // set initial form values
   useEffect(() => {
-    if (form) {
+    if (form && form.notificationSettings) {
+      console.log(form);
       reset({
-        name: form.name,
+        sendTo: form?.notificationSettings?.sendTo,
       });
     }
   }, [form]);
@@ -42,7 +42,9 @@ const NotificationSettings = ({ form, mutate }: NotificationSettingsProps) => {
     setProcessing(() => true);
 
     const res = await doPutRequest('/api/admin/form/' + form.id, {
-      name: formData.name,
+      notificationSettings: {
+        sendTo: formData?.sendTo,
+      },
     });
 
     setProcessing(() => false);
@@ -59,9 +61,9 @@ const NotificationSettings = ({ form, mutate }: NotificationSettingsProps) => {
     <div className="p-4 mt-6 bg-white rounded-lg shadow md:p-6">
       <h3 className="font-bold">Email & notifications</h3>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label className="text-sm text-gray-500">E-mail</label>
-        <input type="text" {...register('name')} className="input-primary"></input>
-        <InputError message={(errors.name?.message as string) || ''}></InputError>
+        <label className="text-sm text-gray-500">Send notifications to</label>
+        <input type="text" {...register('sendTo')} className="input-primary"></input>
+        <InputError message={(errors.sendTo?.message as string) || ''}></InputError>
 
         <Button type="submit" isSecondary processing={processing} className="mt-8">
           Save
