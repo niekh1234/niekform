@@ -104,10 +104,12 @@ const seedForUser = async (userId: string) => {
     });
   }
 
+  const N_SUBMISSIONS = 10000;
+
   const form = await prisma.form.create({
     data: {
       name: 'First form',
-      submissionCount: 100,
+      submissionCount: N_SUBMISSIONS,
       project: {
         connect: {
           id: project.id,
@@ -156,7 +158,7 @@ const seedForUser = async (userId: string) => {
 
   // create new submissions
   await prisma.submission.createMany({
-    data: new Array(100).fill(0).map(() => ({
+    data: new Array(N_SUBMISSIONS).fill(0).map(() => ({
       formId: form.id,
       data: {
         name: faker.name.fullName(),
