@@ -1,5 +1,6 @@
 import FormTabs from 'components/Form/Tabs';
 import { fetcher } from 'lib/client/api';
+import { generateHTMLForm } from 'lib/server/form/integrate';
 import { Form } from 'lib/types';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
@@ -32,17 +33,6 @@ const FormIntegrations = () => {
       </div>
     </section>
   );
-};
-
-const generateHTMLForm = (form: Form) => {
-  return `<form action="${process.env.NEXT_PUBLIC_SITE_URL}/f/${form.id}" method="POST">
-${form.fields
-  .map(
-    (field) => `  <label for="${field.key}">${field.label}</label>
-  <input id="${field.key}" type="text"></input>`
-  )
-  .join('\n')} 
-</form>`;
 };
 
 export default FormIntegrations;

@@ -38,37 +38,37 @@ const FormFields = () => {
   if (fetchError || !form) return <p>Failed to load</p>;
 
   return (
-    <section className='max-w-5xl mx-auto'>
-      <h1 className='text-2xl font-bold'>{form.name}</h1>
+    <section className="max-w-5xl mx-auto">
+      <h1 className="text-2xl font-bold">{form.name}</h1>
 
       <FormTabs id={id as string}></FormTabs>
 
-      <div className='mt-6 overflow-hidden bg-white rounded-lg'>
-        <div className='p-6'>
-          <div className='flex justify-between'>
-            <h3 className='font-bold'>Fields</h3>
+      <div className="mt-6 overflow-hidden bg-white rounded-lg">
+        <div className="p-6">
+          <div className="flex justify-between">
+            <h3 className="font-bold">Fields</h3>
             <FieldAdd formId={form.id} onAdd={() => onAddField()}></FieldAdd>
           </div>
 
           {form.fields.length === 0 ? (
-            <EmptyState type='field' className='!shadow-none'>
-              <Link href='https://github.com/niekh1234/niekform' className='btn-outline'>
+            <EmptyState type="field" className="!shadow-none">
+              <Link href="https://github.com/niekh1234/niekform" className="btn-outline">
                 Need help?
               </Link>
             </EmptyState>
           ) : (
-            <div className='mt-12 space-y-2'>
+            <div className="mt-12 space-y-2">
               {form.fields.map((field) => (
                 <div
                   key={field.id}
-                  className='flex justify-between p-4 text-gray-800 border rounded-xl group'
+                  className="flex justify-between p-4 text-gray-800 border rounded-xl group"
                 >
-                  <div className='w-1/3 font-bold'>{field.label}</div>
-                  <div className='w-1/3 text-gray-500'>{field.type}</div>
-                  <div className='w-1/3 text-sm'>{field.required ? 'Required' : ''}</div>
-                  <div className='opacity-0 group-hover:opacity-100'>
+                  <div className="w-1/3 font-bold">{field.label}</div>
+                  <div className="w-1/3 text-gray-500">{field.type}</div>
+                  <div className="w-1/3 text-sm">{field.required ? 'Required' : ''}</div>
+                  <div className="opacity-0 group-hover:opacity-100">
                     <ConfirmButton onClick={() => deleteField(field.id)}>
-                      <TrashIcon className='w-4 h-4 text-gray-500'></TrashIcon>
+                      <TrashIcon className="w-4 h-4 text-gray-500"></TrashIcon>
                     </ConfirmButton>
                   </div>
                 </div>
