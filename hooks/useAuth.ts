@@ -18,6 +18,12 @@ const fetcher = (url: string) =>
     });
 
 export const useAuth = ({ redirectTo, redirectIfFound }: useUserProps = {}) => {
+  const router = useRouter();
+
+  if (isPublicRoute(router.pathname)) {
+    return { user: null, error: null, isLoading: false, mutate: () => null };
+  }
+
   const { data, error, isLoading, mutate } = useSWR('/api/auth/me', fetcher);
   const user = data?.user;
   const finished = Boolean(data);
@@ -36,4 +42,10 @@ export const useAuth = ({ redirectTo, redirectIfFound }: useUserProps = {}) => {
   }, [redirectTo, redirectIfFound, finished, hasUser]);
 
   return { user, error, isLoading, mutate };
+};
+
+const isPublicRoute = (path: string) => {
+  const basePaths = ['/p'];
+
+  return basePaths.some((basePath) => path.startsWith(basePath));
 };
