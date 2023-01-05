@@ -7,11 +7,14 @@ import { NotificationFactory } from 'lib/server/providers/notifications/factory'
 import { Submission } from 'lib/types';
 
 export default nextConnect().post(async (req: NextApiRequest, res: NextApiResponse) => {
-  if (!req.query.id) {
-    return badRequest(res, 'Missing id');
+  if (!req.query.id || !req.body) {
+    return res.redirect(301, '/p/error?message=Form not found&referer=' + req.headers.referer);
   }
 
-  // todo honey pot
+  // honeypot
+  if (!req.body || req.body.a_password) {
+    return res.redirect(301, '/p/thank-you?referer=' + req.headers.referer);
+  }
 
   const form = await prisma.form.findFirst({
     where: { id: req.query.id as string },
@@ -19,13 +22,16 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
   });
 
   if (!form) {
-    return notFound(res, 'Form not found');
+    return res.redirect(301, '/p/error?message=Form not found&referer=' + req.headers.referer);
   }
 
   const { errors, valid } = validateSubmission(form.fields, req.body);
 
   if (!valid) {
-    return badRequest(res, JSON.stringify({ errors }));
+    return res.redirect(
+      301,
+      '/p/error?message=' + Object.values(errors).join(', ') + '&referer=' + req.headers.referer
+    );
   }
 
   const cleaned = cleanSubmission(form.fields, req.body);
@@ -48,7 +54,7 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
 
   sendNotification(submission);
 
-  return ok(res, submission || {});
+  return res.redirect(301, '/p/thank-you?referer=' + req.headers.referer);
 });
 
 const sendNotification = async (submission: Submission) => {

@@ -7,7 +7,7 @@ export const validateSubmission = (formFields: Field[], submission: any) => {
     const fieldName = field.key;
 
     if (field.required && !submission[fieldName]) {
-      errors[fieldName] = 'Required';
+      errors[fieldName] = `${field.label} is required`;
     }
 
     if (field.type === FieldType.EMAIL && submission[fieldName]) {
@@ -15,7 +15,7 @@ export const validateSubmission = (formFields: Field[], submission: any) => {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
       if (!emailRegex.test(submission[fieldName])) {
-        errors[fieldName] = 'Invalid email';
+        errors[fieldName] = `${field.label} must be a valid email address`;
       }
 
       return;
@@ -25,7 +25,7 @@ export const validateSubmission = (formFields: Field[], submission: any) => {
       const numberRegex = /^[0-9]+$/;
 
       if (!numberRegex.test(submission[fieldName])) {
-        errors[fieldName] = 'Invalid number';
+        errors[fieldName] = `${field.label} must be a number`;
       }
 
       return;
