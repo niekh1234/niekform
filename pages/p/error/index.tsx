@@ -17,12 +17,11 @@ const SubmissionError = () => {
           </p>
         )}
 
-        <Link
-          href={(router.query?.referer as string) || 'https://niekform.io'}
-          className="btn-primary mt-8 inline-block"
-        >
-          Go back
-        </Link>
+        {!!router.query.referer && (
+          <Link href={router.query?.referer as string} className="btn-primary mt-8 inline-block">
+            Go back
+          </Link>
+        )}
       </div>
 
       <div className="mt-8">
