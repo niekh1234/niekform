@@ -6,13 +6,13 @@ export const generateHTMLForm = (form: Form) => {
 ${form.fields
   .map(
     (field) => `  <label for="${field.key}">${field.label}</label>
-  <input id="${field.key}" type="${getFieldType(field)}" name="${field.key}" ${
+  <${getHtmlFieldTag(field)} id="${field.key}" type="${getFieldType(field)}" name="${field.key}" ${
       field.required ? 'required' : ''
-    }></input>`
+    }></${getHtmlFieldTag(field)}>`
   )
   .join('\n')}
 
-  <input type="text" name="a_password" style="display:none !important" tabindex="-1" autocomplete="off">
+  <input type="text" name="a_password" style="display:none !important" tabindex="-1" autocomplete="off"></input>
   <button type="submit">Submit</button>
 </form>`;
 };
@@ -27,5 +27,14 @@ const getFieldType = (field: Field) => {
       return 'checkbox';
     default:
       return 'text';
+  }
+};
+
+const getHtmlFieldTag = (field: Field) => {
+  switch (field.type) {
+    case FieldType.CHECKBOX:
+      return 'input';
+    default:
+      return 'textarea';
   }
 };

@@ -22,7 +22,7 @@ const schema = yup.object({
   required: yup.bool().default(true),
 });
 
-const FIELD_TYPES = ['text'];
+const FIELD_TYPES = ['text', 'email', 'textarea', 'number', 'checkbox'];
 
 // @todo show conditional logic for more advanced field creation e.g. select values.
 const FieldAdd = ({ children, formId, onAdd }: FieldAddProps) => {
