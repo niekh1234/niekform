@@ -77,7 +77,7 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
         total={pagination.total}
         page={pagination.page}
         linkBlueprint={`/forms/${form.id}/submissions?page=:page`}
-        perPage={20}
+        perPage={50}
       ></Pagination>
     </>
   );
