@@ -45,7 +45,7 @@ export const useAuth = ({ redirectTo, redirectIfFound }: useUserProps = {}) => {
 };
 
 const isPublicRoute = (path: string) => {
-  const basePaths = ['/p'];
+  const basePaths = ['/p/'];
 
   return basePaths.some((basePath) => path.startsWith(basePath));
 };

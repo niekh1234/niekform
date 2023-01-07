@@ -63,7 +63,7 @@ export class SendgridNotificationProvider implements NotificationProvider {
     return `<table>
      <tbody>
         ${Object.entries(this.submission.data).map(
-          (key, value) => `<tr><td>${key}</td>${value}</tr>`
+          (key, value) => `<tr><td>${key}</td><td>${value}</td></tr>`
         )} 
      </tbody> 
     </table>`;

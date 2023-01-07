@@ -74,10 +74,6 @@ const NotificationSettings = ({ form, mutate }: NotificationSettingsProps) => {
       <p className="text-gray-500 text-sm">
         Please review our documentation as to how to setup your e-mail notification.
       </p>
-
-      <Button isOutline className="mt-4">
-        Test email configuration
-      </Button>
     </div>
   );
 };

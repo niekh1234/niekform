@@ -4,7 +4,7 @@ import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { ok, unauthorized } from 'lib/server/api';
 
-const DEFAULT_TAKE = 20;
+const DEFAULT_TAKE = 50;
 
 export default nextConnect().get(async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getLoginSession(req);
