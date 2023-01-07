@@ -16,7 +16,6 @@ const Dashboard = () => {
   }
 
   const latestForms = data.latestForms as Form[];
-  const latestSubmissions = data.latestSubmissions as Submission[];
   const submissionsByDay = data.submissionsByDay as { date: string; count: number }[];
 
   return (
@@ -33,7 +32,7 @@ const Dashboard = () => {
       </div>
 
       <div className="mt-8">
-        <h2 className="text-lg font-bold">Latest forms</h2>
+        <h2 className="font-bold">Latest forms</h2>
         <ul className="space-y-2 mt-2 rounded shadow bg-white">
           {latestForms.map((form) => (
             <li key={form.id} className="p-4  flex justify-between">
@@ -52,7 +51,7 @@ const Dashboard = () => {
 const formatLatest30DaysOfSubmissions = (submissionsByDay: { date: string; count: number }[]) => {
   let result = [];
 
-  for (let i = 30; i > 0; i--) {
+  for (let i = 30; i >= 0; i--) {
     const date = new Date();
     date.setDate(date.getDate() - i);
     const formattedDate = date.toISOString().split('T')[0];

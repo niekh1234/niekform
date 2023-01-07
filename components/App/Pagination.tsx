@@ -39,8 +39,8 @@ const Pagination = ({ total, page, perPage, linkBlueprint }: PaginationProps) =>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
           <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">{perPage * page - perPage + 1}</span> to{' '}
-            <span className="font-medium">{perPage * page}</span> of{' '}
+            Showing <span className="font-medium">{(page || 1) * perPage - perPage + 1}</span> to{' '}
+            <span className="font-medium">{page ? perPage * page : perPage}</span> of{' '}
             <span className="font-medium">{total}</span> results
           </p>
         </div>
