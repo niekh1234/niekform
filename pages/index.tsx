@@ -1,5 +1,10 @@
+import { useRouter } from 'next/router';
+
 const Home = () => {
-  return <div></div>;
+  const router = useRouter();
+
+  router.replace('/dashboard');
+  return null;
 };
 
 export default Home;
