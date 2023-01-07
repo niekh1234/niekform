@@ -1,4 +1,5 @@
 import Pagination from 'components/App/Pagination';
+import SearchInput from 'components/App/SearchInput';
 import { fetcher } from 'lib/client/api';
 import { Form, Submission } from 'lib/types';
 import { useRouter } from 'next/router';
@@ -27,21 +28,12 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
     isLoading,
     mutate,
   } = useSWR('/api/admin/form/' + form.id + '/submissions?' + buildQuery(router.query), fetcher);
-
   if (isLoading) return <p>Loading...</p>;
 
   const submissions = data?.submissions as Submission[];
   const pagination = data?.pagination;
 
   if (fetchError || !submissions) return <p>Failed to load</p>;
-
-  if (submissions.length === 0)
-    return (
-      <div className="p-6">
-        <h3 className="font-bold">No submissions yet</h3>
-        <p>Check the integration tap above to get started collection submissions</p>
-      </div>
-    );
 
   return (
     <>
@@ -72,6 +64,13 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
           </tbody>
         </table>
       </div>
+
+      {submissions.length === 0 && (
+        <div className="p-6">
+          <h3 className="font-bold">No submissions yet</h3>
+          <p>Check the integration tap above to get started collection submissions</p>
+        </div>
+      )}
 
       <Pagination
         total={pagination.total}

@@ -40,8 +40,10 @@ const Pagination = ({ total, page, perPage, linkBlueprint }: PaginationProps) =>
         <div>
           <p className="text-sm text-gray-700">
             Showing <span className="font-medium">{(page || 1) * perPage - perPage + 1}</span> to{' '}
-            <span className="font-medium">{page ? perPage * page : perPage}</span> of{' '}
-            <span className="font-medium">{total}</span> results
+            <span className="font-medium">
+              {page ? Math.min(total, perPage * page) : Math.min(total, perPage)}
+            </span>{' '}
+            of <span className="font-medium">{total}</span> results
           </p>
         </div>
         <div>

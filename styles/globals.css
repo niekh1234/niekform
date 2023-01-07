@@ -30,7 +30,7 @@
 }
 
 .input-primary {
-  @apply block w-full px-3 py-2 mt-1 text-gray-900 bg-white border border-gray-300 rounded-md shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 sm:text-sm;
+  @apply block w-full px-3 py-2 text-gray-900 bg-white border border-gray-300 rounded-md shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-emerald-500 sm:text-sm;
 }
 
 .container-primary {

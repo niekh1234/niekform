@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import useSWR from 'swr';
 import EmptyState from 'components/App/EmptyState';
 import Link from 'next/link';
+import SearchInput from 'components/App/SearchInput';
 
 const FormSubmissions = () => {
   const router = useRouter();
@@ -24,14 +25,16 @@ const FormSubmissions = () => {
 
       <FormTabs id={id as string}></FormTabs>
 
+      <SearchInput className="input-primary max-w-[16rem] mr-2"></SearchInput>
+
       {form.fields.length === 0 ? (
-        <EmptyState type="Field" className="mt-12">
+        <EmptyState type="Field" className="mt-4">
           <Link href={`/forms/${form.id}/fields`} className="btn-primary">
             Create your first field
           </Link>
         </EmptyState>
       ) : (
-        <div className="mt-12 overflow-hidden bg-white rounded-lg">
+        <div className="mt-4 overflow-hidden bg-white rounded-lg">
           <FormSubmissionsTable form={form}></FormSubmissionsTable>
         </div>
       )}
