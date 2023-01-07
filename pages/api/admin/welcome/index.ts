@@ -3,7 +3,6 @@ import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
-import { date } from 'yup';
 
 export default nextConnect().get(async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getLoginSession(req);
@@ -12,44 +11,30 @@ export default nextConnect().get(async (req: NextApiRequest, res: NextApiRespons
     return unauthorized(res);
   }
 
-  const latestSubmissions = await prisma.submission.findMany({
-    where: {
-      form: {
+  let [latestForms, submissionsByDay]: any[] = await prisma.$transaction([
+    prisma.form.findMany({
+      where: {
         project: {
           userId: session.id,
         },
       },
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    take: 5,
-  });
-
-  const latestForms = await prisma.form.findMany({
-    where: {
-      project: {
-        userId: session.id,
+      orderBy: {
+        createdAt: 'desc',
       },
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    take: 5,
-
-    include: {
-      project: true,
-    },
-  });
-
-  let submissionsByDay: any[] = await prisma.$queryRaw`
-    SELECT DATE_TRUNC('day', "createdAt")
-    AS "date", COUNT(*) AS "count"
-    FROM "Submission"
-    WHERE "createdAt" > DATE_TRUNC('day', NOW()) - INTERVAL '30 days'
-    AND "formId" IN (SELECT "id" FROM "Form" WHERE "projectId" IN (SELECT "id" FROM "Project" WHERE "userId" = ${session.id}))
-    GROUP BY DATE_TRUNC('day', "createdAt")
-    `;
+      take: 5,
+      include: {
+        project: true,
+      },
+    }),
+    prisma.$queryRaw`
+      SELECT DATE_TRUNC('day', "createdAt")
+      AS "date", COUNT(*) AS "count"
+      FROM "Submission"
+      WHERE "createdAt" > DATE_TRUNC('day', NOW()) - INTERVAL '30 days'
+      AND "formId" IN (SELECT "id" FROM "Form" WHERE "projectId" IN (SELECT "id" FROM "Project" WHERE "userId" = ${session.id}))
+      GROUP BY DATE_TRUNC('day', "createdAt")
+      `,
+  ]);
 
   // convert all bigints to numbers
   submissionsByDay = submissionsByDay.map((day: any) => ({
@@ -58,7 +43,6 @@ export default nextConnect().get(async (req: NextApiRequest, res: NextApiRespons
   }));
 
   return ok(res, {
-    latestSubmissions,
     latestForms,
     submissionsByDay,
   });
