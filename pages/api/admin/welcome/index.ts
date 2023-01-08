@@ -3,6 +3,7 @@ import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
+import { latest30DaysOfSubmissions } from 'lib/server/queries/submissions';
 
 export default nextConnect().get(async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getLoginSession(req);
@@ -12,36 +13,24 @@ export default nextConnect().get(async (req: NextApiRequest, res: NextApiRespons
   }
 
   try {
-    let [latestForms, submissionsByDay]: any[] = await prisma.$transaction([
-      prisma.form.findMany({
-        where: {
-          project: {
-            userId: session.id,
-          },
+    let latestForms = await prisma.form.findMany({
+      where: {
+        project: {
+          userId: session.id,
         },
-        orderBy: {
-          createdAt: 'desc',
-        },
-        take: 5,
-        include: {
-          project: true,
-        },
-      }),
-      prisma.$queryRaw`
-      SELECT DATE(createdAt)
-      AS date, COUNT(*) AS myCount
-      FROM Submission
-      WHERE createdAt > DATE(NOW()) - INTERVAL 30 DAY
-      AND formId IN (SELECT id FROM Form WHERE projectId IN (SELECT id FROM Project WHERE userId = ${session.id}))
-      GROUP BY DATE(createdAt)
-      `,
-    ]);
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 5,
+      include: {
+        project: true,
+      },
+    });
 
-    // convert all bigints to numbers
-    submissionsByDay = submissionsByDay.map((day: any) => ({
-      date: day.date.toISOString().split('T')[0],
-      count: Number(day.myCount) || 0,
-    }));
+    const submissionsByDay = await latest30DaysOfSubmissions(session.id);
+
+    console.log('submissionsByDay', submissionsByDay);
 
     return ok(res, {
       latestForms,
