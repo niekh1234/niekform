@@ -11,12 +11,12 @@ const Dashboard = () => {
     return <div>Loading...</div>;
   }
 
-  if (error) {
+  const latestForms = data?.latestForms as Form[];
+  const submissionsByDay = data?.submissionsByDay as { date: string; count: number }[];
+
+  if (error || !latestForms || !submissionsByDay) {
     return <div>Something went wrong</div>;
   }
-
-  const latestForms = data.latestForms as Form[];
-  const submissionsByDay = data.submissionsByDay as { date: string; count: number }[];
 
   return (
     <section className="mx-auto max-w-4xl">
