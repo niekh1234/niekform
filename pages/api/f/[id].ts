@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { cleanSubmission, validateSubmission } from 'lib/server/form/submission';
-import { badRequest, notFound, ok } from 'lib/server/api';
 import { NotificationFactory } from 'lib/server/providers/notifications/factory';
 import { Submission } from 'lib/types';
 
@@ -39,7 +38,7 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
   const submission = await prisma.submission.create({
     data: {
       formId: form.id,
-      data: cleaned,
+      rawdata: cleaned,
     },
   });
 

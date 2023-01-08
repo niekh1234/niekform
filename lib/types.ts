@@ -27,7 +27,7 @@ export type Field = {
 export type Submission = {
   id: string;
   createdAt: Date;
-  data: any;
+  rawdata: any;
   formId: string;
 };
 

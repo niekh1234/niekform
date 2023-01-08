@@ -160,7 +160,7 @@ const seedForUser = async (userId: string) => {
   await prisma.submission.createMany({
     data: new Array(N_SUBMISSIONS).fill(0).map(() => ({
       formId: form.id,
-      data: {
+      rawdata: {
         name: faker.name.fullName(),
         email: faker.internet.email(),
         message: faker.lorem.paragraph(),

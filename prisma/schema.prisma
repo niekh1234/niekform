@@ -1,13 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -16,9 +13,11 @@ model User {
   email    String    @unique
   password String
   name     String
-  role     Role      @relation(fields: [roleId], references: [id])
   roleId   String
   projects Project[]
+  role     Role      @relation(fields: [roleId], references: [id])
+
+  @@index([roleId])
 }
 
 model Role {
@@ -32,21 +31,25 @@ model Project {
   createdAt   DateTime @default(now())
   name        String   @db.VarChar(255)
   description String   @db.Text
-  user        User     @relation(fields: [userId], references: [id])
-  userId      String   @db.VarChar(255)
+  userId      String
   forms       Form[]
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
 
 model Form {
   id                   String       @id @default(cuid())
   createdAt            DateTime     @default(now())
   name                 String       @db.VarChar(255)
-  project              Project      @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  projectId            String       @db.VarChar(255)
-  submissions          Submission[]
   submissionCount      Int          @default(0)
+  notificationSettings Json
+  projectId            String
+  submissions          Submission[]
   fields               Field[]
-  notificationSettings Json         @default("{}")
+  project              Project      @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([projectId])
 }
 
 model Field {
@@ -55,9 +58,21 @@ model Field {
   key       String
   label     String    @db.VarChar(255)
   type      FieldType
-  form      Form      @relation(fields: [formId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  formId    String    @db.VarChar(255)
   required  Boolean
+  formId    String
+  form      Form      @relation(fields: [formId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([formId])
+}
+
+model Submission {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  rawdata   Json
+  formId    String   @db.VarChar(255)
+  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([formId])
 }
 
 enum FieldType {
@@ -69,12 +84,4 @@ enum FieldType {
   RADIO
   SELECT
   TEXTAREA
-}
-
-model Submission {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  formId    String   @db.VarChar(255)
-  data      Json
 }

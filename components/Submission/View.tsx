@@ -25,7 +25,7 @@ const SubmissionView = ({ submission, onSubmissionDelete }: SubmissionViewProps)
       <div className="p-6">
         <h3 className="text-lg font-bold">Raw data</h3>
         <div className="flex flex-col mt-6 space-y-4 text-sm">
-          {Object.entries(submission.data).map(([key, value]) => (
+          {Object.entries(submission.rawdata).map(([key, value]) => (
             <div key={key} className="flex">
               <span className="w-1/3">
                 <strong>{capitalizeFirst(key)}</strong>

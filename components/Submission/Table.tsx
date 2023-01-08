@@ -1,5 +1,4 @@
 import Pagination from 'components/App/Pagination';
-import SearchInput from 'components/App/SearchInput';
 import { fetcher } from 'lib/client/api';
 import { Form, Submission } from 'lib/types';
 import { useRouter } from 'next/router';

@@ -50,8 +50,6 @@ export default nextConnect()
       return notFound(res);
     }
 
-    console.log(req.body.notificationSettings);
-
     const form = await prisma.form.update({
       where: {
         id,

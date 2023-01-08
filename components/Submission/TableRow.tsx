@@ -45,7 +45,7 @@ const SubmissionsTableRow = ({
           return (
             <td key={field.id} className="p-4">
               <div className="flex overflow-hidden whitespace-nowrap">
-                {truncate(submission.data[field.key], 25)}
+                {truncate(submission.rawdata[field.key], 25)}
               </div>
             </td>
           );
