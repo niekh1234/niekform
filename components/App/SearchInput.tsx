@@ -26,6 +26,7 @@ const SearchInput = ({ className }: SearchInputProps) => {
       query: {
         ...router.query,
         search: data.search,
+        page: 1,
       },
     });
   };

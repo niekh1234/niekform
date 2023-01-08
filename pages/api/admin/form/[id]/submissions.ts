@@ -15,8 +15,6 @@ export default nextConnect().get(async (req: NextApiRequest, res: NextApiRespons
     return unauthorized(res);
   }
 
-  console.log(session.id);
-
   try {
     const formId = req.query.id as string;
     const searchValue = req.query.search as string;
@@ -24,24 +22,22 @@ export default nextConnect().get(async (req: NextApiRequest, res: NextApiRespons
     const submissionsQuery = getQuery(formId, req.query.page, DEFAULT_TAKE, session, searchValue);
     const totalSubmissionsQuery = getCountQuery(formId, session, searchValue);
 
-    // const [submissions, totalSubmissions] = await prisma.$transaction([
-    //   submissionsQuery,
-    //   totalSubmissionsQuery,
-    // ]);
+    const [submissions, totalSubmissions] = await prisma.$transaction([
+      submissionsQuery,
+      totalSubmissionsQuery,
+    ]);
 
-    // const count = Number(totalSubmissions?.[0].count);
-
-    const submissions = await submissionsQuery;
+    const count = Number(Object.values(totalSubmissions[0])?.[0] || 0);
 
     const pagination = {
       page: req.query.page,
       take: DEFAULT_TAKE,
-      total: 10,
+      total: count,
     };
 
     return ok(res, { submissions, pagination });
   } catch (err) {
-    console.log(err);
+    console.error(err);
 
     return serverError(res);
   }
@@ -52,7 +48,7 @@ const getSkip = (page: any, take: number) => {
     return 0;
   }
 
-  return (page - 1) * take;
+  return (Number(page) - 1) * take;
 };
 
 const getQuery = (
@@ -62,7 +58,7 @@ const getQuery = (
   session: Session,
   searchQuery: string = ''
 ): PrismaPromise<Submission[] | null> => {
-  // // do a raw query on the jsonb column loosely matching the search query
+  // do a raw query on the jsonb column loosely matching the search query
   return prisma.$queryRaw`
       SELECT *
       FROM Submission
@@ -70,11 +66,10 @@ const getQuery = (
       AND formId IN (SELECT id FROM Form WHERE projectId IN (SELECT id FROM Project WHERE userId = ${
         session.id
       }))
-      LIMIT 10
-      -- AND "rawData"::text LIKE ${`%${searchQuery}%`}
-      -- ORDER BY createdAt DESC
-      -- LIMIT ${take}
-      -- OFFSET ${getSkip(page, take)}
+      AND LOWER(rawData) LIKE ${`%${searchQuery.toLowerCase()}%`}
+      ORDER BY createdAt DESC
+      LIMIT ${take}
+      OFFSET ${getSkip(page, take)};
     `;
 };
 
@@ -85,24 +80,11 @@ const getCountQuery = (
 ): PrismaPromise<any> => {
   return prisma.$queryRaw`
       SELECT COUNT(*)
-      FROM "Submission"
-      WHERE "formId" = ${formId}
-  `;
-  // return prisma.$queryRaw`
-  //     SELECT COUNT(*)
-  //     FROM "Submission"
-  //     WHERE "formId" = ${formId}
-  //     AND "rawData"::text LIKE ${`%${searchQuery}%`}
-  //     AND "formId" IN (SELECT "id" FROM "Form" WHERE "projectId" IN (SELECT "id" FROM "Project" WHERE "userId" = ${
-  //       session.id
-  //     }))
-  //   `;
+      FROM Submission
+      WHERE formId = ${formId}
+      AND LOWER(rawData) LIKE ${`%${searchQuery.toLowerCase()}%`}
+      AND formId IN (SELECT id FROM Form WHERE projectId IN (SELECT id FROM Project WHERE userId = ${
+        session.id
+      }))
+    `;
 };
-// SELECT *
-// FROM Submission
-// WHERE formId = "clcn95ghl0005w7g561izah4e"
-// AND formId IN (SELECT id FROM Form WHERE projectId IN (SELECT id FROM Project WHERE userId = "clcn95fqi0002w7g5zzhn7qk3"))
-
-// ORDER BY createdAt DESC
-// LIMIT 10
-// OFFSET 0;

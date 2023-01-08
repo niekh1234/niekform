@@ -39,6 +39,6 @@ export default nextConnect()
 
       return ok(res, { user: session });
     } catch (err: any) {
-      return unauthorized(res, JSON.stringify({ message: 'Invalid username or password' }));
+      return unauthorized(res, err?.message || 'Invalid credentials');
     }
   });

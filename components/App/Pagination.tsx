@@ -1,6 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 import { classNames, createPagination } from 'lib/client/utils';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 
 type PaginationProps = {
@@ -10,11 +11,23 @@ type PaginationProps = {
   linkBlueprint: string;
 };
 
-const formatLink = (linkBlueprint: string, page: number) => {
+const formatLink = (linkBlueprint: string, page: number, query: any) => {
+  if (query) {
+    const queryStr = Object.entries(query)
+      .filter(([key]) => key !== 'page' && key !== 'id')
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+
+    if (queryStr) {
+      return `${linkBlueprint.replace(':page', page.toString())}&${queryStr}`;
+    }
+  }
+
   return linkBlueprint.replace(':page', page.toString());
 };
 
 const Pagination = ({ total, page, perPage, linkBlueprint }: PaginationProps) => {
+  const router = useRouter();
   const pages = useMemo(() => createPagination(page, total, perPage), [total, page, perPage]);
   const pageAsNumber = page !== undefined ? Number(page) : 1;
   const hasPreviousPage = pageAsNumber > 1;
@@ -24,13 +37,13 @@ const Pagination = ({ total, page, perPage, linkBlueprint }: PaginationProps) =>
     <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
       <div className="flex justify-between flex-1 sm:hidden">
         <Link
-          href={hasPreviousPage ? formatLink(linkBlueprint, pageAsNumber - 1) : '#'}
+          href={hasPreviousPage ? formatLink(linkBlueprint, pageAsNumber - 1, router.query) : '#'}
           className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
         >
           Previous
         </Link>
         <Link
-          href={hasNextPage ? formatLink(linkBlueprint, pageAsNumber + 1) : '#'}
+          href={hasNextPage ? formatLink(linkBlueprint, pageAsNumber + 1, router.query) : '#'}
           className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
         >
           Next
@@ -52,7 +65,9 @@ const Pagination = ({ total, page, perPage, linkBlueprint }: PaginationProps) =>
             aria-label="Pagination"
           >
             <Link
-              href={hasPreviousPage ? formatLink(linkBlueprint, pageAsNumber - 1) : '#'}
+              href={
+                hasPreviousPage ? formatLink(linkBlueprint, pageAsNumber - 1, router.query) : '#'
+              }
               className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-l-md hover:bg-gray-50 focus:z-20"
             >
               <span className="sr-only">Previous</span>
@@ -74,7 +89,7 @@ const Pagination = ({ total, page, perPage, linkBlueprint }: PaginationProps) =>
               return (
                 <Link
                   key={page}
-                  href={formatLink(linkBlueprint, page)}
+                  href={formatLink(linkBlueprint, page, router.query)}
                   className={classNames(
                     'relative inline-flex items-center px-4 py-2 text-sm font-medium focus:z-20 border',
                     current
@@ -88,7 +103,7 @@ const Pagination = ({ total, page, perPage, linkBlueprint }: PaginationProps) =>
             })}
 
             <Link
-              href={hasNextPage ? formatLink(linkBlueprint, pageAsNumber + 1) : '#'}
+              href={hasNextPage ? formatLink(linkBlueprint, pageAsNumber + 1, router.query) : '#'}
               className="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-r-md hover:bg-gray-50 focus:z-20"
             >
               <span className="sr-only">Next</span>
