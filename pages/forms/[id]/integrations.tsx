@@ -1,3 +1,4 @@
+import Loading from 'components/App/Loading';
 import FormTabs from 'components/Form/Tabs';
 import { fetcher } from 'lib/client/api';
 import { generateHTMLForm } from 'lib/server/form/integrate';
@@ -10,7 +11,9 @@ const FormIntegrations = () => {
   const { id } = router.query;
   const { data, error: fetchError, isLoading } = useSWR('/api/admin/form/' + id, fetcher);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
 
   const form = data?.form as Form;
 

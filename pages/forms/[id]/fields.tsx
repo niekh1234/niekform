@@ -2,6 +2,7 @@ import { TrashIcon } from '@heroicons/react/20/solid';
 import ConfirmButton from 'components/App/ConfirmButton';
 import EmptyState from 'components/App/EmptyState';
 import { spawnFlash } from 'components/App/Flash';
+import Loading from 'components/App/Loading';
 import FieldAdd from 'components/Field/Add';
 import FormTabs from 'components/Form/Tabs';
 import { doDeleteRequest, fetcher } from 'lib/client/api';
@@ -31,7 +32,9 @@ const FormFields = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
 
   const form = data?.form as Form;
 

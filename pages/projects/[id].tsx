@@ -11,6 +11,7 @@ import { Project } from 'lib/types';
 import ConfirmButton from 'components/App/ConfirmButton';
 import { spawnFlash } from 'components/App/Flash';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import Loading from 'components/App/Loading';
 
 const schema = yup.object({
   name: yup.string().required('Please enter a name'),
@@ -75,7 +76,7 @@ const ProjectID = () => {
   }, [data]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading></Loading>;
   }
 
   if (fetchError || !data?.project) {

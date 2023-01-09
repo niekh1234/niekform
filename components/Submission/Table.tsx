@@ -1,3 +1,4 @@
+import Loading from 'components/App/Loading';
 import Pagination from 'components/App/Pagination';
 import { fetcher } from 'lib/client/api';
 import { Form, Submission } from 'lib/types';
@@ -27,7 +28,10 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
     isLoading,
     mutate,
   } = useSWR('/api/admin/form/' + form.id + '/submissions?' + buildQuery(router.query), fetcher);
-  if (isLoading) return <p>Loading...</p>;
+
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
 
   const submissions = data?.submissions as Submission[];
   const pagination = data?.pagination;

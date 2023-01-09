@@ -1,6 +1,7 @@
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import ConfirmButton from 'components/App/ConfirmButton';
 import { spawnFlash } from 'components/App/Flash';
+import Loading from 'components/App/Loading';
 import GeneralSettings from 'components/Form/Settings/General';
 import NotificationSettings from 'components/Form/Settings/Notification';
 import FormTabs from 'components/Form/Tabs';
@@ -24,7 +25,9 @@ const FormSettings = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
 
   const form = data?.form as Form;
 

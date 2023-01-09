@@ -1,3 +1,4 @@
+import Loading from 'components/App/Loading';
 import SubmissionChart from 'components/Submission/Chart';
 import { fetcher } from 'lib/client/api';
 import { Form, Submission } from 'lib/types';
@@ -8,7 +9,7 @@ const Dashboard = () => {
   const { data, isLoading, error } = useSWR('/api/admin/welcome', fetcher);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading></Loading>;
   }
 
   const latestForms = data?.latestForms as Form[];

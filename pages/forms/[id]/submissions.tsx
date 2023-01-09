@@ -7,13 +7,16 @@ import useSWR from 'swr';
 import EmptyState from 'components/App/EmptyState';
 import Link from 'next/link';
 import SearchInput from 'components/App/SearchInput';
+import Loading from 'components/App/Loading';
 
 const FormSubmissions = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data, error: fetchError, isLoading } = useSWR('/api/admin/form/' + id, fetcher);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return <Loading></Loading>;
+  }
 
   const form = data?.form as Form;
 

@@ -31,7 +31,6 @@ const NotificationSettings = ({ form, mutate }: NotificationSettingsProps) => {
   // set initial form values
   useEffect(() => {
     if (form && form.notificationSettings) {
-      console.log(form);
       reset({
         sendTo: form?.notificationSettings?.sendTo,
       });
