@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { notFound, ok, unauthorized } from 'lib/server/api';
+import { logger } from 'lib/logger';
 
 export default nextConnect()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -37,7 +38,7 @@ export default nextConnect()
 
     const id = req.query.id as string;
 
-    const ownedForm = await prisma.form.findFirst({
+    const ownsForm = await prisma.form.findFirst({
       where: {
         id,
         project: {
@@ -46,7 +47,11 @@ export default nextConnect()
       },
     });
 
-    if (!ownedForm) {
+    if (!ownsForm) {
+      logger.info(
+        "Tried to update form that doesn't belong to user, id: " + id,
+        'user: ' + session.id
+      );
       return notFound(res);
     }
 
@@ -55,8 +60,8 @@ export default nextConnect()
         id,
       },
       data: {
-        name: req.body.name || ownedForm.name,
-        notificationSettings: req.body.notificationSettings || ownedForm.notificationSettings,
+        name: req.body.name || ownsForm.name,
+        notificationSettings: req.body.notificationSettings || ownsForm.notificationSettings,
       },
     });
 
@@ -81,6 +86,10 @@ export default nextConnect()
     });
 
     if (!ownsForm) {
+      logger.info(
+        "Tried to delete form that doesn't belong to user, id: " + id,
+        'user: ' + session.id
+      );
       return notFound(res);
     }
 

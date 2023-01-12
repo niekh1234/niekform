@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { badRequest, ok, unauthorized } from 'lib/server/api';
+import { logger } from 'lib/logger';
 
 export default nextConnect().post(async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getLoginSession(req);
@@ -42,6 +43,7 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
   });
 
   if (!field) {
+    logger.info('Failed to create field for data: ' + JSON.stringify(req.body));
     return badRequest(res, 'Field could not be created.');
   }
 

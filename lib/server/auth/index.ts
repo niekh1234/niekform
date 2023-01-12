@@ -26,7 +26,7 @@ export const getLoginSession = async (req: NextApiRequest): Promise<Session | un
   const expiresAt = session.createdAt + session.maxAge * 1000;
 
   if (Date.now() > expiresAt) {
-    throw new Error('Session expired');
+    return;
   }
 
   return session;
