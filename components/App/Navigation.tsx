@@ -6,7 +6,7 @@ import {
   HomeIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
@@ -30,6 +30,10 @@ type NavigationProps = {
 
 const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
   const { pathname } = useRouter();
+
+  useEffect(() => {
+    setSidebarOpen(() => false);
+  }, [pathname]);
 
   return (
     <>
@@ -80,7 +84,7 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
                 </Transition.Child>
                 <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
                   <div className="flex items-center flex-shrink-0 px-4">
-                    <h1 className="text-2xl text-transparent bg-gradient-to-r bg-clip-text from-emerald-600 to-teal-500">
+                    <h1 className="text-2xl text-transparent bg-gradient-to-r bg-clip-text from-emerald-600 to-teal-500 font-black">
                       NiekForm
                     </h1>
                   </div>
@@ -111,24 +115,15 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
                   </nav>
                 </div>
                 <div className="flex flex-shrink-0 p-4 border-t border-gray-200">
-                  <a href="#" className="flex-shrink-0 block group">
-                    <div className="flex items-center">
-                      <div>
-                        <img
-                          className="inline-block w-10 h-10 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                          alt=""
-                        />
-                      </div>
-                      <div className="ml-3">
-                        <p className="text-base font-medium text-gray-700 group-hover:text-gray-900">
-                          Tom Cook
-                        </p>
-                        <p className="text-sm font-medium text-gray-500 group-hover:text-gray-700">
-                          View profile
-                        </p>
-                      </div>
-                    </div>
+                  <a
+                    href="/api/auth/logout"
+                    className="flex items-center w-full px-2 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group"
+                  >
+                    <ArrowLeftOnRectangleIcon
+                      className="flex-shrink-0 w-6 h-6 mr-3 text-gray-400 group-hover:text-red-500"
+                      aria-hidden="true"
+                    ></ArrowLeftOnRectangleIcon>
+                    Logout
                   </a>
                 </div>
               </Dialog.Panel>
