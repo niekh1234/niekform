@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "prisma db seed",
+    "seed-dev": "ts-node --compiler-options '{\"module\":\"commonjs\"}' prisma/seed-dev.ts",
     "test": "jest -i"
   },
   "dependencies": {
