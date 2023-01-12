@@ -46,7 +46,7 @@ export class SendgridNotificationProvider implements NotificationProvider {
       subject: `New submission from ${form.name}`,
       text: `You have just received a new submission for your form ${
         form.name
-      }. Data: ${Object.values(this.submission.data).join(' ')}`,
+      }. Data: ${Object.values(this.submission.rawdata).join(' ')}`,
       html: this.createHTML(),
     };
   }
@@ -62,7 +62,7 @@ export class SendgridNotificationProvider implements NotificationProvider {
   private createHTML() {
     return `<table>
      <tbody>
-        ${Object.entries(this.submission.data).map(
+        ${Object.entries(this.submission.rawdata).map(
           (key, value) => `<tr><td>${key}</td><td>${value}</td></tr>`
         )} 
      </tbody> 

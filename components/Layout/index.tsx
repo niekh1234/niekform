@@ -1,3 +1,4 @@
+import Loading from 'components/App/Loading';
 import { useAuth } from 'hooks/useAuth';
 import AuthenticatedLayout from './AuthenticatedLayout';
 import GuestLayout from './GuestLayout';
@@ -12,7 +13,7 @@ const Layout = ({ children }: LayoutProps) => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading></Loading>;
   }
 
   if (!user) {

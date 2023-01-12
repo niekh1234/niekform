@@ -165,6 +165,7 @@ const seedForUser = async (userId: string) => {
         email: faker.internet.email(),
         message: faker.lorem.paragraph(),
       },
+      createdAt: faker.date.past(),
     })),
   });
 };

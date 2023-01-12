@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { badRequest, notFound, ok, unauthorized } from 'lib/server/api';
+import { logger } from 'lib/logger';
 
 export default nextConnect()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -48,6 +49,10 @@ export default nextConnect()
     });
 
     if (!ownsProject) {
+      logger.info(
+        "Tried to update project that doesn't belong to user, id: " + id,
+        'user: ' + session.id
+      );
       return notFound(res);
     }
 
@@ -80,6 +85,10 @@ export default nextConnect()
     });
 
     if (!ownsProject) {
+      logger.info(
+        "Tried to delete project that doesn't belong to user, id: " + id,
+        'user: ' + session.id
+      );
       return notFound(res);
     }
 

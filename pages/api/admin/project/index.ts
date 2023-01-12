@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { badRequest, ok, unauthorized } from 'lib/server/api';
+import { logger } from 'lib/logger';
 
 export default nextConnect()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
@@ -30,10 +31,14 @@ export default nextConnect()
       return unauthorized(res);
     }
 
+    if (!req.body.name) {
+      return badRequest(res, 'Project name is required.');
+    }
+
     const project = await prisma.project.create({
       data: {
         name: req.body.name,
-        description: req.body?.description,
+        description: req.body?.description || '',
         user: {
           connect: {
             id: session.id,
@@ -43,6 +48,7 @@ export default nextConnect()
     });
 
     if (!project) {
+      logger.info('Failed to create project for data: ' + JSON.stringify(req.body));
       return badRequest(res, 'Project could not be created.');
     }
 

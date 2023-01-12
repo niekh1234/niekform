@@ -38,7 +38,9 @@ const SubmissionsTableRow = ({
         className="text-sm text-gray-600 border-b hover:bg-gray-50 hover:cursor-pointer"
       >
         <td className="p-4">
-          <div className="overflow-auto">{formatDate(submission.createdAt)}</div>
+          <div className="overflow-hidden whitespace-nowrap">
+            {formatDate(submission.createdAt)}
+          </div>
         </td>
 
         {form.fields.map((field) => {

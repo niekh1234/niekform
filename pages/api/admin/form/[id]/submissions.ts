@@ -7,6 +7,7 @@ import {
   submissionsForFormCountQuery,
   submissionsForFormQuery,
 } from 'lib/server/queries/submissions';
+import { logger } from 'lib/logger';
 
 const DEFAULT_TAKE = 50;
 
@@ -45,7 +46,7 @@ export default nextConnect().get(async (req: NextApiRequest, res: NextApiRespons
 
     return ok(res, { submissions, pagination });
   } catch (err) {
-    console.error(err);
+    logger.error(err);
 
     return serverError(res);
   }

@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { latest30DaysOfSubmissions } from 'lib/server/queries/submissions';
+import { logger } from 'lib/logger';
 
 export default nextConnect().get(async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getLoginSession(req);
@@ -35,6 +36,7 @@ export default nextConnect().get(async (req: NextApiRequest, res: NextApiRespons
       submissionsByDay,
     });
   } catch (err) {
+    logger.error(err);
     return serverError(res, 'Internal server error');
   }
 });
