@@ -35,21 +35,22 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
 
   const cleaned = cleanSubmission(form.fields, req.body);
 
-  const submission = await prisma.submission.create({
-    data: {
-      formId: form.id,
-      rawdata: cleaned,
-    },
-  });
-
-  await prisma.form.update({
-    where: { id: form.id },
-    data: {
-      submissionCount: {
-        increment: 1,
+  const [submission, updatedForm] = await prisma.$transaction([
+    prisma.submission.create({
+      data: {
+        formId: form.id,
+        rawdata: cleaned,
       },
-    },
-  });
+    }),
+    prisma.form.update({
+      where: { id: form.id },
+      data: {
+        submissionCount: {
+          increment: 1,
+        },
+      },
+    }),
+  ]);
 
   sendNotification(submission);
 
