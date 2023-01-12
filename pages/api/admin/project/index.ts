@@ -31,10 +31,14 @@ export default nextConnect()
       return unauthorized(res);
     }
 
+    if (!req.body.name) {
+      return badRequest(res, 'Project name is required.');
+    }
+
     const project = await prisma.project.create({
       data: {
         name: req.body.name,
-        description: req.body?.description,
+        description: req.body?.description || '',
         user: {
           connect: {
             id: session.id,
