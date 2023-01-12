@@ -1,6 +1,7 @@
 import Loading from 'components/App/Loading';
 import Pagination from 'components/App/Pagination';
 import { fetcher } from 'lib/client/api';
+import { capitalizeFirst } from 'lib/client/utils';
 import { Form, Submission } from 'lib/types';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
@@ -47,12 +48,12 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
               <th className="py-4 w-[20%]">Added</th>
 
               {form.fields.map((field) => (
-                <th key={field.id} className="py-4">
-                  {field.label}
+                <th key={field.id} className="py-4 overflow-hidden whitespace-nowrap">
+                  {capitalizeFirst(field.label)}
                 </th>
               ))}
 
-              <th className="w-[10%] py-4">Options</th>
+              <th className="w-[10%] py-4 pl-4">Options</th>
             </tr>
           </thead>
           <tbody>

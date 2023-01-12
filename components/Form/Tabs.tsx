@@ -34,7 +34,7 @@ const isActive = (href: string, id: string) => {
 
 const FormTabs = ({ id }: FormTabs) => {
   return (
-    <div className='flex mt-8 overflow-hidden divide-x rounded-md shadow justify-evenly'>
+    <div className="flex mt-8 overflow-auto divide-x rounded-md shadow justify-evenly">
       {tabs.map((tab, index) => {
         return (
           <Link
@@ -42,7 +42,7 @@ const FormTabs = ({ id }: FormTabs) => {
             href={buildURL(tab.href, id)}
             className={classNames(
               'w-full text-center block p-4 text-md font-medium text-gray-500 hover:text-gray-700 border-t-2 hover:border-t-gray-400',
-              isActive(tab.href, id) ? 'border-t-2 border-t-emerald-500 bg-white' : 'bg-gray-50',
+              isActive(tab.href, id) ? 'border-t-2 border-t-emerald-500 bg-white' : 'bg-gray-50'
             )}
           >
             {tab.name}
