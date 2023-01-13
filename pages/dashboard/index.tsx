@@ -1,3 +1,4 @@
+import EmptyState from 'components/App/EmptyState';
 import Loading from 'components/App/Loading';
 import SubmissionChart from 'components/Submission/Chart';
 import { fetcher } from 'lib/client/api';
@@ -34,6 +35,14 @@ const Dashboard = () => {
 
       <div className="mt-8">
         <h2 className="font-bold">Latest forms</h2>
+        {latestForms.length === 0 && (
+          <EmptyState type="form">
+            <Link href="/forms" className="btn-primary">
+              Create a form
+            </Link>
+          </EmptyState>
+        )}
+
         <ul className="space-y-2 mt-2 rounded shadow bg-white">
           {latestForms.map((form) => (
             <li key={form.id} className="p-4  flex justify-between">
