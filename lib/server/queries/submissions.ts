@@ -1,9 +1,10 @@
 import { PrismaPromise, Submission } from '@prisma/client';
 import { Session } from 'lib/types';
+import prisma from 'lib/prisma';
 
 export const latest30DaysOfSubmissions = async (userId: string): Promise<any> => {
   if (process.env.DATABASE_PROVIDER === 'postgres') {
-    const rawData = await prisma.$queryRaw`
+    const rawData: Submission[] | null = await prisma.$queryRaw`
       SELECT DATE_TRUNC('day', "createdAt") AS date, COUNT(*) AS myCount
       FROM "Submission"
       WHERE "createdAt" > DATE(NOW()) - INTERVAL '30 days'
@@ -11,13 +12,13 @@ export const latest30DaysOfSubmissions = async (userId: string): Promise<any> =>
       GROUP BY DATE_TRUNC('day', "createdAt")
     `;
 
-    return rawData.map((day: any) => ({
+    return rawData?.map((day: any) => ({
       date: day.date.toISOString().split('T')[0],
       count: Number(day.mycount) || 0,
     }));
   }
 
-  const rawData = await prisma.$queryRaw`
+  const rawData: Submission[] | null = await prisma.$queryRaw`
     SELECT DATE(createdAt)
     AS date, COUNT(*) AS myCount
     FROM Submission
@@ -26,7 +27,7 @@ export const latest30DaysOfSubmissions = async (userId: string): Promise<any> =>
     GROUP BY DATE(createdAt)
   `;
 
-  return rawData.map((day: any) => ({
+  return rawData?.map((day: any) => ({
     date: day.date.toISOString().split('T')[0],
     count: Number(day.myCount) || 0,
   }));
