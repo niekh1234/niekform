@@ -1,7 +1,7 @@
 import Loading from 'components/App/Loading';
 import FormTabs from 'components/Form/Tabs';
 import { fetcher } from 'lib/client/api';
-import { generateHTMLForm } from 'lib/server/form/integrate';
+import { generateHTMLForm } from 'lib/client/forms/integrate';
 import { Form } from 'lib/types';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
