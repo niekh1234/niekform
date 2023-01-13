@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { genSalt, hash } from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -20,13 +21,15 @@ const main = async () => {
     process.exit(1);
   }
 
+  const hashed = await hashPassword(password);
+
   await prisma.user.upsert({
     where: { email },
     update: {},
     create: {
       email,
       name,
-      password,
+      password: hashed,
       role: {
         connect: {
           id: role.id,
@@ -45,3 +48,8 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
+
+const hashPassword = async (password: string, saltRounds = 10) => {
+  const salt = await genSalt(saltRounds);
+  return await hash(password, salt);
+};
