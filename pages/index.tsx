@@ -1,9 +1,14 @@
+import { useAuth } from 'hooks/useAuth';
 import { useRouter } from 'next/router';
 
 const Home = () => {
+  const { user } = useAuth();
   const router = useRouter();
 
-  router.replace('/dashboard');
+  if (user) {
+    router.push('/dashboard');
+  }
+
   return null;
 };
 
