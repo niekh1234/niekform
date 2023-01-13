@@ -2,7 +2,7 @@ import EmptyState from 'components/App/EmptyState';
 import Loading from 'components/App/Loading';
 import SubmissionChart from 'components/Submission/Chart';
 import { fetcher } from 'lib/client/api';
-import { Form, Submission } from 'lib/types';
+import { Form } from 'lib/types';
 import Link from 'next/link';
 import useSWR from 'swr';
 
@@ -47,7 +47,10 @@ const Dashboard = () => {
           {latestForms.map((form) => (
             <li key={form.id} className="p-4  flex justify-between">
               <div>{form.name}</div>
-              <Link href={'/forms/' + form.id} className="text-emerald-500 font-bold text-sm">
+              <Link
+                href={'forms/' + form.id + '/submissions'}
+                className="text-emerald-500 font-bold text-sm"
+              >
                 Manage
               </Link>
             </li>
