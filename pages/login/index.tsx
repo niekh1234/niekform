@@ -23,10 +23,6 @@ const Login = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      email: 'admin@niekform.io',
-      password: 'admin',
-    },
   });
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState('');
