@@ -29,6 +29,14 @@ const FormIntegrations = () => {
         <div className="p-6">
           <h3 className="font-bold">Add to your website</h3>
 
+          {form.fields.length === 0 && (
+            <blockquote className="py-1 border-l-4 border-red-400 mt-4 pl-2">
+              <p className="text-gray-600">
+                You have not created any fields yet, that might be a good idea!
+              </p>
+            </blockquote>
+          )}
+
           <pre className="bg-gray-900 text-gray-300 rounded-lg mt-8 p-6 overflow-auto">
             {generateHTMLForm(form)}
           </pre>
