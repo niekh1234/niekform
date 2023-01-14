@@ -9,6 +9,7 @@ import {
 import { Fragment, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon, isAlsoActive: '/' },
@@ -115,8 +116,8 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
                   </nav>
                 </div>
                 <div className="flex flex-shrink-0 p-4 border-t border-gray-200">
-                  <a
-                    href="/api/auth/logout"
+                  <button
+                    onClick={() => signOut({ redirect: true, callbackUrl: '/auth/signin' })}
                     className="flex items-center w-full px-2 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group"
                   >
                     <ArrowLeftOnRectangleIcon
@@ -124,7 +125,7 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
                       aria-hidden="true"
                     ></ArrowLeftOnRectangleIcon>
                     Logout
-                  </a>
+                  </button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -170,8 +171,8 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
             </nav>
           </div>
           <div className="flex flex-shrink-0 p-4 border-t border-gray-200">
-            <a
-              href="/api/auth/logout"
+            <button
+              onClick={() => signOut({ redirect: true, callbackUrl: '/auth/signin' })}
               className="flex items-center w-full px-2 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900 group"
             >
               <ArrowLeftOnRectangleIcon
@@ -179,7 +180,7 @@ const Navigation = ({ sidebarOpen, setSidebarOpen }: NavigationProps) => {
                 aria-hidden="true"
               ></ArrowLeftOnRectangleIcon>
               Logout
-            </a>
+            </button>
           </div>
         </div>
       </div>

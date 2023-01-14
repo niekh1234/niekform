@@ -1,11 +1,11 @@
-import { useAuth } from 'hooks/useAuth';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 const Home = () => {
-  const { user } = useAuth();
+  const session = useSession();
   const router = useRouter();
 
-  if (user) {
+  if (session?.data?.user) {
     router.push('/dashboard');
   }
 

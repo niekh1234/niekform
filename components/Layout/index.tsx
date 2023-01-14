@@ -1,5 +1,6 @@
 import Loading from 'components/App/Loading';
-import { useAuth } from 'hooks/useAuth';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import AuthenticatedLayout from './AuthenticatedLayout';
 import GuestLayout from './GuestLayout';
 
@@ -8,19 +9,30 @@ type LayoutProps = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
-  const { user, isLoading } = useAuth({
-    redirectTo: '/login',
-  });
+  const { data, status } = useSession();
+  const router = useRouter();
 
-  if (isLoading) {
+  if (status === 'loading') {
     return <Loading></Loading>;
   }
 
-  if (!user) {
+  if (!data) {
+    if (!whiteList.includes(router.pathname)) {
+      router.push('/auth/signin');
+      return <Loading></Loading>;
+    }
+
     return <GuestLayout>{children}</GuestLayout>;
+  }
+
+  if (router.pathname === '/auth/signin') {
+    router.push('/dashboard');
+    return <Loading></Loading>;
   }
 
   return <AuthenticatedLayout>{children}</AuthenticatedLayout>;
 };
+
+const whiteList = ['/auth/signin', '/auth/signup', '/auth/error'];
 
 export default Layout;

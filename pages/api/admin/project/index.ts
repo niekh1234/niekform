@@ -1,21 +1,21 @@
-import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { badRequest, ok, unauthorized } from 'lib/server/api';
 import { logger } from 'lib/logger';
+import { getSession } from 'next-auth/react';
 
 export default nextConnect()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = await getLoginSession(req);
+    const session = await getSession({ req });
 
-    if (!session) {
+    if (!session?.user) {
       return unauthorized(res);
     }
 
     const projects = await prisma.project.findMany({
       where: {
-        userId: session.id,
+        userId: session.userId,
       },
       include: {
         forms: true,
@@ -25,9 +25,9 @@ export default nextConnect()
     return ok(res, { projects });
   })
   .post(async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = await getLoginSession(req);
+    const session = await getSession({ req });
 
-    if (!session) {
+    if (!session?.user) {
       return unauthorized(res);
     }
 
@@ -41,7 +41,7 @@ export default nextConnect()
         description: req.body?.description || '',
         user: {
           connect: {
-            id: session.id,
+            id: session.userId,
           },
         },
       },

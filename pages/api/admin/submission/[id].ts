@@ -1,14 +1,14 @@
 import { logger } from 'lib/logger';
 import { notFound, ok, serverError, unauthorized } from 'lib/server/api';
-import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
+import { getSession } from 'next-auth/react';
 
 export default nextConnect().delete(async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getLoginSession(req);
+  const session = await getSession({ req });
 
-  if (!session) {
+  if (!session?.user) {
     return unauthorized(res);
   }
 
@@ -20,7 +20,7 @@ export default nextConnect().delete(async (req: NextApiRequest, res: NextApiResp
         id,
         form: {
           project: {
-            userId: session.id,
+            userId: session.userId,
           },
         },
       },

@@ -1,30 +1,15 @@
 import { FieldType, PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
-import { genSalt, hash } from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 const main = async () => {
-  const role = await prisma.role.upsert({
-    where: { name: 'USER' },
-    update: {},
-    create: {
-      name: 'USER',
-    },
-  });
-
   const user = await prisma.user.upsert({
     where: { email: 'admin@niekform.io' },
     update: {},
     create: {
       email: 'admin@niekform.io',
       name: faker.name.fullName(),
-      password: await hashPassword('admin'),
-      role: {
-        connect: {
-          id: role.id,
-        },
-      },
     },
   });
 
@@ -34,12 +19,6 @@ const main = async () => {
     create: {
       email: 'other@niekform.io',
       name: faker.name.fullName(),
-      password: await hashPassword('other'),
-      role: {
-        connect: {
-          id: role.id,
-        },
-      },
     },
   });
 
@@ -168,9 +147,4 @@ const seedForUser = async (userId: string) => {
       createdAt: faker.date.past(),
     })),
   });
-};
-
-const hashPassword = async (password: string, saltRounds = 10) => {
-  const salt = await genSalt(saltRounds);
-  return await hash(password, salt);
 };

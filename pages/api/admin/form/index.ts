@@ -1,14 +1,14 @@
-import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { badRequest, ok, unauthorized } from 'lib/server/api';
 import { logger } from 'lib/logger';
+import { getSession } from 'next-auth/react';
 
 export default nextConnect().post(async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getLoginSession(req);
+  const session = await getSession({ req });
 
-  if (!session) {
+  if (!session?.user) {
     return unauthorized(res);
   }
 
@@ -19,14 +19,14 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
   const ownsProject = await prisma.project.findFirst({
     where: {
       id: req.body.projectId,
-      userId: session.id,
+      userId: session.userId,
     },
   });
 
   if (!ownsProject) {
     logger.info("Tried to create form for project that doesn't belong to user.", {
       projectId: req.body.projectId,
-      userId: session.id,
+      userId: session.userId,
     });
     return badRequest(res, 'Project does not exist or does not belong to user.');
   }
@@ -36,7 +36,7 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
       name: req.body.name as string,
       projectId: req.body.projectId,
       notificationSettings: {
-        email: session.email,
+        email: session.user.email,
       },
     },
   });

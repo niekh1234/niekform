@@ -1,4 +1,3 @@
-import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
@@ -8,13 +7,14 @@ import {
   submissionsForFormQuery,
 } from 'lib/server/queries/submissions';
 import { logger } from 'lib/logger';
+import { getSession } from 'next-auth/react';
 
 const DEFAULT_TAKE = 50;
 
 export default nextConnect().get(async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getLoginSession(req);
+  const session = await getSession({ req });
 
-  if (!session) {
+  if (!session?.user) {
     return unauthorized(res);
   }
 

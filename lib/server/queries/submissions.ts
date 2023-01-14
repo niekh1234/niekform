@@ -1,6 +1,6 @@
 import { PrismaPromise, Submission } from '@prisma/client';
-import { Session } from 'lib/types';
 import prisma from 'lib/prisma';
+import { Session } from 'next-auth';
 
 export const latest30DaysOfSubmissions = async (userId: string): Promise<any> => {
   if (process.env.DATABASE_PROVIDER === 'postgres') {
@@ -45,7 +45,7 @@ export const submissionsForFormQuery = (
       SELECT * FROM "Submission"
       WHERE "formId" = ${formId}
       AND "formId" IN (SELECT "id" FROM "Form" WHERE "projectId" IN (SELECT "id" FROM "Project" WHERE "userId" = ${
-        session.id
+        session.userId
       }))
       AND "rawdata"::text ILIKE ${`%${searchQuery}%`}
       ORDER BY "createdAt" DESC
@@ -59,7 +59,7 @@ export const submissionsForFormQuery = (
       FROM Submission
       WHERE formId = ${formId}
       AND formId IN (SELECT id FROM Form WHERE projectId IN (SELECT id FROM Project WHERE userId = ${
-        session.id
+        session.userId
       }))
       AND LOWER(rawdata) LIKE ${`%${searchQuery.toLowerCase()}%`}
       ORDER BY createdAt DESC
@@ -80,7 +80,7 @@ export const submissionsForFormCountQuery = (
       WHERE "formId" = ${formId}
       AND "rawdata"::text ILIKE ${`%${searchQuery}%`}
       AND "formId" IN (SELECT "id" FROM "Form" WHERE "projectId" IN (SELECT "id" FROM "Project" WHERE "userId" = ${
-        session.id
+        session.userId
       }))
     `;
   }
@@ -91,7 +91,7 @@ export const submissionsForFormCountQuery = (
       WHERE formId = ${formId}
       AND LOWER(rawdata) LIKE ${`%${searchQuery.toLowerCase()}%`}
       AND formId IN (SELECT id FROM Form WHERE projectId IN (SELECT id FROM Project WHERE userId = ${
-        session.id
+        session.userId
       }))
     `;
 };

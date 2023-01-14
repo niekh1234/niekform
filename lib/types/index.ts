@@ -30,12 +30,3 @@ export type Submission = {
   rawdata: any;
   formId: string;
 };
-
-export type Session = {
-  id: string;
-  email: string;
-  name: string;
-  roleId: string;
-  createdAt: number;
-  maxAge: number;
-};

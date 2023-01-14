@@ -1,15 +1,15 @@
-import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { badRequest, notFound, ok, unauthorized } from 'lib/server/api';
 import { logger } from 'lib/logger';
+import { getSession } from 'next-auth/react';
 
 export default nextConnect()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = await getLoginSession(req);
+    const session = await getSession({ req });
 
-    if (!session) {
+    if (!session?.user) {
       return unauthorized(res);
     }
 
@@ -22,7 +22,7 @@ export default nextConnect()
     const project = await prisma.project.findFirst({
       where: {
         id,
-        userId: session.id,
+        userId: session.userId,
       },
     });
 
@@ -33,9 +33,9 @@ export default nextConnect()
     return ok(res, { project });
   })
   .put(async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = await getLoginSession(req);
+    const session = await getSession({ req });
 
-    if (!session) {
+    if (!session?.user) {
       return unauthorized(res);
     }
 
@@ -44,14 +44,14 @@ export default nextConnect()
     const ownsProject = await prisma.project.findFirst({
       where: {
         id,
-        userId: session.id,
+        userId: session.userId,
       },
     });
 
     if (!ownsProject) {
       logger.info(
         "Tried to update project that doesn't belong to user, id: " + id,
-        'user: ' + session.id
+        'user: ' + session.userId
       );
       return notFound(res);
     }
@@ -69,9 +69,9 @@ export default nextConnect()
     return ok(res, { project });
   })
   .delete(async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = await getLoginSession(req);
+    const session = await getSession({ req });
 
-    if (!session) {
+    if (!session?.user) {
       return unauthorized(res);
     }
 
@@ -80,14 +80,14 @@ export default nextConnect()
     const ownsProject = await prisma.project.findFirst({
       where: {
         id,
-        userId: session.id,
+        userId: session.userId,
       },
     });
 
     if (!ownsProject) {
       logger.info(
         "Tried to delete project that doesn't belong to user, id: " + id,
-        'user: ' + session.id
+        'user: ' + session.userId
       );
       return notFound(res);
     }

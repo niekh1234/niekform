@@ -15,7 +15,8 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
-    "typeRoots": ["node_modules/yup"]
+    "typeRoots": ["node_modules/yup"],
+    "types": ["node"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

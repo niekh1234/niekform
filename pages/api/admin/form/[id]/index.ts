@@ -1,15 +1,15 @@
-import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { notFound, ok, unauthorized } from 'lib/server/api';
 import { logger } from 'lib/logger';
+import { getSession } from 'next-auth/react';
 
 export default nextConnect()
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = await getLoginSession(req);
+    const session = await getSession({ req });
 
-    if (!session) {
+    if (!session?.user) {
       return unauthorized(res);
     }
 
@@ -19,7 +19,7 @@ export default nextConnect()
       where: {
         id,
         project: {
-          userId: session.id,
+          userId: session.userId,
         },
       },
       include: {
@@ -30,9 +30,9 @@ export default nextConnect()
     return ok(res, { form });
   })
   .put(async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = await getLoginSession(req);
+    const session = await getSession({ req });
 
-    if (!session) {
+    if (!session?.user) {
       return unauthorized(res);
     }
 
@@ -42,7 +42,7 @@ export default nextConnect()
       where: {
         id,
         project: {
-          userId: session.id,
+          userId: session.userId,
         },
       },
     });
@@ -50,7 +50,7 @@ export default nextConnect()
     if (!ownsForm) {
       logger.info(
         "Tried to update form that doesn't belong to user, id: " + id,
-        'user: ' + session.id
+        'user: ' + session.userId
       );
       return notFound(res);
     }
@@ -68,9 +68,9 @@ export default nextConnect()
     return ok(res, form);
   })
   .delete(async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = await getLoginSession(req);
+    const session = await getSession({ req });
 
-    if (!session) {
+    if (!session?.user) {
       return unauthorized(res);
     }
 
@@ -80,7 +80,7 @@ export default nextConnect()
       where: {
         id,
         project: {
-          userId: session.id,
+          userId: session.userId,
         },
       },
     });
@@ -88,7 +88,7 @@ export default nextConnect()
     if (!ownsForm) {
       logger.info(
         "Tried to delete form that doesn't belong to user, id: " + id,
-        'user: ' + session.id
+        'user: ' + session.userId
       );
       return notFound(res);
     }

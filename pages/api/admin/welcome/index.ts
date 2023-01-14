@@ -1,15 +1,15 @@
 import { ok, serverError, unauthorized } from 'lib/server/api';
-import { getLoginSession } from 'lib/server/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { latest30DaysOfSubmissions } from 'lib/server/queries/submissions';
 import { logger } from 'lib/logger';
+import { getSession } from 'next-auth/react';
 
 export default nextConnect().get(async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getLoginSession(req);
+  const session = await getSession({ req });
 
-  if (!session) {
+  if (!session?.user) {
     return unauthorized(res);
   }
 
@@ -17,7 +17,7 @@ export default nextConnect().get(async (req: NextApiRequest, res: NextApiRespons
     let latestForms = await prisma.form.findMany({
       where: {
         project: {
-          userId: session.id,
+          userId: session.userId,
         },
       },
       orderBy: {
@@ -29,7 +29,7 @@ export default nextConnect().get(async (req: NextApiRequest, res: NextApiRespons
       },
     });
 
-    const submissionsByDay = await latest30DaysOfSubmissions(session.id);
+    const submissionsByDay = await latest30DaysOfSubmissions(session.userId);
 
     return ok(res, {
       latestForms,
