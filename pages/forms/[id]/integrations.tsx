@@ -1,15 +1,46 @@
 import Loading from 'components/App/Loading';
 import FormTabs from 'components/Form/Tabs';
 import { fetcher } from 'lib/client/api';
-import { generateHTMLForm } from 'lib/client/forms/integrate';
+import { generateHTMLForm, generateReactCompatibleForm } from 'lib/client/forms/integrate';
 import { Form } from 'lib/types';
 import { useRouter } from 'next/router';
+import { useMemo, useState } from 'react';
 import useSWR from 'swr';
+
+const integrations = [
+  {
+    name: 'HTML',
+    value: 'html',
+  },
+  {
+    name: 'React',
+    value: 'react',
+  },
+];
+
+const getIntegration = (type: string, form: Form) => {
+  if (!form) return null;
+
+  switch (type) {
+    case 'html':
+      return generateHTMLForm(form);
+    case 'react':
+      return generateReactCompatibleForm(form);
+    default:
+      return generateHTMLForm(form);
+  }
+};
 
 const FormIntegrations = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data, error: fetchError, isLoading } = useSWR('/api/admin/form/' + id, fetcher);
+  const [integrationType, setIntegrationType] = useState('html' as string);
+
+  const integration = useMemo(
+    () => getIntegration(integrationType, data?.form as Form),
+    [integrationType, data]
+  );
 
   if (isLoading) {
     return <Loading></Loading>;
@@ -27,7 +58,21 @@ const FormIntegrations = () => {
 
       <div className="mt-6 overflow-hidden bg-white rounded-lg">
         <div className="p-6">
-          <h3 className="font-bold">Add to your website</h3>
+          <div className="flex justify-between">
+            <h3 className="font-bold">Add to your website</h3>
+
+            <select
+              className="px-4 py-2 rounded bg-gray-100"
+              onChange={(e) => setIntegrationType(() => e.target.value)}
+              value={integrationType}
+            >
+              {integrations.map((integration) => (
+                <option key={integration.value} value={integration.value}>
+                  {integration.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           {form.fields.length === 0 && (
             <blockquote className="py-1 border-l-4 border-red-400 mt-4 pl-2">
@@ -38,8 +83,26 @@ const FormIntegrations = () => {
           )}
 
           <pre className="bg-gray-900 text-gray-300 rounded-lg mt-8 p-6 overflow-auto">
-            {generateHTMLForm(form)}
+            {integration}
           </pre>
+        </div>
+
+        <div>
+          {/* <form action="http://localhost:3000/api/f/clcyvvmnl0003w7tlhmikdbpw" method="POST">
+            <label htmlFor="email">Email</label>
+            <textarea id="email" name="email" required></textarea>
+            <label htmlFor="naam">Naam</label>
+            <textarea id="naam" name="naam" required></textarea>
+
+            <input
+              type="text"
+              name="a_password"
+              style={{ display: 'none !important' }}
+              tabIndex={-1}
+              autoComplete="off"
+            ></input>
+            <button type="submit">Submit</button>
+          </form> */}
         </div>
       </div>
     </section>

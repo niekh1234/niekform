@@ -6,7 +6,7 @@ export const generateHTMLForm = (form: Form) => {
 ${form.fields
   .map(
     (field) => `  <label for="${field.key}">${field.label}</label>
-  <${getHtmlFieldTag(field)} id="${field.key}" type="${getFieldType(field)}" name="${field.key}" ${
+  <${getHtmlFieldTag(field)} id="${field.key}" ${getFieldType(field)}" name="${field.key}" ${
       field.required ? 'required' : ''
     }></${getHtmlFieldTag(field)}>`
   )
@@ -17,24 +17,42 @@ ${form.fields
 </form>`;
 };
 
+export const generateReactCompatibleForm = (form: Form) => {
+  return `<form action="${process.env.NEXT_PUBLIC_SITE_URL}/api/f/${form.id}" method="POST">
+${form.fields
+  .map(
+    (field) => `  <label htmlFor="${field.key}">${field.label}</label>
+  <${getHtmlFieldTag(field)} id="${field.key}" ${getFieldType(field)} name="${field.key}" ${
+      field.required ? 'required' : ''
+    }></${getHtmlFieldTag(field)}>`
+  )
+  .join('\n')}
+  
+  <input type="text" name="a_password" style={{ display: 'none !important' }} tabIndex={-1} autoComplete="off"></input>
+  <button type="submit">Submit</button>
+</form>`;
+};
+
 const getFieldType = (field: Field) => {
   switch (field.type) {
     case FieldType.EMAIL:
-      return 'email';
+      return 'type="email"';
     case FieldType.NUMBER:
-      return 'number';
+      return 'type="number"';
     case FieldType.CHECKBOX:
-      return 'checkbox';
+      return 'type="checkbox"';
+    case FieldType.TEXTAREA:
+      return '';
     default:
-      return 'text';
+      return 'type="text"';
   }
 };
 
 const getHtmlFieldTag = (field: Field) => {
   switch (field.type) {
-    case FieldType.CHECKBOX:
-      return 'input';
-    default:
+    case FieldType.TEXTAREA:
       return 'textarea';
+    default:
+      return 'input';
   }
 };
