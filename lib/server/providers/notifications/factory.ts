@@ -1,6 +1,6 @@
 import { Submission } from 'lib/types';
 import { NotificationProvider } from './interface';
-import { SendgridNotificationProvider } from './sendgrid';
+import { EmailNotificationProvider } from './email';
 
 export class NotificationFactory {
   public async sendNotifications(submission: Submission): Promise<void> {
@@ -12,6 +12,6 @@ export class NotificationFactory {
   }
 
   private getNotificationProviders(submission: Submission): NotificationProvider[] {
-    return [new SendgridNotificationProvider(submission)];
+    return [new EmailNotificationProvider(submission)];
   }
 }

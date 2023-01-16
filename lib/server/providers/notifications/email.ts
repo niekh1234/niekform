@@ -1,16 +1,18 @@
 import { Form, Submission } from 'lib/types';
+import { createTransport, Transporter } from 'nodemailer';
+import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { NotificationProvider } from './interface';
-import sgMail from '@sendgrid/mail';
 
-export class SendgridNotificationProvider implements NotificationProvider {
+export class EmailNotificationProvider implements NotificationProvider {
   private submission: Submission;
+  private transporter: Transporter<SMTPTransport.SentMessageInfo>;
 
   public constructor(submission: Submission) {
     this.submission = submission;
+    this.transporter = this.createTransporter();
   }
 
   public async sendNotification() {
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY as string);
     const form = await this.getTheForm();
     const { notificationSettings } = form;
 
@@ -27,7 +29,7 @@ export class SendgridNotificationProvider implements NotificationProvider {
     const message = this.formatMessage(email, form);
 
     try {
-      await sgMail.send(message);
+      await this.transporter.sendMail(message);
     } catch (error: any) {
       if (error?.response) {
         console.error(error.response.body);
@@ -37,6 +39,23 @@ export class SendgridNotificationProvider implements NotificationProvider {
     }
 
     return true;
+  }
+
+  private createTransporter() {
+    const { EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASSWORD } = process.env;
+
+    if (!EMAIL_HOST || !EMAIL_PORT || !EMAIL_USER || !EMAIL_PASSWORD) {
+      throw new Error('Missing email configuration');
+    }
+
+    return createTransport({
+      host: EMAIL_HOST,
+      port: parseInt(EMAIL_PORT),
+      auth: {
+        user: EMAIL_USER,
+        pass: EMAIL_PASSWORD,
+      },
+    });
   }
 
   private formatMessage(email: string, form: Form) {
@@ -63,7 +82,8 @@ export class SendgridNotificationProvider implements NotificationProvider {
     return `<table>
      <tbody>
         ${Object.entries(this.submission.rawdata).map(
-          (key, value) => `<tr><td>${key}</td><td>${value}</td></tr>`
+          (key, value) =>
+            `<tr><th style="padding: 8px">${key}</th><td style="padding: 8px">${value}</td></tr>`
         )} 
      </tbody> 
     </table>`;
