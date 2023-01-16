@@ -17,7 +17,7 @@ const Layout = ({ children }: LayoutProps) => {
   }
 
   if (!data) {
-    if (!whiteList.includes(router.pathname)) {
+    if (!whiteList.some((path) => router.pathname.startsWith(path))) {
       router.push('/auth/signin');
       return <Loading></Loading>;
     }
@@ -33,6 +33,6 @@ const Layout = ({ children }: LayoutProps) => {
   return <AuthenticatedLayout>{children}</AuthenticatedLayout>;
 };
 
-const whiteList = ['/auth/signin', '/auth/signup', '/auth/error'];
+const whiteList = ['/auth/signin', '/auth/signup', '/auth/error', '/p/'];
 
 export default Layout;
