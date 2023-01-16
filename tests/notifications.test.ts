@@ -13,7 +13,7 @@ test('email notification message', async () => {
   const submission = {
     id: faker.random.alphaNumeric(10),
     formId: firstForm.id,
-    data: {
+    rawdata: {
       name: faker.name.firstName(),
       email: faker.internet.email(),
     },

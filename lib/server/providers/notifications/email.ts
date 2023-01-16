@@ -1,3 +1,4 @@
+import { logger } from 'lib/logger';
 import { Form, Submission } from 'lib/types';
 import { createTransport, Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
@@ -31,9 +32,7 @@ export class EmailNotificationProvider implements NotificationProvider {
     try {
       await this.transporter.sendMail(message);
     } catch (error: any) {
-      if (error?.response) {
-        console.error(error.response.body);
-      }
+      logger.info('Error sending email', error);
 
       return false;
     }
@@ -42,18 +41,19 @@ export class EmailNotificationProvider implements NotificationProvider {
   }
 
   private createTransporter() {
-    const { EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASSWORD } = process.env;
+    const { EMAIL_SERVER_HOST, EMAIL_SERVER_PORT, EMAIL_SERVER_USER, EMAIL_SERVER_PASSWORD } =
+      process.env;
 
-    if (!EMAIL_HOST || !EMAIL_PORT || !EMAIL_USER || !EMAIL_PASSWORD) {
+    if (!EMAIL_SERVER_HOST || !EMAIL_SERVER_PORT || !EMAIL_SERVER_USER || !EMAIL_SERVER_PASSWORD) {
       throw new Error('Missing email configuration');
     }
 
     return createTransport({
-      host: EMAIL_HOST,
-      port: parseInt(EMAIL_PORT),
+      host: EMAIL_SERVER_HOST,
+      port: parseInt(EMAIL_SERVER_PORT),
       auth: {
-        user: EMAIL_USER,
-        pass: EMAIL_PASSWORD,
+        user: EMAIL_SERVER_USER,
+        pass: EMAIL_SERVER_PASSWORD,
       },
     });
   }
@@ -61,12 +61,12 @@ export class EmailNotificationProvider implements NotificationProvider {
   private formatMessage(email: string, form: Form) {
     return {
       to: email,
-      from: email,
+      from: process.env.EMAIL_FROM,
       subject: `New submission from ${form.name}`,
       text: `You have just received a new submission for your form ${
         form.name
-      }. Data: ${Object.values(this.submission.rawdata).join(' ')}`,
-      html: this.createHTML(),
+      }. Data: ${Object.values(this.submission.rawdata).join(', ')}`,
+      html: this.createHTML(form),
     };
   }
 
@@ -78,14 +78,18 @@ export class EmailNotificationProvider implements NotificationProvider {
     });
   }
 
-  private createHTML() {
-    return `<table>
-     <tbody>
-        ${Object.entries(this.submission.rawdata).map(
-          (key, value) =>
-            `<tr><th style="padding: 8px">${key}</th><td style="padding: 8px">${value}</td></tr>`
-        )} 
-     </tbody> 
-    </table>`;
+  private createHTML(form: Form) {
+    return `
+<h1 style="font-size: 24px">New submissions from ${form.name}</h1>
+<table>
+  <tbody>
+    ${Object.entries(this.submission.rawdata)
+      .map(
+        ([key, value]) =>
+          `<tr><th style="padding: 8px">${key}</th><td style="padding: 8px">${value}</td></tr>`
+      )
+      .join('')} 
+  </tbody> 
+</table>`;
   }
 }

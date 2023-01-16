@@ -16,7 +16,7 @@
     "incremental": true,
     "baseUrl": ".",
     "typeRoots": ["node_modules/yup"],
-    "types": ["node"]
+    "types": ["node", "@types/jest"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
