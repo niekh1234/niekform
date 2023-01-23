@@ -1,8 +1,10 @@
 import { logger } from 'lib/logger';
-import { Form, Submission } from 'lib/types';
+import { Submission } from 'lib/types';
 import { createTransport, Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { NotificationProvider } from './interface';
+import prisma from 'lib/prisma';
+import { Form } from '@prisma/client';
 
 export class EmailNotificationProvider implements NotificationProvider {
   private submission: Submission;
@@ -15,13 +17,21 @@ export class EmailNotificationProvider implements NotificationProvider {
 
   public async sendNotification() {
     const form = await this.getTheForm();
-    const { notificationSettings } = form;
 
-    if (!notificationSettings?.sendTo) {
+    if (!form) {
       return false;
     }
 
-    await this.sendEmailTo(notificationSettings.sendTo, form);
+    const { notificationSettings } = form;
+
+    // @ts-ignore
+    const sendTo = notificationSettings?.sendTo;
+
+    if (!sendTo) {
+      return false;
+    }
+
+    await this.sendEmailTo(sendTo, form);
 
     return true;
   }
