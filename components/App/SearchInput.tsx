@@ -32,7 +32,7 @@ const SearchInput = ({ className }: SearchInputProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-12 flex items-center">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex items-center">
       <input
         className={className || 'input-primary'}
         type="search"
