@@ -2,13 +2,16 @@ import { signIn } from 'next-auth/react';
 import InputLabel from 'components/App/InputLabel';
 import Button from 'components/App/Button';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 const Signin = () => {
   const { query } = useRouter();
   const { verifyRequest } = query;
+  const [processing, setProcessing] = useState(false);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setProcessing(() => true);
     await signIn('email', {
       email: (event.currentTarget.email as HTMLInputElement).value,
     });
@@ -37,7 +40,7 @@ const Signin = () => {
             </div>
 
             <div className="flex mt-8">
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" processing={processing}>
                 Send magic link
               </Button>
             </div>
