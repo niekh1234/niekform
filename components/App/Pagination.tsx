@@ -50,15 +50,19 @@ const Pagination = ({ total, page, perPage, linkBlueprint }: PaginationProps) =>
         </Link>
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">{(page || 1) * perPage - perPage + 1}</span> to{' '}
-            <span className="font-medium">
-              {page ? Math.min(total, perPage * page) : Math.min(total, perPage)}
-            </span>{' '}
-            of <span className="font-medium">{total}</span> results
-          </p>
-        </div>
+        {total > 0 ? (
+          <div>
+            <p className="text-sm text-gray-700">
+              Showing <span className="font-medium">{(page || 1) * perPage - perPage + 1}</span> to{' '}
+              <span className="font-medium">
+                {page ? Math.min(total, perPage * page) : Math.min(total, perPage)}
+              </span>{' '}
+              of <span className="font-medium">{total}</span> results
+            </p>
+          </div>
+        ) : (
+          <p className="text-sm text-gray-700">No results yet</p>
+        )}
         <div>
           <nav
             className="inline-flex -space-x-px rounded-md shadow-sm isolate"

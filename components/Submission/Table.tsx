@@ -71,8 +71,7 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
 
       {submissions.length === 0 && (
         <div className="p-6">
-          <h3 className="font-bold">No submissions yet</h3>
-          <p>Check the integration tap above to get started collection submissions</p>
+          <h3 className="font-bold">No submissions found</h3>
         </div>
       )}
 
