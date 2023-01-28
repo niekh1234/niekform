@@ -105,7 +105,7 @@ const ProjectID = () => {
       </div>
 
       <div className="mt-12">
-        <ConfirmButton onClick={() => deleteProject()}>
+        <ConfirmButton onClick={() => deleteProject()} extraCaution extraCautionText={project.name}>
           <div className="flex items-center space-x-2 btn-outline">
             <ExclamationCircleIcon className="w-4 h-4"></ExclamationCircleIcon>
             <span>Delete project</span>
