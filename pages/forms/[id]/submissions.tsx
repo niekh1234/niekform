@@ -41,7 +41,7 @@ const FormSubmissions = () => {
           </Link>
         </EmptyState>
       ) : (
-        <div className="mt-4 overflow-hidden bg-white rounded-lg">
+        <div className="mt-4 overflow-hidden bg-white rounded-lg shadow">
           <FormSubmissionsTable form={form}></FormSubmissionsTable>
         </div>
       )}
