@@ -113,7 +113,7 @@ const FieldAdd = ({ children, formId, onAdd }: FieldAddProps) => {
             <label htmlFor="type" className="block mt-4 text-sm text-gray-500">
               Type
             </label>
-            <select id="type" className="bg-white input-primary">
+            <select {...register('type')} className="bg-white input-primary">
               {FIELD_TYPES.map((field) => (
                 <option key={field} value={field}>
                   {capitalizeFirst(field)}
