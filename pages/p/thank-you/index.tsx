@@ -1,8 +1,10 @@
+import Button from 'components/App/Button';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 const SubmissionThanks = () => {
-  const router = useRouter();
+  const goBack = () => {
+    window.history.back();
+  };
 
   return (
     <section className="mx-auto max-w-3xl py-16 sm:py-24 md:py-32">
@@ -11,11 +13,9 @@ const SubmissionThanks = () => {
 
         <p className="mt-2 text-gray-500">Your submission has been received in good hands.</p>
 
-        {!!router.query.referer && (
-          <Link href={router.query?.referer as string} className="btn-primary mt-8 inline-block">
-            Back to previous page.
-          </Link>
-        )}
+        <Button onClick={() => goBack()} className="btn-primary mt-8 inline-block">
+          Back to previous page.
+        </Button>
       </div>
 
       <div className="mt-8">
