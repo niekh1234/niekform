@@ -2,6 +2,7 @@ import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import ConfirmButton from 'components/App/ConfirmButton';
 import { spawnFlash } from 'components/App/Flash';
 import Loading from 'components/App/Loading';
+import AfterSubmissionSettings from 'components/Form/Settings/AfterSubmission';
 import GeneralSettings from 'components/Form/Settings/General';
 import NotificationSettings from 'components/Form/Settings/Notification';
 import FormTabs from 'components/Form/Tabs';
@@ -42,6 +43,8 @@ const FormSettings = () => {
       <GeneralSettings form={form} mutate={mutate}></GeneralSettings>
 
       <NotificationSettings form={form} mutate={mutate}></NotificationSettings>
+
+      <AfterSubmissionSettings form={form} mutate={mutate}></AfterSubmissionSettings>
 
       <div className="mt-12">
         <ConfirmButton onClick={() => deleteForm()} extraCaution extraCautionText={form.name}>

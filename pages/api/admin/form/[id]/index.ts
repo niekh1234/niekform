@@ -62,6 +62,7 @@ export default nextConnect()
       data: {
         name: req.body.name || ownsForm.name,
         notificationSettings: req.body.notificationSettings || ownsForm.notificationSettings,
+        settings: req.body.settings || ownsForm.settings,
       },
     });
 

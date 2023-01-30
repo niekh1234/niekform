@@ -29,13 +29,25 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
         'User tried to submit to a form that does not exist, user ip: ' +
           req.headers['x-forwarded-for']
       );
-      return res.redirect(301, '/p/error?message=Form not found');
+      return res.redirect(301, `/p/error?message=Form not found`);
     }
+
+    // @ts-ignore
+    const thankYouHeader = form.settings?.thankYouHeader || 'Thank you!';
+    const thankYouBody =
+      // @ts-ignore:
+      form.settings?.thankYouBody || 'Your submission has been received in good hands.';
+    const errorHeader =
+      // @ts-ignore
+      form.settings?.errorHeader || 'Something went wrong while submitting your form.';
 
     const { errors, valid } = validateSubmission(form.fields, req.body);
 
     if (!valid) {
-      return res.redirect(301, '/p/error?message=' + Object.values(errors).join(', '));
+      return res.redirect(
+        301,
+        `/p/error?message=${Object.values(errors).join(', ')}&error=${errorHeader}`
+      );
     }
 
     const cleaned = cleanSubmission(form.fields, req.body);
@@ -59,10 +71,13 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
 
     sendNotification(submission);
 
-    return res.redirect(301, '/p/thank-you');
+    return res.redirect(301, `/p/thank-you?header=${thankYouHeader}&body=${thankYouBody}`);
   } catch (err) {
     logger.error(err);
-    return res.redirect(301, '/p/error?message=Something went wrong');
+    return res.redirect(
+      301,
+      `/p/error?error=Something went wrong while submitting your form!&message=Please try again later`
+    );
   }
 });
 

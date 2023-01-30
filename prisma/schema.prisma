@@ -75,6 +75,7 @@ model Form {
   name                 String       @db.VarChar(255)
   submissionCount      Int          @default(0)
   notificationSettings Json
+  settings             Json
   projectId            String
   submissions          Submission[]
   fields               Field[]
