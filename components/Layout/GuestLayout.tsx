@@ -3,7 +3,7 @@ type GuestLayoutProps = {
 };
 
 const GuestLayout = ({ children }: GuestLayoutProps) => {
-  return <main className='w-screen min-h-screen bg-gray-100'>{children}</main>;
+  return <main className="w-screen min-h-screen bg-gray-100 px-4 py-12 md:px-6">{children}</main>;
 };
 
 export default GuestLayout;
