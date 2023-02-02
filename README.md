@@ -1,12 +1,140 @@
-# Manage your form submissions like a boss
+<div align="center">
+  <h1>NiekForm</h1>
+  
+  <p>
+    <strong>Awesome self hostable form builder</strong>
+  </p>
 
-Welcome to the real world, Neo. Your submissions, your forms, your everything - it's all yours.
-Host Niekform on any linux distro or self manage for free with for example `Vercel` and `Planetscale`.
+<!-- Badges -->
+<p>
+  <a href="https://github.com/niekh1234/niekform/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/niekh1234/niekform" alt="contributors" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/last-commit/niekh1234/niekform" alt="last update" />
+  </a>
+  <a href="https://github.com/niekh1234/niekform/network/members">
+    <img src="https://img.shields.io/github/forks/niekh1234/niekform" alt="forks" />
+  </a>
+  <a href="https://github.com/niekh1234/niekform/stargazers">
+    <img src="https://img.shields.io/github/stars/niekh1234/niekform" alt="stars" />
+  </a>
+  <a href="https://github.com/niekh1234/niekform/issues/">
+    <img src="https://img.shields.io/github/issues/niekh1234/niekform" alt="open issues" />
+  </a>
+  <a href="https://github.com/niekh1234/niekform/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/niekh1234/niekform.svg" alt="license" />
+  </a>
+</p>
+   
+<h4>
+    <a href="https://niekform.com">Documentation</a>
+  <span> · </span>
+    <a href="https://github.com/niekh1234/niekform/issues/">Report Bug</a>
+  <span> · </span>
+    <a href="https://github.com/niekh1234/niekform/issues/">Request Feature</a>
+  </h4>
+</div>
 
-https://user-images.githubusercontent.com/34717999/212096259-0508b13c-b9bf-409b-a1fa-3941a8fc2faf.mov
+<br />
 
-There's plenty of form builders around already, but they either abandonded their open-source goals or are not up to par with the latest tech.
+<!-- Table of Contents -->
 
-## Installation
+# Table of Contents
 
-That'll come soon when I am satisfied with the mvp.
+- [About the Project](#about-the-project)
+  - [Tech Stack](#tech-stack)
+  - [Features](#features)
+- [Documentation](#documentation)
+- [Roadmap](#roadmap)
+- [Contributing](#contributing)
+  - [Code of Conduct](#code-of-conduct)
+- [License](#license)
+- [Contact](#contact)
+
+<!-- About the Project -->
+
+## About the Project
+
+<div align="center"> 
+  <i>video goes here</i>
+</div>
+
+<!-- TechStack -->
+
+### Tech Stack
+
+<details>
+  <summary>Client</summary>
+  <ul>
+    <li><a href="https://www.typescriptlang.org/">Typescript</a></li>
+    <li><a href="https://nextjs.org/">Next.js</a></li>
+    <li><a href="https://reactjs.org/">React.js</a></li>
+    <li><a href="https://tailwindcss.com/">TailwindCSS</a></li>
+  </ul>
+</details>
+
+<details>
+  <summary>Server</summary>
+  <ul>
+    <li><a href="https://www.typescriptlang.org/">Typescript</a></li>
+    <li><a href="https://nextjs.org/">Next.js API routes</a></li>
+    <li><a href="https://next-auth.js.org/">NextAuth</a></li>
+    <li><a href="https://www.prisma.io/">Prisma</a></li>
+  </ul>
+</details>
+
+<details>
+<summary>Database</summary>
+  <ul>
+    <li><a href="https://www.mysql.com/">MySQL</a></li>
+    <li><a href="https://www.postgresql.org/">PostgreSQL</a></li>
+  </ul>
+</details>
+
+<!-- Features -->
+
+### Features
+
+- Self hostable or self managable using cloud services
+- Can accept loads of different forms
+- Easy to use
+- Fully featured: spam protection, exporting, analytics, etc.
+- Open source
+
+<!-- Documentation -->
+
+## Documentation
+
+Please head over to the [documentation](https://niekform.com) for more information.
+
+<!-- Roadmap -->
+
+## Roadmap
+
+- [ ] Customizable thank you page
+- [ ] Customizable email templates
+- [ ] Send email to user when form is submitted
+- [ ] More field types (select, date, etc.)
+- [ ] Captcha support
+- [ ] More notification options (Slack, Discord, etc.)
+- [ ] More authentication options (Google, Facebook, etc.)
+- [ ] Hosted forms
+
+<!-- Contributing -->
+
+## Contributing
+
+<a href="https://github.com/niekh1234/niekform/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=niekh1234/niekform" />
+</a>
+
+Contributions are always welcome!
+
+<!-- Contact -->
+
+## Contact
+
+Niek Hagen - niek@hdas.nl
+
+Project Link: [https://github.com/niekh1234/niekform](https://github.com/niekh1234/niekform)
