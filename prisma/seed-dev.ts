@@ -4,26 +4,18 @@ import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
 const main = async () => {
-  const user = await prisma.user.upsert({
-    where: { email: 'admin@niekform.io' },
-    update: {},
-    create: {
-      email: 'admin@niekform.io',
-      name: faker.name.fullName(),
-    },
-  });
+  let user = await prisma.user.findFirst();
 
-  const secondUser = await prisma.user.upsert({
-    where: { email: 'other@niekform.io' },
-    update: {},
-    create: {
-      email: 'other@niekform.io',
-      name: faker.name.fullName(),
-    },
-  });
+  if (!user) {
+    user = await prisma.user.create({
+      data: {
+        email: 'niek@hdas.nl',
+        name: 'Niek',
+      },
+    });
+  }
 
   await seedForUser(user.id);
-  await seedForUser(secondUser.id);
 };
 
 main()
