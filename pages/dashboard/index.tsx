@@ -46,7 +46,10 @@ const Dashboard = () => {
         <ul className="space-y-2 mt-2 rounded shadow bg-white">
           {latestForms.map((form) => (
             <li key={form.id} className="p-4  flex justify-between">
-              <div>{form.name}</div>
+              <div>
+                <strong>{form.name}</strong>{' '}
+                <span className="text-sm text-gray-500">({form.submissionCount})</span>
+              </div>
               <Link
                 href={'forms/' + form.id + '/submissions'}
                 className="text-emerald-500 font-bold text-sm"
