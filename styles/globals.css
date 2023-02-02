@@ -40,3 +40,7 @@
 .checkbox-primary {
   @apply block border-gray-300 rounded shadow-sm checked:bg-emerald-600 hover:text-emerald-600 focus:border-indigo-300 focus:text-emerald-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50;
 }
+
+.recharts-tooltip-wrapper {
+  @apply border-none outline-none ring-0;
+}

@@ -26,7 +26,7 @@ const Dashboard = () => {
 
       <div className="mt-8">
         <h2 className="font-bold">Submissions in the last 30 days</h2>
-        <div className="h-[12rem] bg-white p-4 mt-2 rounded shadow">
+        <div className="h-[16rem] bg-white p-4 mt-2 rounded shadow">
           <SubmissionChart
             data={formatLatest30DaysOfSubmissions(submissionsByDay)}
           ></SubmissionChart>

@@ -1,4 +1,4 @@
-import { Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, YAxis } from 'recharts';
 
 type SubmissionChartProps = {
   data: any[];
@@ -7,19 +7,18 @@ type SubmissionChartProps = {
 const SubmissionChart = ({ data }: SubmissionChartProps) => {
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <LineChart
+      <BarChart
         data={data}
         margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
+          top: 10,
+          bottom: 10,
         }}
       >
-        <Tooltip animationDuration={200} content={<CustomTooltip />} />
-        <Line type="monotone" dataKey="count" stroke="#10b981" dot={false} activeDot={false} />
-        {/* <Line type="monotone" dataKey="count" stroke="#82ca9d" /> */}
-      </LineChart>
+        <CartesianGrid vertical={false} stroke="#d1fae5" />
+        <YAxis width={30} stroke="#9ca3af" />
+        <Tooltip active animationDuration={0} content={<CustomTooltip />} />
+        <Bar dataKey="count" fill="#10b981" />
+      </BarChart>
     </ResponsiveContainer>
   );
 };
