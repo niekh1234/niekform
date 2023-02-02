@@ -57,8 +57,15 @@
 ## About the Project
 
 <div align="center"> 
-  <i>video goes here</i>
+ 
+
+   https://user-images.githubusercontent.com/34717999/216372703-128924f0-018c-432f-bae9-ee2727286e77.mov
+
+ 
 </div>
+
+
+
 
 <!-- TechStack -->
 
