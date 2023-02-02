@@ -27,7 +27,12 @@ export default class CSVExporter extends Exporter {
   }
 
   private formatRow(row: Submission) {
-    return [row.createdAt.toISOString(), ...Object.values(row.rawdata)].join(',') + '\n';
+    return (
+      [
+        row.createdAt.toISOString(),
+        ...Object.values(row.rawdata).map((value: any) => `"${value}"`),
+      ].join(',') + '\n'
+    );
   }
 
   private pack(csv: string) {
