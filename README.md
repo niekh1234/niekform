@@ -28,9 +28,9 @@
 </p>
    
 <h4>
-    <a href="https://niekform.com">Documentation</a>
+    <a href="https://demo.niekform.com">Demo</a>
   <span> · </span>
-    <a href="https://github.com/niekh1234/niekform/issues/">Report Bug</a>
+    <a href="https://niekform.com">Documentation</a>
   <span> · </span>
     <a href="https://github.com/niekh1234/niekform/issues/">Request Feature</a>
   </h4>
@@ -57,10 +57,8 @@
 ## About the Project
 
 <div align="center"> 
- 
 
-   https://user-images.githubusercontent.com/34717999/216372703-128924f0-018c-432f-bae9-ee2727286e77.mov
-
+https://user-images.githubusercontent.com/34717999/217659030-f0eafb04-f2ec-4f46-ad5a-1e8b460befca.mp4
  
 </div>
 
