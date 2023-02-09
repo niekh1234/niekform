@@ -58,12 +58,9 @@
 
 <div align="center"> 
 
-https://user-images.githubusercontent.com/34717999/217659030-f0eafb04-f2ec-4f46-ad5a-1e8b460befca.mp4
+https://user-images.githubusercontent.com/34717999/217863178-bf6eb1e1-b37d-47f4-89df-fcbdbbbcf4bd.mp4
  
 </div>
-
-
-
 
 <!-- TechStack -->
 
