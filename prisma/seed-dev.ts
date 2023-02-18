@@ -34,7 +34,9 @@ const seedForUser = async (userId: string) => {
       name: 'My Project',
       users: {
         some: {
-          id: userId,
+          user: {
+            id: userId,
+          },
         },
       },
     },
@@ -53,8 +55,8 @@ const seedForUser = async (userId: string) => {
       name: 'My Project',
       description: faker.lorem.paragraph(),
       users: {
-        connect: {
-          id: userId,
+        create: {
+          userId: userId,
         },
       },
     },
