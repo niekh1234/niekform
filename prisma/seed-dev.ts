@@ -32,8 +32,10 @@ const seedForUser = async (userId: string) => {
   const existingProject = await prisma.project.findFirst({
     where: {
       name: 'My Project',
-      user: {
-        id: userId,
+      users: {
+        some: {
+          id: userId,
+        },
       },
     },
   });
@@ -50,7 +52,7 @@ const seedForUser = async (userId: string) => {
     data: {
       name: 'My Project',
       description: faker.lorem.paragraph(),
-      user: {
+      users: {
         connect: {
           id: userId,
         },

@@ -16,7 +16,13 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
     where: {
       id: req.body.formId,
       project: {
-        userId: session.userId,
+        users: {
+          some: {
+            user: {
+              id: session.userId,
+            },
+          },
+        },
       },
     },
     include: {

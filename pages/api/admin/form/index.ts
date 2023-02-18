@@ -19,7 +19,13 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
   const ownsProject = await prisma.project.findFirst({
     where: {
       id: req.body.projectId,
-      userId: session.userId,
+      users: {
+        some: {
+          user: {
+            id: session.userId,
+          },
+        },
+      },
     },
   });
 

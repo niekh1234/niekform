@@ -20,7 +20,13 @@ export default nextConnect().delete(async (req: NextApiRequest, res: NextApiResp
         id,
         form: {
           project: {
-            userId: session.userId,
+            users: {
+              some: {
+                user: {
+                  id: session.userId,
+                },
+              },
+            },
           },
         },
       },

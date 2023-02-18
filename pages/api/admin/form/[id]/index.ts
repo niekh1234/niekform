@@ -19,7 +19,13 @@ export default nextConnect()
       where: {
         id,
         project: {
-          userId: session.userId,
+          users: {
+            some: {
+              user: {
+                id: session.userId,
+              },
+            },
+          },
         },
       },
       include: {
@@ -42,7 +48,13 @@ export default nextConnect()
       where: {
         id,
         project: {
-          userId: session.userId,
+          users: {
+            some: {
+              user: {
+                id: session.userId,
+              },
+            },
+          },
         },
       },
     });
@@ -80,7 +92,13 @@ export default nextConnect()
       where: {
         id,
         project: {
-          userId: session.userId,
+          users: {
+            some: {
+              user: {
+                id: session.userId,
+              },
+            },
+          },
         },
       },
     });

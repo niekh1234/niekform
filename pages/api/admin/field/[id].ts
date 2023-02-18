@@ -22,7 +22,11 @@ export default nextConnect().delete(async (req: NextApiRequest, res: NextApiResp
         select: {
           project: {
             select: {
-              userId: true,
+              users: {
+                select: {
+                  id: true,
+                },
+              },
             },
           },
         },
@@ -30,7 +34,10 @@ export default nextConnect().delete(async (req: NextApiRequest, res: NextApiResp
     },
   });
 
-  if (!existingField || existingField.form.project.userId !== session.userId) {
+  if (
+    !existingField ||
+    !existingField.form.project.users.some((user) => user.id !== session.userId)
+  ) {
     return notFound(res);
   }
 

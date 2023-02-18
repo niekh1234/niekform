@@ -46,7 +46,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  projects      Project[]
+  projects      UsersOnProject[]
 }
 
 model VerificationToken {
@@ -62,11 +62,24 @@ model Project {
   createdAt   DateTime @default(now())
   name        String   @db.VarChar(255)
   description String   @db.Text
-  userId      String
   forms       Form[]
-  user        User     @relation(fields: [userId], references: [id])
+  users       UsersOnProject[]
+
+  @@index([name])
+}
+
+model UsersOnProject {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  userId    String
+  projectId String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([userId])
+  @@index([projectId])
+  
+  @@unique([userId, projectId])
 }
 
 model Form {

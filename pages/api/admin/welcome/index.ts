@@ -17,7 +17,13 @@ export default nextConnect().get(async (req: NextApiRequest, res: NextApiRespons
     let latestForms = await prisma.form.findMany({
       where: {
         project: {
-          userId: session.userId,
+          users: {
+            some: {
+              user: {
+                id: session.userId,
+              },
+            },
+          },
         },
       },
       orderBy: {
