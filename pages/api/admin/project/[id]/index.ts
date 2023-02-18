@@ -30,6 +30,13 @@ export default nextConnect()
           },
         },
       },
+      include: {
+        users: {
+          include: {
+            user: true,
+          },
+        },
+      },
     });
 
     if (!project) {
@@ -92,13 +99,7 @@ export default nextConnect()
     const ownsProject = await prisma.project.findFirst({
       where: {
         id,
-        users: {
-          some: {
-            user: {
-              id: session.userId,
-            },
-          },
-        },
+        creator: session.userId,
       },
     });
 

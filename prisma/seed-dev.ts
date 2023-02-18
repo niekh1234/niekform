@@ -54,6 +54,7 @@ const seedForUser = async (userId: string) => {
     data: {
       name: 'My Project',
       description: faker.lorem.paragraph(),
+      creator: userId,
       users: {
         create: {
           userId: userId,

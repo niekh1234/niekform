@@ -45,6 +45,7 @@ export default nextConnect()
       data: {
         name: req.body.name,
         description: req.body?.description || '',
+        creator: session.userId,
         users: {
           create: {
             userId: session.userId,
