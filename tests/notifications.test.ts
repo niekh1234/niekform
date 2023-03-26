@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { NotificationFactory } from '../lib/server/providers/notifications/factory';
+import { NotificationFactory } from '../lib/server/services/notifications/factory';
 import { Submission } from '../lib/types';
 import prisma from '../lib/prisma';
 

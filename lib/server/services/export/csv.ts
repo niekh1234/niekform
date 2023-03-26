@@ -1,4 +1,4 @@
-import Exporter from 'lib/server/providers/export';
+import Exporter from 'lib/server/services/export';
 import { Submission } from 'lib/types';
 
 export default class CSVExporter extends Exporter {

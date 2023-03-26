@@ -7,12 +7,7 @@ const main = async () => {
   let user = await prisma.user.findFirst();
 
   if (!user) {
-    user = await prisma.user.create({
-      data: {
-        email: 'niek@hdas.nl',
-        name: 'Niek',
-      },
-    });
+    throw new Error('No user found. Please first create a user using the interface.');
   }
 
   await seedForUser(user.id);

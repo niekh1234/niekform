@@ -1,4 +1,4 @@
-import Exporter from 'lib/server/providers/export';
+import Exporter from 'lib/server/services/export';
 
 export default class JSONExporter extends Exporter {
   public export() {

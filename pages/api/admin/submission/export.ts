@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
-import ExportFactory from 'lib/server/providers/export/factory';
+import ExportFactory from 'lib/server/services/export/factory';
 
 const SUPPORTED_EXPORT_TYPES = ['csv', 'json'];
 

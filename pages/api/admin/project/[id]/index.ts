@@ -36,6 +36,7 @@ export default nextConnect()
             user: true,
           },
         },
+        invites: true,
       },
     });
 

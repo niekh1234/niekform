@@ -4,6 +4,7 @@ export type Project = {
   name: string;
   description: string;
   forms: Form[];
+  invites: Invite[];
 };
 
 export type Form = {
@@ -29,4 +30,11 @@ export type Submission = {
   createdAt: Date;
   rawdata: any;
   formId: string;
+};
+
+export type Invite = {
+  id: string;
+  email: string;
+  status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
+  projectId: string;
 };

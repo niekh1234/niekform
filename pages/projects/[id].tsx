@@ -12,6 +12,7 @@ import ConfirmButton from 'components/App/ConfirmButton';
 import { spawnFlash } from 'components/App/Flash';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import Loading from 'components/App/Loading';
+import InviteAdd from 'components/Project/Invite/Add';
 
 const schema = yup.object({
   name: yup.string().required('Please enter a name'),
@@ -36,6 +37,8 @@ const ProjectID = () => {
     resolver: yupResolver(schema),
   });
   const [processing, setProcessing] = useState(false);
+
+  console.log(data);
 
   const onSubmit = async (formData: any) => {
     setProcessing(() => true);
@@ -65,6 +68,8 @@ const ProjectID = () => {
     }
   };
 
+  const onAddInvite = () => {};
+
   // set initial form values
   useEffect(() => {
     if (data?.project) {
@@ -89,6 +94,7 @@ const ProjectID = () => {
     <section className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold">{project.name}</h1>
       <div className="p-4 mt-6 bg-white rounded-lg shadow md:p-6">
+        <h3 className="font-bold">General</h3>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label className="text-sm text-gray-500">Name</label>
           <input type="text" {...register('name')} className="input-primary"></input>
@@ -98,10 +104,25 @@ const ProjectID = () => {
           <textarea {...register('description')} className="input-primary"></textarea>
           <InputError message={(errors.description?.message as string) || ''}></InputError>
 
-          <Button type="submit" processing={processing} className="mt-8">
+          <Button type="submit" isSecondary processing={processing} className="mt-8">
             Save
           </Button>
         </form>
+      </div>
+
+      <div className="p-4 mt-6 bg-white rounded-lg shadow md:p-6">
+        <div className="flex justify-between">
+          <h3 className="font-bold">Members</h3>
+          <InviteAdd project={project.id} onAdd={() => onAddInvite()}></InviteAdd>
+        </div>
+
+        <table>
+          <tbody>
+            {project.invites.map((invite) => (
+              <tr key={invite.id}>{invite.email}</tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <div className="mt-12">

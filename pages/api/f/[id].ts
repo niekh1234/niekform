@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
 import { cleanSubmission, validateSubmission } from 'lib/server/form/submission';
-import { NotificationFactory } from 'lib/server/providers/notifications/factory';
+import { NotificationFactory } from 'lib/server/services/notifications/factory';
 import { Submission } from 'lib/types';
 import { logger } from 'lib/logger';
 
