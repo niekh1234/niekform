@@ -8,7 +8,7 @@ import EmptyState from 'components/App/EmptyState';
 import Link from 'next/link';
 import SearchInput from 'components/App/SearchInput';
 import Loading from 'components/App/Loading';
-import SubmissionExport from 'components/Submission/Export';
+import FormTools from 'components/Form/Tools';
 
 const FormSubmissions = () => {
   const router = useRouter();
@@ -31,7 +31,7 @@ const FormSubmissions = () => {
 
       <div className="flex justify-between mt-12">
         <SearchInput className="input-primary max-w-[16rem] mr-2"></SearchInput>
-        <SubmissionExport formId={form.id}></SubmissionExport>
+        <FormTools form={form}></FormTools>
       </div>
 
       {form.fields.length === 0 ? (

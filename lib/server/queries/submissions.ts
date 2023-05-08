@@ -96,6 +96,40 @@ export const submissionsForFormCountQuery = (
     `;
 };
 
+export const getDuplicateSubmissions = (formId: string, session: Session) => {
+  if (process.env.DATABASE_PROVIDER === 'postgres') {
+    return prisma.$queryRaw`
+      SELECT DISTINCT ON ("Submission"."rawdata") "Submission".*
+      FROM "Submission"
+      JOIN (
+        SELECT "rawdata", COUNT(*) as count
+        FROM "Submission"
+        WHERE "formId" = ${formId}
+        AND "formId" IN (SELECT "id" FROM "Form" WHERE "projectId" IN (SELECT "id" FROM "Project" WHERE "userId" = ${session.userId}))
+        GROUP BY "rawdata"
+        HAVING COUNT(*) > 1
+      ) AS "GroupedSubmissions" ON "Submission"."rawdata" = "GroupedSubmissions"."rawdata"
+      WHERE "Submission"."formId" = ${formId}
+      ORDER BY "Submission"."rawdata";
+    `;
+  }
+
+  return prisma.$queryRaw`
+    SELECT Submission.rawdata, Submission.id, Submission.createdAt, Submission.formId
+    FROM Submission
+    JOIN (
+      SELECT MIN(id) as min_id, rawdata
+      FROM Submission
+      WHERE formId = ${formId}
+      AND formId IN (SELECT id FROM Form WHERE projectId IN (SELECT id FROM Project WHERE userId = ${session.userId}))
+      GROUP BY rawdata
+      HAVING COUNT(*) > 1
+    ) AS GroupedSubmissions ON Submission.id = GroupedSubmissions.min_id
+    WHERE Submission.formId = ${formId}
+    ORDER BY Submission.rawdata;
+    `;
+};
+
 const getSkip = (page: any, take: number) => {
   if (!page || isNaN(Number(page))) {
     return 0;
