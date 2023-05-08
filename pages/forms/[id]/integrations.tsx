@@ -64,9 +64,9 @@ const FormIntegrations = () => {
           <div className="">
             <h3 className="font-bold">Your form endpoint</h3>
 
-            <div className="flex items-center justify-between p-2 mt-2 border rounded-lg">
-              <div className="text-gray-700">{endpoint}</div>
-              <CopyButton value={endpoint} className="btn-secondary"></CopyButton>
+            <div className="flex items-center justify-between p-2 mt-2 overflow-auto border rounded-lg">
+              <div className="text-gray-700 whitespace-nowrap">{endpoint}</div>
+              <CopyButton value={endpoint} className="ml-4 btn-secondary"></CopyButton>
             </div>
           </div>
 
