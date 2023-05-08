@@ -8,8 +8,8 @@ export const doPutRequest = async (url: string, body?: any) => {
   return doRequest(url, 'PUT', body);
 };
 
-export const doDeleteRequest = async (url: string) => {
-  return doRequest(url, 'DELETE');
+export const doDeleteRequest = async (url: string, body?: any) => {
+  return doRequest(url, 'DELETE', body);
 };
 
 const doRequest = async (url: string, method: string, body?: any) => {
