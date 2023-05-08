@@ -1,3 +1,4 @@
+import CopyButton from 'components/App/CopyButton';
 import Loading from 'components/App/Loading';
 import FormTabs from 'components/Form/Tabs';
 import { fetcher } from 'lib/client/api';
@@ -50,6 +51,8 @@ const FormIntegrations = () => {
 
   if (fetchError || !form) return <p>Failed to load</p>;
 
+  const endpoint = `${process.env.NEXT_PUBLIC_SITE_URL}/api/f/${form.id}`;
+
   return (
     <section className="max-w-5xl mx-auto">
       <h1 className="text-2xl font-bold">{form.name}</h1>
@@ -58,7 +61,16 @@ const FormIntegrations = () => {
 
       <div className="mt-8 overflow-hidden bg-white rounded-lg md:mt-12">
         <div className="p-6">
-          <div className="flex justify-between">
+          <div className="">
+            <h3 className="font-bold">Your form endpoint</h3>
+
+            <div className="flex items-center justify-between p-2 mt-2 border rounded-lg">
+              <div className="text-gray-700">{endpoint}</div>
+              <CopyButton value={endpoint} className="btn-secondary"></CopyButton>
+            </div>
+          </div>
+
+          <div className="flex justify-between mt-8 md:mt-12">
             <h3 className="font-bold">Add to your website</h3>
 
             <select
@@ -85,24 +97,6 @@ const FormIntegrations = () => {
           <pre className="p-6 mt-8 overflow-auto text-gray-300 bg-gray-900 rounded-lg">
             {integration}
           </pre>
-        </div>
-
-        <div>
-          {/* <form action="http://localhost:3000/api/f/clcyvvmnl0003w7tlhmikdbpw" method="POST">
-            <label htmlFor="email">Email</label>
-            <textarea id="email" name="email" required></textarea>
-            <label htmlFor="naam">Naam</label>
-            <textarea id="naam" name="naam" required></textarea>
-
-            <input
-              type="text"
-              name="a_password"
-              style={{ display: 'none !important' }}
-              tabIndex={-1}
-              autoComplete="off"
-            ></input>
-            <button type="submit">Submit</button>
-          </form> */}
         </div>
       </div>
     </section>

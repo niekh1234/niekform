@@ -39,11 +39,13 @@ const FormSettings = () => {
 
       <FormTabs id={id as string}></FormTabs>
 
-      <GeneralSettings form={form} mutate={mutate}></GeneralSettings>
+      <div>
+        <GeneralSettings form={form} mutate={mutate}></GeneralSettings>
+      </div>
 
       <NotificationSettings form={form} mutate={mutate}></NotificationSettings>
 
-      <div className="mt-8 md:mt-12">
+      <div className="mt-6">
         <ConfirmButton onClick={() => deleteForm()} extraCaution extraCautionText={form.name}>
           <div className="flex items-center space-x-2 btn-outline">
             <ExclamationCircleIcon className="w-4 h-4"></ExclamationCircleIcon>

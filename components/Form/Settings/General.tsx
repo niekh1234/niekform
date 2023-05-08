@@ -55,7 +55,7 @@ const GeneralSettings = ({ form, mutate }: GeneralSettingsProps) => {
   };
 
   return (
-    <div className="p-4 mt-6 bg-white rounded-lg shadow md:p-6">
+    <div className="p-4 mt-8 bg-white rounded-lg shadow md:mt-12 md:p-6">
       <h3 className="font-bold">General</h3>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label className="text-sm text-gray-500">Name</label>
