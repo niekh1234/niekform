@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import nextConnect from 'next-connect';
 import prisma from 'lib/prisma';
-import { notFound, ok, unauthorized } from 'lib/server/api';
+import { ok, serverError, unauthorized } from 'lib/server/api';
 import { logger } from 'lib/logger';
 import { getSession } from 'next-auth/react';
 import { getDuplicateSubmissions } from 'lib/server/queries/submissions';
@@ -16,9 +16,13 @@ export default nextConnect()
 
     const formId = req.query.id as string;
 
-    const duplicateSubmissions = await getDuplicateSubmissions(formId, session);
-
-    return ok(res, { duplicateSubmissions });
+    try {
+      const duplicateSubmissions = await getDuplicateSubmissions(formId, session);
+      return ok(res, { duplicateSubmissions });
+    } catch (error) {
+      logger.error(error);
+      return serverError(res, 'Failed to get duplicate submissions.');
+    }
   })
   .delete(async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req });
