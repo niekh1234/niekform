@@ -35,13 +35,20 @@ const Pagination = ({ total, page, perPage, linkBlueprint }: PaginationProps) =>
 
   return (
     <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6">
-      <div className="flex justify-between flex-1 sm:hidden">
+      <div className="flex items-center justify-between flex-1 sm:hidden">
         <Link
           href={hasPreviousPage ? formatLink(linkBlueprint, pageAsNumber - 1, router.query) : '#'}
           className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
         >
           Previous
         </Link>
+
+        {total > 0 ? (
+          <p className="text-sm text-gray-500">{total} results</p>
+        ) : (
+          <p className="text-sm text-gray-500">No results</p>
+        )}
+
         <Link
           href={hasNextPage ? formatLink(linkBlueprint, pageAsNumber + 1, router.query) : '#'}
           className="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
