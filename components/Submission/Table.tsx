@@ -44,7 +44,7 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
       <div className="overflow-x-auto">
         <table className="w-full table-auto">
           <thead className="font-medium text-gray-500 border-b">
-            <tr className="text-sm bg-gray-50">
+            <tr className="text-xs sm:text-sm bg-gray-50">
               <th className="py-4 w-[20%]">Added</th>
 
               {form.fields.map((field) => (

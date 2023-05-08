@@ -41,7 +41,7 @@ const FormTabs = ({ id }: FormTabs) => {
             key={index}
             href={buildURL(tab.href, id)}
             className={classNames(
-              'w-full text-center block p-4 text-md font-medium text-gray-500 hover:text-gray-700 border-t-2 hover:border-t-gray-400',
+              'w-full text-center block p-4 text-xs sm:text-sm md:text-base font-medium text-gray-500 hover:text-gray-700 border-t-2 hover:border-t-gray-400',
               isActive(tab.href, id) ? 'border-t-2 border-t-emerald-500 bg-white' : 'bg-gray-50'
             )}
           >

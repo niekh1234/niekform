@@ -43,7 +43,7 @@ const FormSettings = () => {
 
       <NotificationSettings form={form} mutate={mutate}></NotificationSettings>
 
-      <div className="mt-12">
+      <div className="mt-8 md:mt-12">
         <ConfirmButton onClick={() => deleteForm()} extraCaution extraCautionText={form.name}>
           <div className="flex items-center space-x-2 btn-outline">
             <ExclamationCircleIcon className="w-4 h-4"></ExclamationCircleIcon>

@@ -68,11 +68,6 @@ const NotificationSettings = ({ form, mutate }: NotificationSettingsProps) => {
           Save
         </Button>
       </form>
-
-      <h3 className="font-bold mt-8">Configuration</h3>
-      <p className="text-gray-500 text-sm">
-        Please review our documentation as to how to setup your e-mail notification.
-      </p>
     </div>
   );
 };

@@ -29,7 +29,7 @@ const FormSubmissions = () => {
 
       <FormTabs id={id as string}></FormTabs>
 
-      <div className="flex justify-between mt-12">
+      <div className="flex items-center justify-between mt-8 md:mt-12">
         <SearchInput className="input-primary max-w-[16rem] mr-2"></SearchInput>
         <FormTools form={form}></FormTools>
       </div>

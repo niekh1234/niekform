@@ -56,13 +56,13 @@ const FormIntegrations = () => {
 
       <FormTabs id={id as string}></FormTabs>
 
-      <div className="mt-6 overflow-hidden bg-white rounded-lg">
+      <div className="mt-8 overflow-hidden bg-white rounded-lg md:mt-12">
         <div className="p-6">
           <div className="flex justify-between">
             <h3 className="font-bold">Add to your website</h3>
 
             <select
-              className="px-4 py-2 rounded bg-gray-100"
+              className="px-4 py-2 bg-gray-100 rounded"
               onChange={(e) => setIntegrationType(() => e.target.value)}
               value={integrationType}
             >
@@ -75,14 +75,14 @@ const FormIntegrations = () => {
           </div>
 
           {form.fields.length === 0 && (
-            <blockquote className="py-1 border-l-4 border-red-400 mt-4 pl-2">
+            <blockquote className="py-1 pl-2 mt-4 border-l-4 border-red-400">
               <p className="text-gray-600">
                 You have not created any fields yet, that might be a good idea!
               </p>
             </blockquote>
           )}
 
-          <pre className="bg-gray-900 text-gray-300 rounded-lg mt-8 p-6 overflow-auto">
+          <pre className="p-6 mt-8 overflow-auto text-gray-300 bg-gray-900 rounded-lg">
             {integration}
           </pre>
         </div>

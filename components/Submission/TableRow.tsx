@@ -35,7 +35,7 @@ const SubmissionsTableRow = ({
       <tr
         {...props}
         onClick={() => setOpen(() => true)}
-        className="text-sm text-gray-600 border-b hover:bg-gray-50 hover:cursor-pointer"
+        className="text-xs text-gray-600 border-b sm:text-sm hover:bg-gray-50 hover:cursor-pointer"
       >
         <td className="p-4">
           <div className="overflow-hidden whitespace-nowrap">

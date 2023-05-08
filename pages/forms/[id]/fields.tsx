@@ -46,7 +46,7 @@ const FormFields = () => {
 
       <FormTabs id={id as string}></FormTabs>
 
-      <div className="mt-6 overflow-hidden bg-white rounded-lg">
+      <div className="mt-8 overflow-hidden bg-white rounded-lg md:mt-12">
         <div className="p-6">
           <div className="flex justify-between">
             <h3 className="font-bold">Fields</h3>
