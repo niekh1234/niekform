@@ -34,6 +34,10 @@ export default nextConnect()
     const formId = req.query.id as string;
     const submissionIds = req.body?.ids as string[] | undefined;
 
+    if (!submissionIds?.length) {
+      return ok(res);
+    }
+
     await prisma.submission.deleteMany({
       where: {
         id: {
@@ -45,6 +49,22 @@ export default nextConnect()
             userId: session.userId,
           },
         },
+      },
+    });
+
+    // Setting current submission count on the form. Expensive, but not called often
+    const currentTotalSubmissions = await prisma.submission.count({
+      where: {
+        formId,
+      },
+    });
+
+    await prisma.form.update({
+      where: {
+        id: formId,
+      },
+      data: {
+        submissionCount: currentTotalSubmissions,
       },
     });
 
