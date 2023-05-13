@@ -38,6 +38,7 @@ export default nextConnect().post(async (req: NextApiRequest, res: NextApiRespon
       notificationSettings: {
         email: session.user.email,
       },
+      settings: {},
     },
   });
 
