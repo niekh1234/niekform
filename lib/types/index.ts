@@ -13,6 +13,12 @@ export type Form = {
   fields: Field[];
   submissionCount: number;
   notificationSettings: any;
+  settings: {
+    captcha: {
+      type: string;
+      [key: string]: any;
+    } | null;
+  };
 };
 
 export type Field = {

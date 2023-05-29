@@ -11,6 +11,8 @@ ${form.fields
     }></${getHtmlFieldTag(field)}>`
   )
   .join('\n')}
+  
+  ${getCaptchaSettings(form)}
 
   <input type="text" name="a_password" style="display:none !important" tabindex="-1" autocomplete="off"></input>
   <button type="submit">Submit</button>
@@ -27,6 +29,8 @@ ${form.fields
     }></${getHtmlFieldTag(field)}>`
   )
   .join('\n')}
+
+  ${getCaptchaSettings(form)}
   
   <input type="text" name="a_password" style={{ display: 'none !important' }} tabIndex={-1} autoComplete="off"></input>
   <button type="submit">Submit</button>
@@ -55,4 +59,12 @@ const getHtmlFieldTag = (field: Field) => {
     default:
       return 'input';
   }
+};
+
+const getCaptchaSettings = (form: Form) => {
+  if (form.settings.captcha?.type === 'turnstile') {
+    return `<div class="cf-turnstile" data-sitekey="${form.settings.captcha.siteKey}"></div>`;
+  }
+
+  return '';
 };

@@ -58,8 +58,10 @@ const GeneralSettings = ({ form, mutate }: GeneralSettingsProps) => {
     <div className="p-4 mt-8 bg-white rounded-lg shadow md:mt-12 md:p-6">
       <h3 className="font-bold">General</h3>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label className="text-sm text-gray-500">Name</label>
-        <input type="text" {...register('name')} className="input-primary"></input>
+        <label className="text-sm text-gray-500" htmlFor="name">
+          Name
+        </label>
+        <input type="text" {...register('name')} id="name" className="input-primary"></input>
         <InputError message={(errors.name?.message as string) || ''}></InputError>
 
         <Button type="submit" isSecondary processing={processing} className="mt-8">
