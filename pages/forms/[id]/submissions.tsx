@@ -9,11 +9,20 @@ import Link from 'next/link';
 import SearchInput from 'components/App/SearchInput';
 import Loading from 'components/App/Loading';
 import FormTools from 'components/Form/Tools';
+import { useFormSubmissions } from 'lib/client/hooks/useFormSubmissions';
+import { useEffect } from 'react';
 
 const FormSubmissions = () => {
   const router = useRouter();
   const { id } = router.query;
   const { data, error: fetchError, isLoading } = useSWR('/api/admin/form/' + id, fetcher);
+  const { mutate, hasFetched } = useFormSubmissions('submissions', id as string, router.query);
+
+  useEffect(() => {
+    if (hasFetched) {
+      mutate();
+    }
+  }, [router.query]);
 
   if (isLoading) {
     return <Loading></Loading>;
@@ -31,7 +40,7 @@ const FormSubmissions = () => {
 
       <div className="flex items-center justify-between mt-8 md:mt-12">
         <SearchInput className="input-primary max-w-[16rem] mr-2"></SearchInput>
-        <FormTools form={form}></FormTools>
+        <FormTools form={form} revalidate={mutate}></FormTools>
       </div>
 
       {form.fields.length === 0 ? (

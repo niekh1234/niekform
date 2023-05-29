@@ -1,34 +1,22 @@
 import Loading from 'components/App/Loading';
 import Pagination from 'components/App/Pagination';
-import { fetcher } from 'lib/client/api';
 import { capitalizeFirst } from 'lib/client/utils';
 import { Form, Submission } from 'lib/types';
 import { useRouter } from 'next/router';
-import useSWR from 'swr';
 import SubmissionsTableRow from './TableRow';
+import { useFormSubmissions } from 'lib/client/hooks/useFormSubmissions';
 
 type FormSubmissionsTableProps = {
   form: Form;
 };
 
-const buildQuery = (query: any) => {
-  const params: any = new URLSearchParams();
-
-  for (const [key, value] of Object.entries(query)) {
-    params.append(key, value);
-  }
-
-  return params.toString();
-};
-
 const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
   const router = useRouter();
-  const {
-    data,
-    error: fetchError,
-    isLoading,
-    mutate,
-  } = useSWR('/api/admin/form/' + form.id + '/submissions?' + buildQuery(router.query), fetcher);
+  const { data, error, isLoading, mutate } = useFormSubmissions(
+    'submissions',
+    form.id,
+    router.query
+  );
 
   if (isLoading) {
     return <Loading></Loading>;
@@ -37,7 +25,7 @@ const FormSubmissionsTable = ({ form }: FormSubmissionsTableProps) => {
   const submissions = data?.submissions as Submission[];
   const pagination = data?.pagination;
 
-  if (fetchError || !submissions) return <p>Failed to load</p>;
+  if (error || !submissions) return <p>Failed to load</p>;
 
   return (
     <>

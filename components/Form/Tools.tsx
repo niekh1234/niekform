@@ -8,11 +8,17 @@ import DuplicateRemover from 'components/Submission/DuplicateRemover';
 
 type FormToolsProps = {
   form: Form;
+  revalidate: () => void;
 };
 
-const FormTools = ({ form }: FormToolsProps) => {
+const FormTools = ({ form, revalidate }: FormToolsProps) => {
   const [showExportModal, setShowExportModal] = useState(false);
   const [showDuplicateRemover, setShowDuplicateRemover] = useState(false);
+
+  const toggleDuplicateRemover = () => {
+    setShowDuplicateRemover((prev) => !prev);
+    revalidate();
+  };
 
   return (
     <>
@@ -25,7 +31,7 @@ const FormTools = ({ form }: FormToolsProps) => {
       <DuplicateRemover
         form={form}
         showDuplicateRemover={showDuplicateRemover}
-        setShowDuplicateRemover={setShowDuplicateRemover}
+        setShowDuplicateRemover={toggleDuplicateRemover}
       ></DuplicateRemover>
 
       <Menu as="div" className="relative inline-block text-left">
