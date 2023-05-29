@@ -3,7 +3,9 @@ import { Head, Html, Main, NextScript } from 'next/document';
 const Document = () => {
   return (
     <Html>
-      <Head />
+      <Head>
+        <title>Niekform</title>
+      </Head>
       <body>
         <Main />
         <NextScript />
