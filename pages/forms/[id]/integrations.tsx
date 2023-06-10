@@ -119,40 +119,6 @@ const FormIntegrations = () => {
               </div>
             </div>
           )}
-
-          <Script
-            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-            async={true}
-            defer={true}
-          />
-
-          <form
-            action="http://localhost:3000/api/f/clhm5kk7r0002w7oalh61yva4"
-            method="POST"
-            className="flex flex-col bg-green-500"
-          >
-            <label htmlFor="name">Name</label>
-            <input id="name" type="text" name="name" required></input>
-            <label htmlFor="email">Email</label>
-            <input id="email" type="email" name="email" required></input>
-            <label htmlFor="message">Message</label>
-            <textarea id="message" name="message"></textarea>
-            {/* 
-            <div
-              className="cf-turnstile checkbox"
-              data-sitekey="0x4AAAAAAAEtlJd_kUp3SCNx"
-              data-theme="light"
-            ></div> */}
-
-            <input
-              type="text"
-              name="a_password"
-              style={{ display: 'none !important' }}
-              tabIndex={-1}
-              autoComplete="off"
-            ></input>
-            <button type="submit">Submit</button>
-          </form>
         </div>
       </div>
     </section>
