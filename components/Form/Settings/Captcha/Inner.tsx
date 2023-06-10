@@ -1,5 +1,6 @@
 import { Form } from 'lib/types';
 import TurnstileSettings from 'components/Form/Settings/Captcha/Turnstile';
+import NoCaptchaSettings from 'components/Form/Settings/Captcha/NoCaptcha';
 
 type CaptchaSettingsInnerProps = {
   type: string;
@@ -16,7 +17,7 @@ const CaptchaSettingsInner = ({ type, form, mutate }: CaptchaSettingsInnerProps)
     case 'turnstile':
       return <TurnstileSettings form={form} mutate={mutate}></TurnstileSettings>;
     default:
-      return <div></div>;
+      return <NoCaptchaSettings form={form} mutate={mutate}></NoCaptchaSettings>;
   }
 };
 

@@ -13,21 +13,25 @@ const CAPTCHA_PROVIDERS = [
   {
     name: 'None',
     value: 'none',
+    available: true,
   },
   {
     name: 'reCAPTCHA',
     value: 'recaptcha',
     shortdesc: 'Google reCAPTCHA v2',
+    available: false,
   },
   {
     name: 'hCaptcha',
     value: 'hcaptcha',
     shortdesc: 'hCaptcha, the privacy-first alternative to reCAPTCHA',
+    available: false,
   },
   {
     name: 'Turnstile',
     value: 'turnstile',
     shortdesc: "CloudFlare's take on CAPTCHA",
+    available: true,
   },
 ];
 
@@ -43,12 +47,18 @@ const CaptchaSettings = ({ form, mutate }: CaptchaSettingsProps) => {
 
           <div className="w-full space-x-4 flex mt-4">
             {CAPTCHA_PROVIDERS.map((provider) => (
-              <RadioGroup.Option key={provider.value} value={provider.value} className="w-full">
+              <RadioGroup.Option
+                disabled={!provider.available}
+                key={provider.value}
+                value={provider.value}
+                className="w-full"
+              >
                 {({ checked }) => (
                   <div
                     className={classNames(
                       'p-4 border rounded h-full cursor-pointer',
-                      checked && 'bg-emerald-100 border-emerald-500'
+                      checked && 'bg-emerald-100 border-emerald-500',
+                      !provider.available && 'opacity-50 cursor-not-allowed'
                     )}
                   >
                     <h3 className="font-bold">{provider.name}</h3>

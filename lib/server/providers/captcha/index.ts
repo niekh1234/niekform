@@ -1,40 +1,26 @@
-import { Form, Submission } from 'lib/types';
-import { TurnstileSolver } from './turnstile';
+import { Form } from 'lib/types';
+import { CaptchaSolverFactory } from './solver-factory';
+import { NextApiRequest } from 'next';
 
 export class CaptchaSolvingProvider {
-  submission: Submission;
-  form: Form;
+  private request: NextApiRequest;
+  private form: Form;
 
-  constructor(submission: Submission, form: Form) {
-    this.submission = submission;
+  constructor(request: NextApiRequest, form: Form) {
+    this.request = request;
     this.form = form;
   }
 
   public async solve() {
-    if (!this.hasCaptchaSettings()) {
+    if (!this.hasCaptchaEnabled()) {
       return true;
     }
 
-    const solver = this.getSolver();
-    await solver.solve();
+    const solver = CaptchaSolverFactory.create(this.request, this.form);
+    return await solver.solve();
   }
 
-  private hasCaptchaSettings() {
+  private hasCaptchaEnabled() {
     return !!this.form.settings.captcha?.type;
-  }
-
-  private getSolver() {
-    if (!this.form.settings.captcha) throw new Error('No captcha settings');
-
-    switch (this.form.settings.captcha.type) {
-      // case 'hcaptcha':
-      //   return new HCaptchaSolver(this.submission, this.form);
-      // case 'recaptcha':
-      //   return new ReCaptchaSolver(this.submission, this.form);
-      case 'turnstile':
-        return new TurnstileSolver(this.submission, this.form);
-      default:
-        throw new Error('Invalid captcha type');
-    }
   }
 }

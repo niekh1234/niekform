@@ -55,7 +55,7 @@ const TurnstileSettings = ({ form, mutate }: TurnstileSettingsProps) => {
       spawnFlash(res.error, 'error');
     } else {
       mutate(res);
-      spawnFlash('General settings updated', 'success');
+      spawnFlash('Captcha turnstile settings updated', 'success');
     }
   };
   return (
