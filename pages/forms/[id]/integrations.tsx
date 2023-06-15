@@ -1,3 +1,4 @@
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
 import CopyButton from 'components/App/CopyButton';
 import Loading from 'components/App/Loading';
 import FormTabs from 'components/Form/Tabs';
@@ -5,6 +6,7 @@ import { fetcher } from 'lib/client/api';
 import { generateHTMLForm, generateReactCompatibleForm } from 'lib/client/forms/integrate';
 import { Form } from 'lib/types';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
 import { useMemo, useState } from 'react';
 import useSWR from 'swr';
 
@@ -70,7 +72,7 @@ const FormIntegrations = () => {
             </div>
           </div>
 
-          <div className="flex justify-between mt-8 md:mt-12">
+          <div className="flex items-center justify-between mt-8 md:mt-12">
             <h3 className="font-bold">Add to your website</h3>
 
             <select
@@ -86,17 +88,37 @@ const FormIntegrations = () => {
             </select>
           </div>
 
-          {form.fields.length === 0 && (
-            <blockquote className="py-1 pl-2 mt-4 border-l-4 border-red-400">
-              <p className="text-gray-600">
-                You have not created any fields yet, that might be a good idea!
-              </p>
-            </blockquote>
+          {form.fields.length === 0 ? (
+            <div className="mt-8 flex items-center space-x-4">
+              <div className="p-2 bg-red-50 text-red-600 rounded">
+                <ExclamationCircleIcon className="w-6 h-6"></ExclamationCircleIcon>
+              </div>
+              <div>
+                <p className="text-gray-600">
+                  You have not created any fields yet, that might be a good idea!
+                </p>
+              </div>
+            </div>
+          ) : (
+            <pre className="p-6 mt-8 overflow-auto text-gray-300 bg-gray-900 rounded-lg">
+              {integration}
+            </pre>
           )}
 
-          <pre className="p-6 mt-8 overflow-auto text-gray-300 bg-gray-900 rounded-lg">
-            {integration}
-          </pre>
+          {!!form?.settings?.captcha?.type && (
+            <div className="mt-8 flex items-center space-x-4">
+              <div className="p-2 bg-red-50 text-red-600 rounded">
+                <ExclamationCircleIcon className="w-6 h-6"></ExclamationCircleIcon>
+              </div>
+              <div>
+                <h3 className="font-bold">Captcha</h3>
+                <p className="text-gray-600">
+                  This form has captcha enabled, don't forget to add it's script (different per
+                  provider) to your website.
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
